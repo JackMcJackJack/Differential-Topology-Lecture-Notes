@@ -1,0 +1,11 @@
+\documentclass[tikzcd]{standalone}
+\usepackage{tikz-cd}
+\usepackage{amsfonts}
+
+\begin{document}
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQAJAPWDQFpiAXwAUAVQCUAHUkAjLAHMIaFnAAE3XgJEA1cSEGl0mXPkIoATBWp0mrdhv5Cx0gMb00q3fsMgM2PAREAMxWNAwsbIicXGjC0gC29DgAFm6MwACygnoGRv6mRAAsoTYR9jFi4qrScorKzGrcsV65vsYBZsgArCXhdlEAdEPeeSaBKGTE1n2R0cBgfMKO4oIA+i6VXABUNQpKKuo8C0sCK+vCutsjbfnjyJZTYbazGsfLaxuiru6e4letfjGnRCj1K-TmCzQHzikkSKTSmWy-x8gI6RVIoJm9nWRz4UM2W2qsj29UaOPmeJ0fy211RBRQPUxz3YQwGtPa9OQ5F6zMGwwBHLu3KZZT5bME1hgUHk8CIoAAZgAnCDxJDckA4CBIMhg2bya5KlXamiapCWXXsaSwRg4egG5WqxDm02IEIWqLy+1GxA9DVaxAANieopAACtkQqHUgg36kAB2YPgq0wG30dZex1ul2FVqGx0ADhN-oAnLmo4hiOqXeQy97iDqXV1a46E7HEIX3SAsBGQHm1UWkL6sVEwKtNEJXFAIDgYQAFZJYVaiUjSeeLlo+PsVgeBxOzUfjwST6dzhdjr6SNwebTZEA0Rj0GQp2eCswgRgweU4DNmnet4fgKsHjHjgRJrjCcKpEwiI5Ju5ZZv6HYAaOaAgaei6iES+wNGBZ4tJQghAA
+\begin{tikzcd}
+... \arrow[r] & H^{p-1}(U)\bigoplus H^{p-1}(V) \arrow[r, "g"] \arrow[d, "{n_{p-1}\cdot(\Phi_U,\Phi_V)}"] & H^{p-1}(U\cap V) \arrow[r, "\delta"] \arrow[d, "n_{p-1}\cdot(\Phi_{U\cap V})"] & H^p(\mathcal{M}) \arrow[r, "f"] \arrow[d, "n_p \cdot \Phi_\mathcal{M}"] & H^p(U) \bigoplus H^p(V) \arrow[r] \arrow[d, "n_p\cdot(\Phi_U \oplus \Phi_V)"] & ... \\
+... \arrow[r] & H^{n-(p-1)}_c(U)^*\bigoplus H^{n-(p-1)}_c(V)^* \arrow[r, "j^*"]                          & H^{n-(p-1)}_c(U\cap V)^* \arrow[r, "\delta_c^*"]                                 & H^{n-p}_c(\mathcal{M})^* \arrow[r, "i^*"]                                & H_c^{n-p}(U)^* \bigoplus H_c^{n-p}(V)^* \arrow[r]                             & ...
+\end{tikzcd}
+\end{document}

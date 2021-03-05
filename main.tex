@@ -152,6 +152,7 @@ sorting=ynt
 \newcommand{\Note}{\textbf{Note: }}
 \newcommand{\KeyPoint}{\textbf{Key Point: }}
 \newcommand{\Claim}{\textbf{Claim: }}
+\newcommand{\Fact}{\textbf{Fact: }}
 
 
 \newcommand{\id}{\text{id}}
@@ -159,6 +160,8 @@ sorting=ynt
 \newcommand{\Real}{\mathbb{R}}
 \newcommand{\man}{\mathcal{M}}
 \newcommand{\nan}{\mathcal{N}}
+\newcommand{\pan}{\mathcal{P}}
+
 \newcommand{\chartU}{\mathcal{U}}
 \newcommand{\chartV}{\mathcal{V}}
 \newcommand{\chart}{\varphi}
@@ -172,6 +175,8 @@ sorting=ynt
 
 \newcommand{\setform}[2]{\Lambda^{#1} {#2}}
 \newcommand{\Hom}[2]{\text{Hom}\left(#1,#2\right)}
+\newcommand{\HomReal}[2]{\text{Hom}_\Real\left(#1,#2\right)}
+
 \newcommand{\allthevs}[2]{v_{#1},...,v_{#2}}
 \newcommand{\allthe}[3]{{#1}_{#2},...,{#1}_{#3}}
 \newcommand{\wedgge}{\omega_1\wedge\omega_2}
@@ -253,6 +258,36 @@ sorting=ynt
 
 \newcommand{\puncman}{\overset{\circ}{\man}}
 
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\supp}{supp }
+
+\newcommand{\CProj}{\mathbb{CP}}
+\newcommand{\remzero}{\backslash \{0\}}
+\newcommand{\mycasesthing}[2]{\begin{cases} #1 \\ #2\end{cases}}
+\DeclareMathOperator{\pt}{pt}
+
+\DeclareMathOperator{\Eig}{Eig}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title {Differential Topology\\Spring Term 2021\\
 Preliminary Lecture Notes}
@@ -1296,7 +1331,7 @@ Let $\man $ have dimension $n$. Write $\puncman \coloneqq \man \backslash \{x\}$
     \item if $\man$ compact, then for $p\geq 1, i_* : H_c^p(\puncman) \to \compactcohomman{p} \cong\cohomman{p}$ is an isomorphism (last isomorphism coming from $\compactpformman{p} \cong \pformman{p}$ for compact $\man$).
 \end{enumerate}
 \end{prop}
-``The cohomology of compact manifolds have various nice properties... working with cohomology with compact supports is a way of forcing... manifolds to behave as if they were compact with respect to their cohomology... even if its not [compact].''
+``The cohomology of compact manifolds have various nice properties... working with cohomology with compact supports is a way of forcing... manifolds to behave as if they were compact with respect to their cohomology... even if its not [compact].'' The second point will make Poincar\`e Duality (which we will prove later) incredibly powerful, essentially showing cohomology groups are symmetric.
 \begin{proof}
 \underline{Injectivity:} Let $p\geq 2$. Let $\omega \in \Omega_c^p(\puncman)$ closed $\st i_*[\omega] = 0.$ So $[i_* \omega] = 0$ on $\compactcohomman{p}$, i.e. $\exists \eta \in \compactpformman{p} \st \deta = i_* \omega.$ By Poincar\'e Lemma, $\exists U \subseteq \man$ open s.t. $x\in U$ and $H^p(U) = 0.$ Now supp $i_*\omega \not\ni x$ and supp$i_* \omega$ is closed so $\exists$ nbd of $x$ on which $i_*\omega = 0$, therefore $\eta$ is closed on this nbd. Thus making $U$ smaller, $\eta$ closed, hence exact since $H^{p-1}_c(U) = 0$. So $\exists \sigma  \in \Omega^{p-2}(U) \st \eta = \deriv \sigma$. Let $\{f_U, f_{\puncman}\}$ be a partition of unity wrt open cover of $\man$, $\{U,\puncman\}$. Then let $\eta' = \eta - \deriv(i_*f_U \sigma)$.
 \begin{center}\includegraphics[width=0.45\textwidth]{PuncturedManifoldProposition.png}\end{center}
@@ -1319,12 +1354,383 @@ $\Real^n \cong S^n \backslash \{x\}$ so by Proposition, $H^p_c(\Real^n) \cong H^
 
 \end{section}
 \begin{section}{Lecture 15: Poincar\'e Duality}
+Roughly speaking, when $\man$ is an orientable manifold, Poincar\'e duality says is that $\cohomman{p} \cong \compactcohomman{n-p}^*$, where $n = \dim \man$ and this isomorphism has some geometric meaning.\\
+$\Recall$ $\cohomman{p} \times \cohomman{q} \to \cohomman{p+q} : ([\omega],[\eta]) \mapsto ([\omega \wedge \eta] )$ is wel-defined and $[\omega] \wedge [\eta]  = (-1)^{pq}([\eta]\wedge [ \omega])$.
+\begin{lemma}
+$\man$ oriented without boundary of dimension $n$. Then there exists a linear map 
+$$I_\man : \compactcohomman{p} \to \Real: [\omega] \mapsto \int_\man \omega$$
+which is surjective. We call this map `integration'.
+\end{lemma}
+\begin{proof}
+If $\omega \in \compactpformman{n}$ exact then by Stokes' Theorem $\int_ \man \omega = 0$, so $I_\man$ is well-defined as it is vanishing at boundaries. It's linear because integration is linear. For surjectivity, we need to find some $\omega \in \compactpformman{p}$ closed s.t. $\int_\man \omega \neq 0$. Since $\man$ is oriented, there exists a volume form $\omega_0 \in \pformman{n} $. Take $f\in \cts{\man}$ compactly supported with $F \geq 0$. Let $\omega = f \cdot \omega_0 \in \compactpformman{n}.$ And $\compactpformman{n+1} = 0$, so $\omega$ is closed. And $\int_\man \omega = \int_\man f \cdot \omega_0 > 0 $ because $\int_\man \omega_0 > 0.$
+\end{proof}
+\begin{exmp}
+$\man = S^n$. Let $\omega \in \compactpformman{n} \st \int_{S^n} \omega = 0.$ We want to show that $\omega$ is exact (so that the integral is 0 by Stokes' and then we can say that $I_\man$ is injective). Since $\man$ is compact, $\compactcohomman{n} \cong \cohomman{n} = \Real$. Alongside $I_\man$ is linear and surjective we must have that it's injective. So $[\omega]=0$. 
+\end{exmp}\noindent
+Let $\man$ be connected manifold of dimension $n$. Then take $q = n-p$. We have: 
+$$
+\cohomman{p} \times \compactcohomman{n-p} \to \compactcohomman{n} \to \Real$$
+$$([\omega],[\eta]) \mapsto [\omega \wedge \eta] \mapsto \int_\man \omega \wedge \eta$$
+This map is bilinear (need to check that if $\eta$ has compact support then so does $\omega \wedge \eta$, but this is easy). When $\varphi : V \times W \to \Real$ is bilinear, we get 
+$$V \to \HomReal{W}{\Real}: v \mapsto \varphi_v$$
+where $\varphi_v : V \to \Real: w \mapsto \varphi(v,w)$. Thus we get linear map $$\Phi : \cohomman{p} \to \compactcohomman{n-1} ^*:\omega \mapsto (\eta \mapsto \int_\man \omega \wedge \eta)$$. Poincar\'e duality says that this is an isomorphism (the geometric part comes from integration over submanifolds, and we'll see more of that towards the end of the course after we see singular (co)homology).
+
+\begin{exmp}(Base case for Poincar\'e Duality)
+$U \subseteq \Real^n$ open subset diffeomorphic to $\Real ^n$. Then $\cohom{p}{U} = \begin{cases} \Real,& p= 0\\ 0,& p > 0\end{cases}$ and $ H^p_c(U) = \begin{cases} 0,& p<n\\ \Real,& p =n\end{cases}$, as we saw in last lecture. To check the given Poincar\'e duality map is an isomorphism, it's enough to check $p = 0$, and enough to check injectivity. That is, we must check $\exists \omega \st \Phi(\omega) \neq  0.$ Given $\omega \in H^0(U)$, $\Phi: H^n_c(U) \to \Real : \eta \mapsto \int_U \omega \wedge \eta$. But $[\omega] \in H^0(U)$ so $\omega$ is a constant function on $U$. Say $\omega = c \in \Real$, so $\Phi(\omega) : H^n_c(U) \to \Real : \eta \mapsto c\cdot \int_\man \eta$, and $\exists \eta \st \int_\man \eta \neq 0$, by the above lemma. So Poincar\'e Duality holds in the simplest possible case.
+\end{exmp}
+\end{section}
+
+
+\begin{section}{Lecture 16: Proving Poincar\'e Duality}
+\begin{theorem}[Poincar\'e Duality]\label{theorem:PoincareDuality}
+Let $\man$ be an oriented manifold of dimension $n$. Then the map $\Phi : \cohomman{p} \to \compactcohomman{n-p}^*$ is an isomorphism.
+\end{theorem}
+We will prove this only for a smaller class of `nice' manifolds which includes compact ones.
+\begin{defn}
+We say $\man$ is of finite type is $\exists$ finite open cover of $\man$ by sets $\{U_i\}$ s.t. for all $k \geq 1,$ $U_{i_1} \cap ... \cap U_{i_k}$ is either empty of diffeomorphic to $\Real^n$.
+\end{defn}
+Contrast that with the definition of a good cover. It's a fact that compact manifolds are of finite type\footnote{John M. Lee's Introduction to Smooth Manifolds talks more about the non-finite type case.}.
+\begin{exercise}
+Show that $\Real^2 \backslash \mathbb{Z}$ is not of finite type (Hint: $\dim H^1(\Real^2 \backslash\mathbb{Z}) = \infty)$
+\end{exercise}\noindent
+``If a manifold is of finite type, then all of its de Rham cohomology groups are finite dimensional''.
+\\Idea for proving Poincar\'e Duality: Use induction on the size of the cover $\{U_i\}$ along with Mayer-Vietoris and the five lemma\footnote{``This isn't the proof that Poincar\'e originally gave by the way, this is using machinery that was developed quite a way long after Poincar\'e was working.''}. For that we need a version of MVT for compactly supported cohomology.
+\begin{prop}
+Let $\man = U \cup V$ where $U,V$ open and $U\cap V \neq \varnothing$. Then $\exists$ short exact sequence of cochain complexes:
+$$% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBoBGAXVJADcBDAGwFcYkRiQBfU9TXfIRTkK1Ok1bsAOlIDyAWxgBzegH0AxgD00ACgCqM9fTQACAGoBKbrxAZseAkQBMomgxZtEIGQuVqtunoWJjIARlhKEGgscCFyiioa2jqW1nz2gkQAzK7iHtLxfkm6MvL0OAAWRozAALJcVjzpAo4oACy57pJenE22-A5CyCJOYl2eIAB002n9Ga3ILqNuEhPTk7N2LUM5y3ndUzN9W4PZpMRjq+zrmwOZKC4XK-leN8d3CyJP+2tHYjBQJTwIigABmACcIPIkGQQDgIEhyH0IVDETR4UgXD92AArWYo6GILEYxA5bFeLD4yGEskktrI6lIAAc6IRpIZqMQAE5WZiOYTyLCSUibAS0XC2QBWfmY3mIABsMtJcoA7FxKFwgA
+\begin{tikzcd}
+            & ... \arrow[d]                                & ... \arrow[d]                                                  & ... \arrow[d]                               &   \\
+0 \arrow[r] & \Omega_c^p(U\cap V) \arrow[r, "j"] \arrow[d] & \Omega_c^p(U) \bigoplus \Omega_c^p(V) \arrow[r, "i"] \arrow[d] & \Omega_c^p(\mathcal{M}) \arrow[r] \arrow[d] & 0 \\
+            & ...                                          & ...                                                            & ...                                         &  
+\end{tikzcd}$$
+where 
+$$% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBoBGAXVJADcBDAGwFcYkQBVEAX1PU1z5CKcqWLU6TVuw4AdWQGN6aAAQA1HnxAZseAkQBMFCQxZtEIDb366hRUQZNTzIeQFt6OABZLGwALLcPBIwUADm8ESgAGYAThBuSGQgOBBIAMw0OPRYjOxeEBAA1iA0ptIWWAD6XNYgcQlIoilpiEYpOXkWBcWlkmbsAFZVGjSM9ABGMIwACgJ6wiCxWGFeOJox8YmIzalJWZ35hSVlzkM1G-VbSO17iJkduUe9pwOVI33jU7PzdhbLq3W3Eo3CAA
+\begin{tikzcd}
+                          & U\cap V \arrow[rd, "j_V"', hook] \arrow[ld, "j_U", hook] &                            \\
+U \arrow[rd, "i_U", hook] &                                                          & V \arrow[ld, "i_V"', hook] \\
+                          & \mathcal{M}                                              &                           
+\end{tikzcd}$$
+and $i = i_{U*} + i_{V*}, \, j= (-j_{U*},j_{V*})$
+\end{prop}
+\begin{proof}
+$j$ injective: If $\omega \in \Omega^p_c(U\cap V) \st j(\omega) = 0 $ then $ j_{U*} \omega = j_{V*} \omega= 0 $. So $\omega = 0$.\\
+$\Ker i = \Ima j:$ Let $\omega \in \Omega^p_c(U\cap V)$. Then $i \circ j (\omega) = - i_{U*} j_{U*} + i_{V*} j_{V*} \omega = 0$. So $\ima j \subseteq \Ker i$. Now let $(\omega_1,\omega_2) \in \Ker i$. Then $i_{U*} \omega_1 = -i_{V*} \omega_2$ so supp $\omega_1,\omega_2 \subset U\cap V$. So $\exists \eta \in \Omega_c^p(U\cap V) \st j_{U*}\eta = -\omega_1, j_{V*} \eta = \omega_2$. So $j(\eta) = (\omega_1,\omega_2).$ So $\Ker i \subseteq \Ima j$. \\
+$i$ surjective: Let $\omega \in \Omega_c^p(\man)$ and let $\{f_U,f_V\}$ be a partition of unity wrt $\{U,V\}$. Define $\omega_U \coloneqq f_U \cdot \omega\restrict{U} \in \Omega_c^p(U)$ and $\omega_V \coloneqq f_V \cdot \omega\restrict{V} \in \Omega_c^p(V)$. Then $i(\omega_U,\omega_V) = \omega$.\\
+Therefore this is a short exact sequence on each row.
+\end{proof}
+\begin{corollary}[Mayer-Vietoris for Compact Supports]\label{cor:CompactMVT}
+There is a long exact sequence
+$$\begin{tikzcd}
+... \arrow[r] & H_c^p(\UintV) \arrow[r, "f"]     & H_c^p(U)\oplus H_c^p(V) \arrow[r, "g"]         & H_c^p(\mathcal{M}) \arrow[lld, "\delta_c",bend right = 5] &     \\
+              & H_c^{p+1}(\UintV) \arrow[r, "f"] & H_c^{p+1}(U)\oplus H_c^{p+1}(V) \arrow[r, "g"] & H_c^{p+1}(\mathcal{M}) \arrow[r, "\delta_c"]                          & ...
+\end{tikzcd}$$
+NB that the order is different than for the usual Mayer-Vietoris sequence.
+\end{corollary}
+\begin{proof}
+Just like for the usual case, this is an immediate consequence of the Snake lemma.
+\end{proof}
+We will be putting the compact MV sequence ``on top of'' the usual MV sequence, but in order for the arrows to go the same way, we will take the dual of the former to reverse them. First we have to prove that's what taking the dual does though.
+\begin{lemma}
+Let $C_1 \xrightarrow{f_1} C_2 \xrightarrow{f_2} C_3$ be an exact sequence of vector spaces. Then the dual sequence $C_1^* \xleftarrow[]{f_1^*} C_2^* \xleftarrow[]{f_2^*} C_3^*$ is also an exact sequence. Here $f_i^*$ represents the dual linear map, not the pullback.
+\end{lemma}
+
+\noindent
+$\Recall$ Given $(\varphi : C_2 \to \Real ) \in C_2^*$, $f_1^*( \varphi)\in C_1^*$ is $f_1^*(\varphi) : C_1 \xrightarrow[]{f_1^*(\varphi)} \Real: v\in C_1 \mapsto f_1(v) \in C_2 \mapsto \varphi(f_1(v))\in \Real$.
+
+\begin{proof}
+We have $\Ker f_2 = \Ima f_1$; want to show $\Ker f_1^* = \Ima f_2^*$. Given some $\varphi \in \Ker f_1^*$. Then $\varphi \circ f = 0,$ so $\Ker f_2 = \Ima f_1 \subset \Ker \varphi$. So $\exists \bar{\varphi} : C_2 / \Ker f_2 \to \Real$. And $C^2 /\Ker f_2 \cong \Ima f_2 \subset C_3$, so we can extend $\bar{\varphi} $ to $\psi : C_3 \to \Real, \st \psi \circ f_2 = \varphi$. So $f_2^*(\psi) = \varphi, \ie \varphi \in \Ima f_2^*.$\\
+Now let $\varphi \in \Ima f_2^*.$ Then $\exists \psi \in C_3^* \st f_2^*(\psi) = \varphi, \ie \psi \circ f_2 = \varphi.$ And $0 = \psi \circ f_2 \circ f_1 = \varphi \circ f_1 = f_1^*(\varphi).$ Hence $\varphi \in \Ker f_1^*$.
+\end{proof}
+
+
+\begin{proof}[Proof of Thm $\ref{theorem:PoincareDuality}$]
+Let $\man$ be finite type oriented manifold with cover $\{U_i\}$. Let $N = \#\{U_i\}$, $n = \dim \man$. We'll prove this by induction on $N$. For $N = 1$, we're ok; an open set of $\Real^n$ diffeomorphic to $\Real^n$ satisfies PD by the example from last lecture. Now suppose $N > 1$, and let $U = \bigcup\limits_{i=1}^{N-1} U_i, V = U_N$. So $\man = U \cup V$. Furthermore, if $\man$ is connected then $U\cap V \neq \varnothing$. If $\man$ is not connected, work with each connected component separately (there are only finitely many because $\man$ is finite type). So let's just assume $\man$ is connected. By induction, can assume $U, V \myand U\cap V$ all satisfy PD. Combine this with MV and the dual of compactly supported MV:
+$$\includegraphics[page=1,width = \textwidth]{PoincareDualityProofDiagram.pdf}$$
+
+with $j^*,i^*$ representing the duals of the inclusion maps (on the cochain complexes) on cohomology. The vertical arrows will be the PD isomorphism maps\footnote{``But, it turns out, for reasons that are, to be honest, somewhat mysterious, if you want these diagrams to commute, you have to introduce a correct sign, a correct factor of minus 1.''}, we hope. For this, let $n_0 = 1$ and $n_p = (-1)^{p-1}n_{p-1}$. The vertical arrows are then given as in the diagram. The effect of this is to correct that without them, the center square only commutes up to sign (the other two squares do commute anyway though).\\
+By the Five Lemma, if all vertical maps except from $n_{p-1}\Phi_\man$ are isomorphisms, then so is $n_{p-1}\Phi_\man$ (and hence so is $\Phi_\man)$. Induction tells us that this is the case, except we must also check that all the squares commute\footnote{``This proof ... for some reason, it actually takes a little bit of effort to unwind everything and show that the diagram actually does commute [unlike others we've seen in this course].''}. We'll have to do each square one at a time. NB we ignore the $n_{p-1}$ and $n_p$ terms in 1. and 3. because it would cancel out anyway, being on both sides of the square.\\
+
+1. \underline{$\Phi_{\UintV} \circ g = j^* \circ (\Phi_U \oplus \Phi_V)$:}
+$$% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRADpOQBfU9TXPkIoAjOSq1GLNgAkAesDQBaEdwAUAVQCUAHR0AjLAHMIaZnAAE8xSvUA1LTz4gM2PASIAmcdXrNWiCDWyqqaegDGdGgWDk78bkJEAMw+kv5snOxxLgLuwiSkIhJ+0oGZ2a6CHqKFxVIBQQpgSmohWtwA+uGaWnIAVHqGJmZMltbNrSrtXWoO-RW5iSjeRb71sk0tbZ3dGhFRMb19CwnVyCmraaUcXNwSMFBG8ESgAGYAThAAtkhkIDgQJBiK4BMBMBgMagMOj6GAMAAKi2qIAYMFeOGyH2+QOoAKQ3hBbCMIChMLhiNOwhRaIxvDenx+iGBeMQAFY1ulAmAOjZVBEoBAcGo9PCABZYDoaUgi8UdWKk2EIpFU1HozEM-G4wGIFKEwJ6WAMHB0EkoslKylsVW05xYxkElkANg5125vO4-MFwp0YolwD2Oki0Ts3EcCvJyqtNPV2MQABYtUh2XqwRDwxaqiro3SQHak4nEM69SAAFbzdMUzNRtU5vOFgsAdhdDQNcONXVN0MVlby1dpFG4QA
+\begin{tikzcd}
+... \arrow[r] & H^{p-1}(U)\bigoplus H^{p-1}(V) \arrow[r, "g"] \arrow[d, "{n_{p-1}\cdot(\Phi_U,\Phi_V)}"] & H^{p-1}(U\cap V) \arrow[r, "\delta"] \arrow[d, "n_{p-1}\cdot(\Phi_{U\cap V})"] & ... \\
+... \arrow[r] & H^{n-(p-1)}_c(U)^*\bigoplus H^{n-(p-1)}_c(V)^* \arrow[r, "j^*"]                          & H^{n-(p-1)}_c(U\cap V)^* \arrow[r, "\delta_c^*"]                                 & ...
+\end{tikzcd}$$
+Let $\omega_U \in \Omega^{p-1}(U)$ and $\omega_V \in \Omega^{p-1}(V)$ be closed (the representatives of classes in cohomology). We must show that for any $\eta \in H^{n-(p-1)}_c(\UintV)$, we have 
+$$\Phi_{\UintV} \circ g([\omega_U,\omega_v])(\eta) = j^*(\Phi_U([\omega_U]),\Phi_V([\omega_V]))(\eta)$$
+an equality of real numbers. Recall $g \coloneqq j_V^* - j_U^*.$ Then $\int_{\UintV} g(\omega_U,\omega_V) \wedge \eta = - \int_U \omega_U\wedge j_{U*} \eta + \int_V \omega_V \wedge j_{V*}\eta$, which you can see is the RHS if you stare at it for a bit.\\
+\noindent
+3. \underline{$(\Phi_U\oplus\Phi_V) \circ f = i^* \circ \Phi_\man$:}
+$$% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRADpOQBfU9TXPkIoAjOSq1GLNgAkAemgAUAHWUBbOjgAWAY0bAAstwCUPPiAzY8BIgCZx1es1aIQ8pQFVjAAlUAjLABzCDRmOG93RQA1U15+KyEiAGYHSWc2TnYzeMEbFDIRCSdpV0zsiwFrYWQxQscpFzc5YDAAWjRuAH0dFXVNXX0jYzkAKnLLXOr7OrSSt27mto7FL1HfZQDg0KZwmQWW9u5o4bG4ioS85BSZ4say7gkYKED4IlAAMwAnCDUkMhAcBAkGJZo1VLAGDg6CBqAw6H4YAwAAqVRKuBgwd44cpfH7A6iApD2UFsd4wkBwhHI1F5CmY7FnXG-RAgwmIACs9XSrjAnTQ6x0UAgOHWSK0WF6Gm0egYhhM5MpiJRF2EdKxOO+zOJbJSJMQYCYDAYsPhSppqox6sZmqJBKBiAAbFy5ry0KpBcLemKsJ0POsQmFReLOjEFabqSq2JaGeYmUgACx2pCcvUgcGIqELMYmqnKyZR+kavEcpOO52NLCjMO580Fq2xm1lgH2gDs5aQBqNObNkfRhYe3CAA
+\begin{tikzcd}
+... \arrow[r, "\delta"]     & H^p(\mathcal{M}) \arrow[r, "f"] \arrow[d, "n_p \cdot \Phi_\mathcal{M}"] & H^p(U) \bigoplus H^p(V) \arrow[r] \arrow[d, "n_p\cdot(\Phi_U \oplus \Phi_V)"] & ... \\
+... \arrow[r, "\delta_c^*"] & H^{n-p}_c(\mathcal{M})^* \arrow[r, "i^*"]                                & H_c^{n-p}(U)^* \bigoplus H_c^{n-p}(V)^* \arrow[r]                             & ...
+\end{tikzcd}$$
+i.e. for all $\omega \in \Omega^p(\man) $ and all ($\eta_U,\eta_V) \in \Omega_c^{n-p}(U) \oplus \Omega_c^{n-p}(V)$ closed, we have 
+$$\int_U \omega\restrict{U} \wedge \eta_U + \int_V \omega\restrict{V} \wedge \eta_V = \int_\man \omega \wedge i(\eta_U,\eta_V)$$
+This falls out from the definition of $i$ as $i_{U*} + i_{V*}$ pretty automatically.
+\\
+2. \underline{$n_p \cdot \Phi_\man \circ \delta = \delta_c^* \circ n_{p-1} \cdot \Phi_{\UintV} $:}
+$$% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRADpOQBfU9TXPkIoAjOSq1GLNgAkAesDQBaEdwAUAVQA6WgMZ00AAgBqASh58QGbHgJEATOOr1mrRCHlo1OgLZ0cABb6DMAAstzmvPw2QkQAzE6Srmyc7BbRgnYoZCISLtLuqelWArbCyGK5zlJuHgpgSmrKIqbcAPq6mjr6RmZyAFTF1pnljlVJBXXADWjtnb7+QYxhEQNDpbEoCeP5tUXcEjBQAObwRKAAZgBOED5IZCA4EEhiE7XHINQMdABGMAwABQ2WRADBgFxwxWutxe1CeSEcbzYOlgDBwdE+oN+-yBMRBYIhUJud0Qr3hiAArNVku4wG1FCpuN0oBAcN4tACAlh6do9AYTBFMd8-oDgcJQeDIVEQNCSYjyQkke4LkLsaK8eKCVLLLKEXDnogAGzUyZ0ozM1mGHScrDsvyBYIrcxfNW4kZsLVEmGIAAs+qQVKVIAAVmsXSK3WUPZKvSTA+TjUGUf90R1VRGxdHCdLdUb-YgAOwm2pYMNYjMarNSijcIA
+\begin{tikzcd}
+... \arrow[r, "g"]   & H^{p-1}(U\cap V) \arrow[r, "\delta"] \arrow[d, "n_{p-1}\cdot(\Phi_{U\cap V})"] & H^p(\mathcal{M}) \arrow[r, "f"] \arrow[d, "n_p \cdot \Phi_\mathcal{M}"] & ... \\
+... \arrow[r, "j^*"] & H^{n-(p-1)}_c(U\cap V)^* \arrow[r, "\delta_c^*"]                                 & H^{n-p}_c(\mathcal{M})^* \arrow[r, "i^*"]                                & ...
+\end{tikzcd}
+$$
+This is a lot more difficult because it hinges on the question: What are $\delta_c$ and $\delta$? They both came into this world implicitly from the Snake lemma, so the first goal is to explicit-ize them. Let $\omega\in \compactpformman{p} $ be closed and let $\{f_U,f_V\}$ be a partition of unity wrt $\{U,V\}$. Define $\omega_U \coloneqq f_U \cdot \omega\restrict{U} \in \Omega_c^p(U) ;\;  \omega_V \coloneqq f_V \cdot \omega\restrict{V} \in \Omega_c^p(V) $. Then $i(\omega_u,\omega_V) = i_{U*}\omega_U + i_{V*}\omega_V = \omega_U + \omega_V = \omega.$ If $\omega$ is closed, then $i(\dw_U,\dw_V) = 0$, so $(\dw_U,\dw_V) \in \Ker i = \Ima j$. Since $j$ is injective (on the level of cochain complexes), $\exists ! \delta_c(\omega) \in \Omega_c^{p+1} (\UintV) \st j(\delta_c(\omega)) = (\dw_U,\dw_V)$. And since $f_U + f_V = 1, \df_U = -\df_V$. Now $j(\delta_c(\omega)) = (\dw_U,\dw_V) = (\df_U \wedge \omega\restrict{U} , \df_V\wedge \omega\restrict{V}) = (-\df_V \wedge \omega\restrict{U} , \df_V\wedge \omega\restrict{V}) = j(\df_V \wedge \omega\restrict{\UintV})$, with the last equality coming from the definition of $j$. Therefore, $\delta_c(\omega) = \df_V \wedge \omega\restrict{\UintV}$ as $j$ is injective. So $\delta_c \Omega_c^p(\man) \to \Omega_c^{p+1}(\UintV).$ Let $\eta \in \Omega_c^p(\man)$, then $\deriv(\delta_c(\man)) = \deriv(\df_V \wedge \eta\restrict{\UintV}) = 0 \wedge \eta\restrict{\UintV} + (-1)^p (\df_V \wedge \deta \restrict{\UintV}) = (-1)^p\delta_c(\deta)$, which explains where the necessity of introducing the $n_p$s come from. So $\delta_c$ takes closed forms to closed forms and exact forms to exact forms. Thus we get $\delta_c : \compactcohomman{p} \to H^{p+1}_c(\UintV) : \omega\mapsto \df_V \wedge \omega\restrict{\UintV} $. This makes the sequence exact by construction. Similarly, $\delta_c : H^p(\UintV) \to \cohomman{p} : \omega \mapsto \begin{cases} \df_V\wedge \omega,& \text{ on } \UintV \\ 0, & \text{ else}\end{cases}$.
+\\
+Now to show commutativity in the central square i.e. $n_p \cdot \Phi_\man ( \delta([\omega_1])) = n_{p-1}\cdot \delta_c^* (\Phi_\UintV([\omega_1]))$ for $\omega_1 \in \Omega^{p-1}(\UintV)$. That is, for all $\omega_2 \in \Omega_c^{n-p}(\man),$ need 
+$$
+n_{p-1} \int_\man \delta(\omega_1) \wedge \omega_2 = n_p \int_{\UintV} \omega_1 \wedge \delta_c(\omega_2)
+$$
+Now, $n_{p-1} \int_\man \delta(\omega_1)\wedge\omega_2 = n_{p-1} \int_\man (\df\restrict{V} \wedge \omega_1 \restrict{\UintV}) \wedge\omega_2 = n_{p-1} \int_{\UintV} (\df_V \wedge \omega_1 \restrict{\UintV} \wedge \omega_2 \restrict{\UintV} = n_p \int_{\UintV} \omega_1 \restrict{\UintV} \wedge \df _V \wedge \omega_2 \restrict{\UintV} = n_p \int_{\UintV} \omega_1 \wedge \delta_c(\omega_2)$, as required. NB the sign change from moving terms in the wedge product. This concludes the proof.
+\end{proof}
+\begin{corollary}
+Let $\man$ be compact, oriented and connected manifold of dimension $n$.
+\begin{enumerate}
+    \item Then $\cohomman{n} \cong \Real$
+    \item We have $b_k(\man) = b_{n-k}(\man) \, \forall k$
+    \item Define the Euler characteristic $\chi(\man) \coloneqq \sumfromto{i=0}{n} (-1)^k b_k(\man).$ Then $\chi(\man) = 0$ if $n$ odd.
+    \item If $\man$ is of finite type and non-compact, then $\cohomman{n} = 0.$
+\end{enumerate}
+\end{corollary}
+\end{section}
+
+
+\begin{section}{Lecture 17: Degrees of Proper Maps}
+
+Let $\man$ and $\nan$ be connected manifolds of the same dimension $n$. Poincar\'e duality tells us that $\compactcohomman{n},\compactcohomnan{n}$ have canonical isomorphisms to $\Real$ (choose a differential form and integrate it over the whole manifold to get a real number).
+\begin{defn}
+If $f:\man \to \nan$ proper smooth, we get $f^*: \compactcohomnan{n} \to \compactcohomman{n}$ a linear map $\Real \to \Real$ i.e. a multiplication by some $c\in \Real$. We define $\deg f = c$.
+\end{defn}
+This expresses the relation between the integral of a form and the integral of its pullback i.e. if $\omega\in\compactpformnan{n}$ then $\int_\man f^*\omega = \deg f \int_\nan \omega$.
+\begin{prop}
+If $f : \man \to \nan$ and $g: \nan \to \pan$ are smooth proper maps of orientable manifolds of the same dimension then
+\begin{enumerate}
+    \item $\deg (g\circ f) = \deg g \cdot \deg f$
+    \item If $f$ is a diffeomorphism then $\deg f = +1$ if $f$ is orientation preserving and $\deg f = -1$ if $f$ is orientation reversing.
+    \item If $f,g$ are properly smoothly homotopic then $\deg g = \deg f$ ($g : \man \to \nan $ here)
+\end{enumerate}
+\end{prop}
+
+%tk XXX to do: amke consistent whether youre using thm of theorem enviroment
+\begin{thm}\label{thm:DegreeInteger}
+$\deg f$ is always an integer.
+\end{thm}
+
+\begin{defn}
+Let $f:\man\to\nan$. We say $y\in \nan$ is a $\textbf{regular value}$ of $f$ is for all $x\in f^{-1}(y),$ $Df_x$ has full rank. We say $y\in\nan$ is a $\textbf{critical value}$ if it is not a regular value.
+\end{defn}
+We state these next few powerful theorems without proving this:
+\begin{thm}[Sard's Theorem]
+The set of critical values of $f : \man \to \nan$ is measure zero in $\nan$, so that $\nan \backslash \{\text{critical values of } f\}$ is dense in $\nan$.
+\end{thm}
+
+\begin{thm}[Implicit Function Theorem]
+If $x\in \man$ is such that $Df_x$ is an isomorphism, then $\exists U \ni x$ open s.t. $f\restrict{U} : U \to f(U)$ is a diffeomorphism.
+\end{thm}
+
+\begin{thm}[Pre-Image Theorem]
+Let $y\in \nan$ be a regular value of $f : \man \to \nan$. Then the fibre $f^{-1}(y)$ is a smooth manifold of dimension $\dim \man - \rank Df_x$ where $x\in f^{-1}(y)$.
+\end{thm}
+NB for the last theorem, we don't assume that $\man$ and $\nan$ have the same dimension, so $Df_x$ may not be an isomorphism.
+\begin{center}
+    \includegraphics[width =0.5\textwidth]{RegularValues.png}
+\end{center}
+
+\begin{proof}[Proof of Thm \ref{thm:DegreeInteger}]
+Let $R(f) = \{\xman : \rank Df_x = n\}$. If $R(f) = \varnothing$, then $\deg f = 0$ by direct calculation ($\det Df_x = 0,$ so pullback integral is killed). If $R(f) \neq\varnothing$, take $x \in R(f).$ Then by Implicit Function Theorem $\exists U \ni x$ open in $\man \st f\restrict{U} : U \to f(U)$ is an diffeomorphism. Now $f(U)$ is open so by Sard's theorem $\exists$ regular value $y\in f(U) \subseteq \nan$.\\
+Let $f^{-1}(y) = \{\allthe{x}{1}{m} \}$ (fibre is smooth 0-manifold, and $f$ is proper so is compact therefore finite). Each $x_i \in f^{-1}(y)$ has $Df_{x_i}$ isomorphism so $\exists U_i \ni x_i$ open s.t. $f\restrict{U_i}$ is an isomorphism. Shrinking these if necessary, $U_i$ all disjoint and each $U_i \to U$ is a diffeomorphism (shrinking $U$ if necessary).\\
+Let $\omega \in \compactcohomman{n}$ be $\st \int_U \omega = 1$ and supp $\omega \subset U$ ($\underline{Exercise:}$ Why does this exist?). Since $f\restrict{U_i}$ is a diffeomorphism, get $\int_{U_i} f^* \restrict{U_i} \omega = \sign \det(Df_{x_i}) \int_U \omega.$ And $f^*\restrict{U_i} \omega$ has support in $U_i$. Since $\supp f^*\omega \subset \bigcup\limits_{i} U_i,$ and all of these $U_i$s are by construction disjoint, $\int_\man f^*\omega = \sumfromto{i=1}{k} \int_{U_i} f^*\restrict{U_i} \omega = \sumfromto{i=1}{k} \sign(\det Df_{x_i}) \int_U \omega = \sumfromto{i=1}{k} \sign (\det Df_{x_i}) \in \mathbb{Z}.$
+\end{proof}
+\begin{center}
+    \includegraphics[width = 0.5\textwidth]{DegreeCovering.png}
+\end{center}
+
+\begin{exercise}
+If $f : \man \to \nan$ is proper between connected oriented manifolds, and $f$ is not surjective, then $\deg f = 0.$
+\end{exercise}
+
+\begin{exmp}
+$\man = \nan = S^n$, $f:S^n \to S^n : x \mapsto -x$, the antipodal map. Claim: $\deg f = (-1)^{n+1}$. Let $i: S^n \hookrightarrow \Real^{n+1}$, and $\bar{\omega} = x_1 \allthewedge{\dx}{2}{n+1} \in \Omega^n(\Real^{n+1}).$ Then if $\omega = i^* \bar{\omega} \in \Omega^n(S^n). $ By Stokes': $\int_{S^n} \omega = \int_{S^n} i^* \bar{\omega} = \int_{D^{n+1}} \deriv\bar\omega = \int_{D^{n+1}} \allthewedge{\dx}{1}{n+1} \neq 0$. So $f$ can be extended to $\bar f : \Real^{n+1} \to \Real^{n+1} : x \mapsto -x$. Then $\bar f \circ i = i\circ f$ and $f^*\bar\omega = (-1)^{n+1} \bar \omega,$ so $$f^*\omega = f^* i^* \bar \omega = (i\circ f)^* \bar \omega (\bar f \circ i) ^* \bar \omega = i^* \bar f ^* \bar \omega = (-1)^{n+1} i^* \bar \omega = (-1)^{n+1} \omega$$ Thus $(-1)^{n+1} \int_{S^n} \omega = \int_{S^n} f^* \omega = \deg \int_{S^n} \omega$, so $\deg f = (-1)^{n+1}.$
+\end{exmp}
+\end{section}
+
+
+\begin{section}{Lecture 18: Cohomology of Complex Projective Space}
+This will be the last bit of de Rham cohomology for a while, so let us finish with an extended example.\\
+Let $\CProj^n \coloneqq \{z\in\mathbb{C}^{n+1} \remzero\} / (z\sim \lambda z $ with $\lambda \in \mathbb{C} \remzero)$ (complex lines through the origin or all the $n$ dimensional vector subspaces of $\mathbb{C}^{n+1}$). We write $[z_0: z_1: \ldots : z_n] \in \CProj^n$ for the equivalence class of $(z_0,\ldots,z_n) \in \mathbb{C}^{n+1}$. Therefore if $z_n\neq 0,$ we can uniquely write this class as $[\frac{z_0}{z_n}: \ldots : \frac{z_{n-1}}{z_n} : 1 ].$ This gives a homeomorphism $U_{z_n\neq 0} \coloneqq \{ [ z_0 : \ldots : z_n] \in \CProj ^n \st z_n \neq 0\} \xrightarrow[]{\sim} \mathbb{C}^n: [z_0 : \ldots: z_n ] \mapsto (\frac{z_0}{z_n},\frac{z_1}{z_n},\ldots,\frac{z_{n-1}}{z_n}) \in \mathbb{C}^n$. These are called `affine charts' $U_{z_i\neq0} \xrightarrow[]{\sim} \mathbb{C}^n$. Transition maps on $U_{z\neq 0} \cap U_{z_n \neq 0} $ are given by the resultant transformation of 
+$$(\omega_0,\ldots,\omega_{n-1}) \mapsto [\omega_0:\ldots : \omega_{n-1} : 1 ] \mapsto \left(\frac{\omega_0}{\omega_{n-1}}, \frac{\omega_1}{\omega_{n-1}},\ldots,\frac{1}{\omega_{n-1}}\right) \in \mathbb{C}^n$$
+where $(\omega_0 , \ldots, \omega_{n-1}) \in \mathbb{C}^n$ with $\omega_{n-1}\neq 0$. These transitions are smooth\footnote{They are also biholomorphic, which makes $\CProj$ a complex manifold as well.}.\\
+$\Fact$ (Not too hard to prove) If $T_\mathbb{C} : \mathbb{C}^n \to \mathbb{C}^n$ is complex linear, then the associated $\Real$-linear map, $T_\Real : \Real^{2n} \to \Real^{2n}$ satisfies $\det T_\Real = \abs{\det T_\mathbb{C}}^2 \geq 0.$ So any complex manifold is an orientable real manifold. Also, $\CProj^n$ is compact.
+\begin{exmp}
+$\CProj^1$ is called the `Riemann Sphere': $\CProj \cong \mathbb{C} \sqcup \{\infty\}$, the complex plane ($\{[z:1]\in\CProj^1\}$) with a point at infinity ($[1:0]$) $\cong$ one-point commodification of a plane $\cong S^2$. These are just topological equivalences, but we could get them to carry smooth structural data, so that $S^2$ has a complex structure and is a complex manifold. \\
+In general, $\CProj^n = \mathbb{C}^n \sqcup \CProj^{n-1} = \{[z_0:\ldots:z_{n-1}:1]\} \sqcup \{[z_0:\ldots:z_{n-1}:0]\}$\footnote{When any of the coordinates are zero, it's like a degree of freedom is being removed.}.
+\end{exmp}
+
+\begin{prop}
+$H^p(\CProj^n) = \mycasesthing{ 0,& \myif p \text{ odd}}{\Real, & \myif p \text{ even}} $
+\end{prop}
+\begin{proof}
+Consider $\CProj^n \backslash \{ [0:\ldots:0:1]\} \to \CProj^{n-1} : [z_0: \ldots : z_{n-1}]$. This is a deformation retraction. And by a homework question (Problem sheet 2, exercise 7), $i : \CProj ^n \backslash \{\pt\} \hookrightarrow \CProj^n$ induces an isomorphism in de Rham cohomlogy for $p \leq 2n-2$ (NB $\CProj^n$ has real dimension $2n$). (\underline{Exercise:} Extend this to $p<2n$, using the same argument and something unique to $\CProj^n$). So $H^p(\CProj^n) \cong H^p(\CProj^{n-1})$ for $p<2n$. We know the base case: $H^p(\CProj^1) \cong  H^p(S^2) = \mycasesthing{\Real,& \myif p =0,2}{0,& \text{o/w}}$. Thus $H^p(\CProj^n)$ is as specified by induction.
+\end{proof}
+\noindent
+What is the ring structure? Apart from the K\"unneth theorem, we've not really worked much with cohomologies-as-rings.\\
+\Claim $H^*(\CProj^n) \cong \Real[x] / x^{n+1}$ where $x$ has degree 2.
+ \begin{proof}
+    Take some $\alpha \in H^2(\CProj^n)$. We claim that $\alpha^n \coloneqq \alpha\wedge\ldots\wedge\alpha$ ($n$ times) is not zero. We use our recently made tool; by PD: $H^2(\CProj^2) \to (H^2(\CProj^2))^* : \alpha = [\omega] \mapsto ([\eta] \mapsto \int_{\CProj^2} \omega \wedge \eta)$ is an isomorphism. And $[\omega] \neq 0$, so $\exists [\eta] \in H^2(\CProj^2) \st \int_{\CProj^2} \omega \wedge \eta \neq 0$. But $H^2(\CProj^2) = \langle [\omega]\rangle$ so $\eta = \omega$ works, i.e. $[\omega \wedge \omega] \neq 0$. This is the base case of an induction.\\
+    Now assume that for $0\neq [\omega] \in H^2(\CProj^{n-1})$ that $0 \neq[ \omega^{n-1}]= [\omega \wedge \ldots \wedge \omega] \in H^{2(n-1)}(\CProj^{n-1})$ ($n-1$ times). But $i : \CProj^{n-1} \hookrightarrow \CProj^n$ is an isomorphism on cohomology for $p < 2n$, in particular for $p = 2n-2$. So $[\omega] \in H^2(\CProj^n)$ maps to $[i^*\omega] \in H^2(\CProj^{n-1})$, generator in degree 2, so $[(i^*\omega)^{n-1}]= [(i^*\omega) \wedge(i^*\omega) \wedge \ldots \wedge (i^*\omega)] \neq 0$ ($n-1$ times). Thus $i^*[\omega^{n-1}] \neq 0$, so $[\wedge^{n-1}] \neq 0$. Therefore $\alpha^{n-1} \neq 0$.  \\
+    What about $\alpha^n$? PD says: $H^2(\CProj^n) \to (H^{2n-2}(\CProj^n))^* : [\omega] \mapsto ([\eta] \mapsto \int_{\CProj^n} \omega \wedge \eta)$ so $\exists$ class in $H^2$ (which up to scaling must be $[\omega]$) s.t. $\int_{\CProj^n} \omega \wedge ... \wedge \omega \neq 0$ ($n$ times).
+ \end{proof}
+\end{section}
+
+This proof shows how powerful PD really is, and this is where we'll leave cohomology for now. Next week we start Morse theory, a different way of getting at the topology of smooth manifolds.
 
 
 
+\begin{section}{Lecture 19: Morse functions, Cell decompositions, CW Complexes}
+This lecture will introduce lot of the definitions critical to Morse theory.
 
+\begin{defn}\label{defn:MorseFunction}
+    Let $\man$ be a manifold of dimension $n$, and $f:\man \to \Real$ smooth. A critical point of $f$ is a point $x\in \man$ where $Df_x = 0$ i.e. in local coordinates $\parderiv{x_i}f(x)=0\, \forall i = 1,\ldots,n.$\\
+    The Hessian of $f$ is $H_f(x) = \left(\parderiv{x_i\partial x_j} f(x)\right) \, \forall i,j=1,\ldots,n$.\\
+    A \textbf{Morse function} is a function $f : \man \to \Real$ smooth s.t. $\det H_f(x) \neq 0$ at all critical points of $f$. When $\det H_f(x) \neq 0$ for a critical point, we say it is non-degenerate. 
+\end{defn}
+\Fact By Sard's theorem, `most' smooth functions are Morse (and if you have a non Morse function you can just perturb it a bit to make it Morse).\\
+``The Morse function, together with a Riemannian metric somehow knows about the topology of $\man$.''\\
+\Notation $D_n \coloneqq \{ x \in \Real^n : \abs{x} \leq 1 \} \subset \Real^n.$ Let $S^{n-1} = \partial D_n$.
+\begin{defn}
+    An $n$-cell is a topological space homeomorphic to the open ball $D_n \backslash \partial D_n$. A \textbf{cell decomposition} of $\man$ is a family $F$ of pairwise disjoint subspaces of $\man$ which are $n$-cells such that $\man = \bigsqcup \limits_{e_i \in F_i} e_i$. It $F$ is finite then we call it a  finite cell decomposition. Let $SK_m \man \coloneqq \bigsqcup \limits_{\dim e_i \leq m}e_i$ for $m\geq 0,$ the $m-$skeleton of $\man$.
+\end{defn}
+
+\begin{exmp}
+     $S^1 = (S^1\backslash\{p\})\sqcup\{p\}$. $S^1\backslash\{p\}$ is a 1-cell and $\{p\}$ is a 0-cell.
+\end{exmp}
+
+\Notation Let $\man$ be a topological space and $f_\partial : S^{n-1} \to \man$ continuous. We can construct a new topological space $\man \cup_{f_\partial} D_n = (\man \sqcup D_n)/\sim$ where $\man \ni x \sim y\in S^{n-1} \iff f(y) = x$. This is the space obtained from $\man$ by attaching an $n$-cell via $f_\partial.$
+\begin{center}
+    \includegraphics[width = 0.5\textwidth]{AttachingMap.png}
+\end{center} 
+
+\begin{exmp}
+     $\man = \{p\}$ and $f_\partial : S^0 = \partial D_1 = \partial \inter \to \{p\}.$ Then $\man \cup_{f_\partial}D_1 = S^1$.
+\end{exmp}
+
+\begin{exercise}
+    Show that if $\man$ admits a cell decomposition then so does $\man \cup_{f_\partial} D_n$.
+\end{exercise}
+
+\begin{exmp}
+    $T = S^1 \times S^1 \subseteq \Real^3$. Let $f:T\to \Real:(x,y,z)\mapsto z$ be the height function. $\{c,b,a,0\}$ are critical points of $f$.
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{TorusCellDecomposition.png}
+    \end{center}
+    Define $S_h \coloneqq \{p\in\man : f(p) \leq h\} = f^{-1}([0,h]), $ for $h\geq 0$. If $0<h<a$, then $S_h$ is homotopy equivalent to a 0-cell.
+    \begin{center}
+        \includegraphics[width=0.25\textwidth]{MorseTorusTrivialHomotopy.png}
+    \end{center}
+    If $a<h<b$, then $S_h$ is homotopy equivalent to:    
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{MorseTorusHomotopyOneCell.png}
+    \end{center}
+    If $b<h<c$ then $S_h$ homotopy equivalent to:
+    \begin{center}
+        \includegraphics[width = 0.5\textwidth]{MorseTorusHomotopyOneCellWithZeroCell.png}
+    \end{center}
+    If $h>c$ then $S_h$ is homotopy equivalent to:
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{MorseTorusHomotopyFullTorus.png}
+    \end{center}
+    Thus $\man$ = (0-cell)$\cup$(two 1-cells)$\cup$(2-cell).
+\end{exmp}
+Given a Morse function $f : \man \to \Real$ on a manifold $\man$, the idea is to study level sets $S_h = f^{-1}([-\infty,h]),$ and this will help us split up the manifold into manageable bits/cells.
+
+\begin{defn}
+    Let $f:\man \to\Real$ be a Morse function and $\xman$ be a critical point. Write $\Eig^-(H_f(x)) = \langle $eigenvectors of $H_f$ having negative eigenvalues$\rangle$. The \textbf{index} of $f$ at $x$ is the dimension of $\Eig^-H_f(x)$. ``This is something to do with the curvature properties of $f$ at the critical point''.
+\end{defn}
+
+\begin{lemma}[Morse Lemma]\label{lem:MorseLemma}
+    Let $\man$ be a manifold of dimension $n$, $f:\man \to \Real$ a Morse function, $x_0 \in \man$ a critical point. Then there exists local coordinates ($x_1,\ldots,x_n)$ around $x_0$ s.t. $x_0 = (0,\ldots,0)$ and 
+    $$f(x) = f(x_0) - \sumfromto{i=1}{\lambda} x_i^2 + \sumfromto{i=\lambda+1}{n} x_i^2$$
+    where $\lambda$ is the index of $f$ at $x.$
+\end{lemma}
+``It can be proved in an elementary way I think, but the proof is quite long and not particularly enlightening'' (it's quite linear algebra-y but essentially relies on diagonalising the Hessian). See Copenhagen Lecture Notes (Cohen, Iga, Norbury 2009), Theorem 5.3 for a full proof.
+
+\begin{corollary}
+    The set of critical points of a Morse function is discrete.
+\end{corollary}\noindent
+This corollary is ``hugely important for Morse functions, and part of the reason we make the definition [of Morse functions] the way that we do.''
+
+\begin{exercise}
+    Check that $f$ as above has index $\lambda$ at $x_0$.
+\end{exercise}
+
+\begin{exmp}
+    $f:\man \to \Real$ as before, $\man = S^1 \times S^1$. Blue is a negative eigenspace and red is a positive eigenspace in this drawing.
+    \begin{center}
+        \includegraphics[width=\textwidth]{MorseTorusEigenvalues.png}
+    \end{center}
+\end{exmp}
+
+\begin{subsection}{CW Complexes}
+For a more detailed view on this topic see Hatcher, Algebraic Topology, Chapter 0.
+
+\begin{defn}
+    A topological space $\man$ admits a CW structure if there exists a sequence of topological subspaces $\man^{(0)} \subset \man^{(1)}  \subset \ldots \subset \man^{(n)}$ s.t.
+    \begin{enumerate}
+        \item $\man^{(0)}$ is a discrete subset of $\man$
+        \item $\man^{(k)}$ is obtained from $\man^{(k-1)}$ by attaching $k$-cells
+        \item $V\subset \man$ is closed iff $V\cap \man^{(k)}$ is closed for all $k$
+    \end{enumerate}
+    Such a $\man$ is called a CW complex. We say $\man$ is a finite CW complex iff it is obtained from attaching only finitely many cells. A subcomplex is a closed subspace of $\man$ which is a union of a subset of cells of $\man$. A closed cell is the image of $D_n$ in a cell. An open cell is the image of $D_n\backslash \partial D_n$ in a cell (NB: Open cells are not in general open in $\man$ e.g. an $n-1$ dimensional open cell in an $n$ dimensional manifold is not open wrt that manifold).
+\end{defn}
+\noindent
+So these are both structures you can put on topological spaces, as well as a kind of inductively-built topological space itself which is particularly nice. Not every topological space admits a CW complex.\\
+\Fact If $n\neq 4$, then a manifold of dimension $n$ is a CW complex. If $n=4,$ then this is an open problem\footnote{``There's something particularly strange about 4 dimensional manifolds. Somehow manifolds of higher dimension seem to be easier to understand, and manifolds of lower dimensions are sort of somehow simple enough that you can hope to understand them. But dimension 4 is tricky, tricky for some reason.''}
+\begin{exmp}
+    \begin{itemize}
+        \item $S^n = \{p\}\cup D_n = \man^{(0)}\cup \man^{(n)}$
+        \item $\man = \Real^n$ and $\Lambda = \{$integral points of $\Real^n\} =\mathbb{Z}^n$ then $\Lambda$ gives a decomposition of $\Real^n$ into $n$-cubes, which are $n$-cells, where 0-cells are points of $\Lambda$, 1-cells are edges joining points of $\Lambda$ etc.
+    \end{itemize}
+\end{exmp}
+
+\begin{prop}
+   Let $\man$ be a CW complex. Then:
+   \begin{enumerate}
+       \item If $K\subset \man$ is compact, then it is contained in a finite union of open cells.
+       \item The closure of every cell is contained in a finite subcomplex of $\man$ (This is a kind of local finiteness property).
+   \end{enumerate}
+\end{prop}
+
+\begin{proof}
+   1: Let $K\subset \man$ compact. Assume there exists infinitely many open cells having nonempty intersection with $K$. So there exists infinite sequence of points $S \coloneqq \{x_i\}\subset K$ lying in distinct open cells. We claim that $S\cap M^{(n)}$ is closed and discrete for all $n\geq 0$. For $n=0$ this is true, as $\man^{(0)}$ is discrete. Assume true for $n-1$. Then if $\{e_j\}$ are the $n$-cells, then the open cell corresponding to $e_j$ contains at most one point of $S$ (by construction of $S$). Thus $S\cap (\bigcup_j e_j)$ is closed and discrete. So $S\cap \man^{(n)}$ is closed and discrete. Since $S \subset K$ and $K$ is compact, it follows that $S$ is finite. \\
+   2: Induct on the dimension of the cell. For $n=0$, this is true. Assume true for all $m\leq n-1$, and let $e_n$ be an $n$-cell. The border of $e_n$ is the image of $S^{n-1}$, so it is compact. Hence by 1., it is contained in a finite union of open cells of dimension smaller than $n$. By induction, each of these cells is contained in a finite subcomplex. The union of all of these is a finite subcomplex containing the border of $e_n$. Hence attaching $e_n$ we get a finite subcomplex containing $e_n$.
+\end{proof}
+
+\begin{corollary}
+    Let $\man$ be a CW complex. Then any compact subset $K\subset man$ is contained in a finite subcomplex.
+\end{corollary}
+
+\begin{proof}
+    The result follows from the above proposition since the union of finite subcomplexes is a finite subcomplex.
+\end{proof}
+That's everything on CW complexes. Next time we will be defining gradient flows and making a move towards defining Morse homology.
+\end{subsection}
+\end{section}
+
+\begin{section}{Lecture 20: Gradient Flows}
 
 \end{section}
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
