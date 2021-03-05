@@ -269,7 +269,7 @@ sorting=ynt
 
 \DeclareMathOperator{\Eig}{Eig}
 
-
+\newcommand{\tdiffof}[1]{\frac{\deriv #1}{\dt}}
 
 
 
@@ -1719,6 +1719,59 @@ That's everything on CW complexes. Next time we will be defining gradient flows 
 \end{section}
 
 \begin{section}{Lecture 20: Gradient Flows}
+``If you have a compact manifold with a Morse function then all of the gradient flow lines for the Morse function begin and end at critical points.'' This lecture will set up the foundations for this concept and also for Morse homology. This will be Mastery material for this course (may be included at the end or in series), but this lecture will make sense of some of the critical theorems in Morse theory which will be important outside of the Mastery questions. %tk%
+\begin{defn}
+    Let $\man$ be a manifold. A \textbf{flow} or a group of diffeomorphisms of $\man$ is a collection of diffeomorphisms $\varphi_t : \man \to \man$ for $t\in \Real \st $there exists $\varphi:\Real \times \man \to \man $ with $\varphi_t = \varphi(t , . )$, $\varphi_0 = \id_\man$ and $\varphi_s \circ \varphi_t = \varphi_{s+t}$.\\
+    The flow line or \textbf{integral curve} for the flow $\varphi$ (given $\xman$) is $\gamma_x : \Real \to \man : t \mapsto \varphi(t,x)$ where $\gamma_x(0) = x$. Since $\frac{\deriv}{\dt} \gamma_x \restrict{t=0} \in \tang$, the flow defines a vector field on $\man$ i.e. a smooth section of $T\man$.
+\end{defn}
+On the other hand, given a vector field, can we produce an integral curve that corresponds to it? This corresponds to solving some system of differential equations, which we can do at least in some neighbourhood of $t=0$\footnote{See: Lee, Intro to Smooth Manifolds, Chapter 9}. 
+
+\begin{lemma}
+    Let $X$ be compactly supported on $\man$. Then $X$ generates a group of diffeomorphisms $\varphi_t : \man \to \man$ such that we have $$(X\circ \gamma_x)(t) = \frac{\deriv}{\dt}\gamma_x(t),\; \xman$$
+    We can show that flow lines are disjoint, so this decomposes/partitions $\man$ into a disjoint union of flow lines.
+\end{lemma}
+
+\begin{exmp}
+    Let $\man = \Real$ and $X = x^2 \parderiv{x}$. What is the flow? (Solution is $\gamma_x(t) = \frac{\gamma_x(0)}{\gamma_x(0) t + 1})$
+\end{exmp}
+
+\begin{defn}
+    A $\textbf{Riemannian metric}$ on a manifold $\man$ is a collection of inner products on  each $\tang$. given by $g_x:\tang\times\tang \to \Real$ such that for all vector fields $X \myand Y$ we have that $g_x(X(x),Y(x)): \man \to \Real$ is smooth. A \textbf{Riemannaian manifold} ($\man,g)$ is a manifold equipped with a Riemannian metric. ``Intutitively a way of measuring distance on a manifold.''
+\end{defn}
+Important consequence: $g$ gives an isomorphism $\tangbundle \cong \Omega^1(\man) = (\tangbundle)^*$ i.e. given $V$ a vector space with an inner product $\langle . , .\rangle$, we have an isomorphism $V\to V^*$ given by $v\mapsto \langle v, .\rangle$. ``This is something that is perhaps is easy to overlook the importance of.'' It kind of lets us easily choose dual bases, which we just did easily because there is a canonical inner product on $\Real^n$ once you have chosen coordinates. This choice of coordinates is `secretly' a choice of Riemannian metric on $\Real^n$, but this choice can be generalised as you will see if you study Riemannian Geometry. For our purposes, we will just be using metric spaces to define the gradient vector field. 
+
+\begin{defn}
+    Let $(\man,g)$ be a Riemannian manifold, and $f:\man\to\Real$ a smooth function. Then the \textbf{gradient vector field} $\nabla f$ of $f$ is the unique vector field on $\man$ s.t. for all vector fields $X$, $g(\nabla f, X) = Df(X)$.
+\end{defn}
+The isomorphism $\tangbundle \cong \Omega^1(\man)$ is what allows us to prove that this vector field exists and is unique. So the gradient vector field is the vector field that is dual to the differential of $f$ wrt $g$.
+\Note $g(\nabla f,\nabla f) = \norm{\nabla f}^2 = Df(\nabla f),$ so $\nabla f(x) = 0 $ iff $x$ is a critical point of $f$.\\
+\Note $\nabla f$ is orthogonal to any vector tangent to $f^{-1}(c)$ for all regular values $c\in\Real.$\\
+This really is just a generalisation of the usual $\nabla f$ from real multivariate calculus and works in the way that you would expect: it points in the direction of greatest change of $f$, orthogonal to lines where the value of $f$ is constant. In particular, we can take the flow associated to $-\nabla f$ for a smooth function $f:\man \to \Real $ i.e.: 
+\begin{defn}
+    If $\gamma_x(t) = \varphi(t,x)$ the $\frac{\deriv}{\dt} \gamma_x(0)\restrict{t=0} = -\nabla f(\gamma_x(0)), \, \gamma_x(0) = x$. This is called the \textbf{gradient flow} of $f$. The integral curves are called gradient flow lines.
+\end{defn}
+Imagine these flow lines as the paths of particles of water if you poured some on the manifold (if $f$ is the height function anyway). Most will flow onto the very bottom critical point, but there are some special points where it will flow onto a critical point where it will remain in equilibrium.
+\begin{center}
+    \includegraphics[width = 0.20\textwidth]{WaterGradientFlowLines.png}
+\end{center}
+``So we get some sort of decomposition of our manifold by asking: Which critical point do you flow down to? And that's the decomposition that Morse homology is concerned with.''
+
+\begin{lemma}
+    $f$ decreases along gradient flow lines, i.e. $f(\gamma_x(t)):\Real \to \Real$ is a decreasing function of $t\in\Real$.
+\end{lemma}
+\begin{proof}
+    $\tdiffof{} f(\gamma_x(t)) = Df_{\gamma_x(t)} (\tdiffof{} \gamma_x(t)) = Df_{\gamma_x(t)}(- \nabla f(\gamma_x(t))) = - \norm{\nabla f(\gamma_x(t))}^2 \leq 0$
+\end{proof}
+
+\begin{prop}
+   Let $\man$ be compact with $f:\man\to\Real$ Morse function. Then every gradient flow line begins and ends at a critical point i.e. $\lim \limits_{t \to \pm \infty} \gamma_x(t) $ exist and are critical points of $f$.
+\end{prop}
+
+\begin{proof}
+    First assume the limits exist. For all $x$, $f(\gamma_x(t)) : \Real \to \Real$ is bounded because $\man$ is compact. Then $\lim \limits_{t \to \pm \infty} \tdiffof{} f(\gamma_x(t)) = \lim \limits_{t \to \pm \infty} - \norm{\nabla f(\gamma_x(t))}^2$. And $\lim \limits_{t \to \pm \infty} \tdiffof{}f(\gamma_x(t)) = 0$ because $f$ is bounded and decreasing along flow lines. So the limit is a critical point if it exists.\\
+    Now we show it exists. Fix $\epsilon> 0$ and let $U $ be the union of open balls of radius $\epsilon$ around each critical point of $f.$ Since $\man$ is compact and $f$ is Morse, there are only finitely many critical points. Then $U$ is open, so $\man \backslash U$ is closed, so $\man \backslash U$ is compact, so $\norm{\nabla f(.)}^2$ admits a minimum in $\man \backslash U$. But this minimum cannot be zero because we removed all the critical points. But $\lim \limits_{t \to \pm \infty}\norm{\nabla f(\gamma_x(t))}^2 = 0$ because $f(\gamma_x(t))$ is bounded and decreasing. So if $\pm t$ is large enough, then $\gamma_x(t) \not\in \man \backslash U$, so if $\epsilon $ sufficiently small, $\gamma_x(t)$ is contained in a ball around a single critical point for $t \to \pm$. Thus the limit is the critical point. 
+\end{proof}
+The rest of the Morse theory material is Mastery material. Outside of that, next time we will be switching gears and talking about singular homology and singular cohomology. At the end of the course we will be proving the de Rham theorem, showing how singular cohomology and de Rham cohomology are the same.
 
 \end{section}
 
