@@ -492,7 +492,7 @@ Given $F:\man \to \nan$ smooth map of manifolds. Then $\forall x \in \man$,  the
 $DF_x : \tang \to T_{F(x)}{\nan} $. Thus given $p\geq 0$, we have the pullback of differential $p$-forms along $F$.\\\\
 \noindent
 First define $F^*_x : \setform{p}{T_{F(x)}\nan} \to \difftang : \omega \mapsto (DF_x)^*(\omega)$, ie. For $\allthevs{1}{p} \in \tang, \omega \in \setform{p}{T^*_{F(x)}\nan}, F^*_x(\omega)\left( \allthevs{1}{p} \right) = \omega(\allthe{DF_x v}{1}{p})$,.
-Thus we can define $F^* : \Omega^p(\nan) \to \pformman{p} : \omega \mapsto F^*(\omega)$ defined pointwise via $F^*\omega(x) = F^*\omega(F(x)) \with x \in \man$. This pullback respects the wedge product, i.e. $F^*(\wedgge) = F^*\omega_1 \wedge F^*\omega_2$ and for $G:\nan \to \mathcal{P}$ smooth, $(G\circ F)^* \omega = F^* G^* \omega$
+Thus we can define $F^* : \Omega^p(\nan) \to \pformman{p} : \omega \mapsto F^*(\omega)$ defined pointwise via $F^*\omega(x) = \omega(F(x)) \with x \in \man$. This pullback respects the wedge product, i.e. $F^*(\wedgge) = F^*\omega_1 \wedge F^*\omega_2$ and for $G:\nan \to \mathcal{P}$ smooth, $(G\circ F)^* \omega = F^* G^* \omega$
 \begin{subsection}{Local Description of differential $p-$forms}
 Take $x\in\man, \chartU \subseteq\man$ open chart around $x$ with local coordinates $\allthe{x}{1}{n}$. A basis of $\tang$ is $\left\{\iparderiv{i} \right\}_i,$ and the corresponding dual basis $\{\dx_i\}_i, i =1,...,n $ gives a basis of $\dualtang$, i.e. $\dx_i(\iparderiv{j}) = \delta_{ij}$
 
@@ -652,7 +652,7 @@ $=\int_{\chart(\chartV \cap\chartU)} (\chart^{-1})^*\omega$. And since $(\chart^
  \end{subsection}
 \begin{subsection}{Defining the Integral}
 \begin{prop}
-$\man$ an $n$ dimensional manifold is orientable iff $\exists \omega \in\pformman{n}$ which in non-vanishing i.e. $\omega(x) \neq 0 \forall \xman$. 
+$\man$ an $n$ dimensional manifold is orientable iff $\exists \omega \in\pformman{n}$ which is non-vanishing i.e. $\omega(x) \neq 0 \forall \xman$. 
 \end{prop}\noindent
 Such a non-vanishing top-degree form is called a $\textbf{volume form}$ on $\man$. ``Heuristically, ... infinitesimal unit of volume everywhere on our manifold.''
 \begin{proof}
@@ -677,7 +677,7 @@ Let $\man$, $\nan$ be orientable manifolds of dimension $n$. Let $\omega, \eta \
 \begin{enumerate}
     \item (Linearity) $\int_\man (a \omega + b\eta) = a \int_\man \omega  + b \int_\man \eta$ where $a,b \in \Real$.
     \item (Reversal) Let $\overline{\man}$ be $\man$ with the opposite orientation. Then $\int_{\overline{\man}}\omega=-\int_{\man}\omega.$
-    \item (Positivity) Let $\omega$ be a volume form on $\man$ compatible with the orientation. Then $\int_\man \omega > 0.$
+    \item (Positivity) Let $\omega$ be a volume form on $\man$ compatible with orientation. Then $\int_\man \omega > 0.$
     \item (Change of Variables) If $F : \nan \to \man $ is a diffeomorphism preserving the orientations, then $\int_\man \omega = \int_\nan F^*\omega$.
 \end{enumerate}
 \end{prop}
@@ -1564,7 +1564,7 @@ $$(\omega_0,\ldots,\omega_{n-1}) \mapsto [\omega_0:\ldots : \omega_{n-1} : 1 ] \
 where $(\omega_0 , \ldots, \omega_{n-1}) \in \mathbb{C}^n$ with $\omega_{n-1}\neq 0$. These transitions are smooth\footnote{They are also biholomorphic, which makes $\CProj$ a complex manifold as well.}.\\
 $\Fact$ (Not too hard to prove) If $T_\mathbb{C} : \mathbb{C}^n \to \mathbb{C}^n$ is complex linear, then the associated $\Real$-linear map, $T_\Real : \Real^{2n} \to \Real^{2n}$ satisfies $\det T_\Real = \abs{\det T_\mathbb{C}}^2 \geq 0.$ So any complex manifold is an orientable real manifold. Also, $\CProj^n$ is compact.
 \begin{exmp}
-$\CProj^1$ is called the `Riemann Sphere': $\CProj \cong \mathbb{C} \sqcup \{\infty\}$, the complex plane ($\{[z:1]\in\CProj^1\}$) with a point at infinity ($[1:0]$) $\cong$ one-point commodification of a plane $\cong S^2$. These are just topological equivalences, but we could get them to carry smooth structural data, so that $S^2$ has a complex structure and is a complex manifold. \\
+$\CProj^1$ is called the `Riemann Sphere': $\CProj \cong \mathbb{C} \sqcup \{\infty\}$, the complex plane ($\{[z:1]\in\CProj^1\}$) with a point at infinity ($[1:0]$) $\cong$ one-point compactification of a plane $\cong S^2$. These are just topological equivalences, but we could get them to carry smooth structural data, so that $S^2$ has a complex structure and is a complex manifold. \\
 In general, $\CProj^n = \mathbb{C}^n \sqcup \CProj^{n-1} = \{[z_0:\ldots:z_{n-1}:1]\} \sqcup \{[z_0:\ldots:z_{n-1}:0]\}$\footnote{When any of the coordinates are zero, it's like a degree of freedom is being removed.}.
 \end{exmp}
 
@@ -1572,14 +1572,16 @@ In general, $\CProj^n = \mathbb{C}^n \sqcup \CProj^{n-1} = \{[z_0:\ldots:z_{n-1}
 $H^p(\CProj^n) = \mycasesthing{ 0,& \myif p \text{ odd}}{\Real, & \myif p \text{ even}} $
 \end{prop}
 \begin{proof}
-Consider $\CProj^n \backslash \{ [0:\ldots:0:1]\} \to \CProj^{n-1} : [z_0: \ldots : z_{n-1}]$. This is a deformation retraction. And by a homework question (Problem sheet 2, exercise 7), $i : \CProj ^n \backslash \{\pt\} \hookrightarrow \CProj^n$ induces an isomorphism in de Rham cohomlogy for $p \leq 2n-2$ (NB $\CProj^n$ has real dimension $2n$). (\underline{Exercise:} Extend this to $p<2n$, using the same argument and something unique to $\CProj^n$). So $H^p(\CProj^n) \cong H^p(\CProj^{n-1})$ for $p<2n$. We know the base case: $H^p(\CProj^1) \cong  H^p(S^2) = \mycasesthing{\Real,& \myif p =0,2}{0,& \text{o/w}}$. Thus $H^p(\CProj^n)$ is as specified by induction.
+Consider $\CProj^n \backslash \{ [0:\ldots:0:1]\} \to \CProj^{n-1} : [z_0: \ldots : z_{n}] \mapsto [z_0: \ldots : z_{n-1}]$. This is a deformation retraction. And by a homework question (Problem sheet 2, exercise 7), $i : \CProj ^n \backslash \{\pt\} \hookrightarrow \CProj^n$ induces an isomorphism in de Rham cohomlogy for $p \leq 2n-2$ (NB $\CProj^n$ has real dimension $2n$). (\underline{Exercise:} Extend this to $p<2n$, using the same argument and something unique to $\CProj^n$). So $H^p(\CProj^n) \cong H^p(\CProj^{n-1})$ for $p<2n$. We know the base case: $H^p(\CProj^1) \cong  H^p(S^2) = \mycasesthing{\Real,& \myif p =0,2}{0,& \text{o/w}}$. Thus $H^p(\CProj^n)$ is as specified by induction.
 \end{proof}
 \noindent
 What is the ring structure? Apart from the K\"unneth theorem, we've not really worked much with cohomologies-as-rings.\\
-\Claim $H^*(\CProj^n) \cong \Real[x] / x^{n+1}$ where $x$ has degree 2.
+\begin{prop}
+   $H^*(\CProj^n) \cong \Real[x] / x^{n+1}$ where $x$ has degree 2.
+\end{prop} 
  \begin{proof}
     Take some $\alpha \in H^2(\CProj^n)$. We claim that $\alpha^n \coloneqq \alpha\wedge\ldots\wedge\alpha$ ($n$ times) is not zero. We use our recently made tool; by PD: $H^2(\CProj^2) \to (H^2(\CProj^2))^* : \alpha = [\omega] \mapsto ([\eta] \mapsto \int_{\CProj^2} \omega \wedge \eta)$ is an isomorphism. And $[\omega] \neq 0$, so $\exists [\eta] \in H^2(\CProj^2) \st \int_{\CProj^2} \omega \wedge \eta \neq 0$. But $H^2(\CProj^2) = \langle [\omega]\rangle$ so $\eta = \omega$ works, i.e. $[\omega \wedge \omega] \neq 0$. This is the base case of an induction.\\
-    Now assume that for $0\neq [\omega] \in H^2(\CProj^{n-1})$ that $0 \neq[ \omega^{n-1}]= [\omega \wedge \ldots \wedge \omega] \in H^{2(n-1)}(\CProj^{n-1})$ ($n-1$ times). But $i : \CProj^{n-1} \hookrightarrow \CProj^n$ is an isomorphism on cohomology for $p < 2n$, in particular for $p = 2n-2$. So $[\omega] \in H^2(\CProj^n)$ maps to $[i^*\omega] \in H^2(\CProj^{n-1})$, generator in degree 2, so $[(i^*\omega)^{n-1}]= [(i^*\omega) \wedge(i^*\omega) \wedge \ldots \wedge (i^*\omega)] \neq 0$ ($n-1$ times). Thus $i^*[\omega^{n-1}] \neq 0$, so $[\wedge^{n-1}] \neq 0$. Therefore $\alpha^{n-1} \neq 0$.  \\
+    Now assume that for $0\neq [\omega] \in H^2(\CProj^{n-1})$ that $0 \neq[ \omega^{n-1}]= [\omega \wedge \ldots \wedge \omega] \in H^{2(n-1)}(\CProj^{n-1})$ ($n-1$ times). But $i : \CProj^{n-1} \hookrightarrow \CProj^n$ is an isomorphism on cohomology for $p < 2n$, in particular for $p = 2n-2$. So $[\omega] \in H^2(\CProj^n)$ maps to $[i^*\omega] \in H^2(\CProj^{n-1})$, generator in degree 2, so $[(i^*\omega)^{n-1}]= [(i^*\omega) \wedge(i^*\omega) \wedge \ldots \wedge (i^*\omega)] \neq 0$ ($n-1$ times). Thus $i^*[\omega^{n-1}] \neq 0$, so $[\omega^{n-1}] \neq 0$. Therefore $\alpha^{n-1} \neq 0$.  \\
     What about $\alpha^n$? PD says: $H^2(\CProj^n) \to (H^{2n-2}(\CProj^n))^* : [\omega] \mapsto ([\eta] \mapsto \int_{\CProj^n} \omega \wedge \eta)$ so $\exists$ class in $H^2$ (which up to scaling must be $[\omega]$) s.t. $\int_{\CProj^n} \omega \wedge ... \wedge \omega \neq 0$ ($n$ times).
  \end{proof}
 \end{section}
