@@ -810,11 +810,11 @@ Let $f : \man \to \nan,$ $g:\man \to \nan$ be smooth maps of manifolds. We say t
 $$H: [0,1] \times \man \to \nan \st H\restrict{\{0\} \times \man} = f \myand H\restrict{\{1\} \times\man} = g$$
 \end{defn}
 $\Note$ This is an equivalence relations on smooth maps $\man \to \nan$; we write $f \sim g$ iff $f$ and $g$ are smoothly homotopic.
-\begin{prop}
+\begin{prop}\label{prop:HomotopyInvarianceOfIntegral}
 Let $f,g : \man \to \nan$ be smooth maps of manifolds, and assume $f\sim g$. If $\omega \in \compactpformnan{n}$ is closed, then $\int_\man f ^* \omega = \int_\man g^* \omega$.
 \end{prop}
 \begin{proof}
-Consider the $n+1$-dimensional manifold, $[0,10\times \man$. Then 
+Consider the $n+1$-dimensional manifold, $[0,1]\times \man$. Then 
 $$\int_{\partial ([0,1]\times \man)} H^*\omega = \int_{[0,1]\times \man} \deriv ( H^* \omega) = \int_{[0,1]\times\man} H^*\dw = 0$$
 using Stokes' and the fact $\omega$ is closed, successively. On the other hand,
 $$\int_{\partial ([0,1]\times \man)} H^* \omega = \int_{\{1\}\times \man} H^*\omega - \int_{\{0\}\times \man} H^*\omega = \int_\man g^*\omega - \int_\man f^* \omega$$
@@ -1982,7 +1982,84 @@ Next time: Singular cohomology and de Rham cohomology are isomorphic.
 \end{section}
 
 \begin{section}{Lecture 24: The de Rham Theorem}
+This is the last examinable lecture for the course. Let $\man$ be a manifold. In this lecture we will be shpwing that the de Rham cohomology is isomorphic to singular cohomology with coefficients in $\Real$ for compact orientable manifolds (we do not need the compact or orientable assumptions, but it will make things a bit easier). Moreover, this isomorphism is constructed and will have something to do with integration, much like Poincar\'e Duality. First we need some version of singular cohomology that is smooth, so that it plays well with differential form pullbacks.\\
+$\Recall$ $H^p(\man;\Real) \cong \Hom{H_p(\man)}{\Real}$ (this doesn't work for $\Zint$)
 
+\begin{defn}
+    A smooth $p$-simplex is a smooth map $\sigma : \Delta_p \to \man$. Let $C^\infty_p(\man) $ be the free abelian group on these.
+\end{defn}
+
+\begin{theorem}
+    There is the natural inclusion $i:C^\infty_p(\man)\hookrightarrow C_p(\man)$. This map induces an isomorphism $H^\infty _p (\man) \to H_p(\man)$ where $H^\infty_p(\man)$ is the homology groups of the chain complex $\ldots \to C_p^\infty(\man) \to C_{p-1}^\infty(\man)\to \ldots$.
+\end{theorem}
+``We're not gonna prove this, its actually quite technical to prove this, its quite annoying.''\\
+\begin{semiproof}
+    Construct (i) a smooth operator $s: C_p(\man) \to C_p^\infty(\man)$ (ii) a chain homotopy showing that $s\circ i$ induces the identity on homology. Key ingredient: Whitney approximation theorem (Lee p. 141), which says that any cts $F:\man \to \nan$ is homotopic to a smooth map. See Lee Chapter 18 for a full proof.
+\end{semiproof}
+\begin{defn}
+    Given $\omega \in \pformman{p}$ and a smooth $\sigma: \Delta_p \to \man$, we define the integral of $\omega$ over $\sigma$ to be:
+$$\int_\sigma \omega \coloneqq \int_{\Delta_p} \sigma^* \omega$$
+and if $c = \sum_i a_i \sigma_i \in C_p^\infty(\man)$ ($a_i\in\Zint)$ we define $\int_c \omega \coloneqq \sum_i a_i \int_{\sigma_i} \omega$ i.e. integrals are extended $\Zint$-linearly too.
+\end{defn}
+
+We also need a Stokes' Theorem for these integrals:
+\begin{theorem}
+    If $c = \sum_i a_i \sigma_i \in C_p^\infty(\man) $ then $\int_{\partial c} \omega = \int_c \dw$ for $\omega \in \pformman{p-1}$.
+\end{theorem}
+\begin{proof}
+    Reduce to $c = \sigma$ by linearity. Then we need `Stokes' Theorem for manifolds with corners'\footnote{We actually needed this for Prop \ref{prop:HomotopyInvarianceOfIntegral} way back in lecture 7.}.
+\end{proof}
+
+\begin{prop}
+    We get a well-defined induced linear map $I_p : H^p(\man) \to H^p(\man,\Real)$.
+\end{prop}
+\begin{proof}
+    Recall $H^p(\man,\Real) \cong \Hom{H_p(\man)}{\Real} \cong \Hom{H_p^\infty(\man)}{\Real}$. So given $[\omega] \in H^p(\man)$, need to produce a element of $\Hom{H_p^\infty(\man)}{\Real}$. Given $[\omega] \in H^p(\man)$, $[c] \in H_p^\infty(\man),$ define $I_p([\omega])([c]) \coloneqq \int_c \omega$. The question is, is this well-defined?\\
+    If we choose $c, c'\in [c]$ then $\exists b \st \partial b = c - c'$. And $\int_c \omega - \int_{c'} \omega = \int_{\partial b} \omega = \int_b \dw = 0$ since $\dw = 0$.\\
+    If we take $\omega = \deta$, then $I_p([\deta])([c]) = \int_c \deta = \int_{\partial c} \eta = 0$ since $\partial c = 0$. All this is linear i.e. $I_p([\omega])([c_1]+[c_2]) = I_p([\omega])([c_1])+I_p([\omega])([c_2])$ by the linearity of the integral. And this is also linear in $\omega$ too, rather simply. So given $[\omega] \in H^p(\man)$, get an element of $\Hom{H_p^\infty(\man)}{\Real} \cong H^p(\man,\Real)$ as required.
+\end{proof}
+
+
+\begin{lemma}{Naturality of the de Rham map}
+    \begin{enumerate}
+        \item If $F:\man \to \nan$ is smooth then this diagram commutes:
+            $$% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAAkA9NACgB0+AWzo4AFgGNGwAHIBfAJQhZpdJlz5CKMgEYqtRizZdeA4WMkMZy0yNEAjO8ABKCpSpAZseAkW2ld1PTMrIgc3PxCthbAALLWkWIOzq7Kql4avuR6QYahxhFmElJxirJ6MFAA5vBEoABmAE4QgkhkIDgQSH76wWwAkgD6aG71TS2I3R1IAEyBBiEgAGKcAFQjII3NrdRTiADMc72hy2upG2NIB+2diLM9uSCDw2WyQA
+            \begin{tikzcd}
+             H^p(\mathcal{N}) \arrow[d, "I_p"] \arrow[r, "F^*"] & H^p(\mathcal{M}) \arrow[d, "I_p"] \\
+              {H^p(\mathcal{N},\mathbb{R})} \arrow[r, "F^*"]     & {H^p(\mathcal{M},\mathbb{R})}    
+             \end{tikzcd}$$
+        \item If $\man = U \cup V$, $U\cap V \neq \varnothing$, $U,V$ open (as in MV), then the below diagram commutes:
+        $$
+            % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAAkA9YNAWgEYAvgAoAqgB1xAYzpoABADUAlCEGl0mXPkIp+5KrUYs2XNMMkBbOjgAWMhsACyglWo3Y8BImX4H6zVkQObj4hMUkZeQVSS2sbACN44AAlF1V1EAwPbSI9X2p-YyCuHhFY23snNXKEpNTXAxgoAHN4IlAAMwAnCAskMhAcCCQ9QwC2SVgGHDp0zp6+xFGhpABmAqNAkABJAH00OZBu3v7qFcQAJg3xoL2eAUFD48WrweHEdbGikEmYadnBBRBEA
+            \begin{tikzcd}
+            H^{p-1}(U\cap V) \arrow[r, "\delta"] \arrow[d, "I_{p-1}"] & H^p(\mathcal{M}) \arrow[d, "I_p"] \\
+            {H^{p-1}(U\cap V,\mathbb{R})} \arrow[r, "\delta"]         & {H^{p}(\mathcal{M},\mathbb{R})}  
+            \end{tikzcd}$$
+    \end{enumerate}
+    The row arrows on both of these diagrams have the same symbol, but are defined on de Rham and singular cohomology respectively.
+\end{lemma}
+
+\begin{proof}
+    1. is an easy exercise 2. is a slightly harder diagram chase, see Lee Prop 8.13.
+\end{proof}
+
+\begin{lemma}
+    Let $U\subseteq\Real^n$ be contractible. Then $I_p: H^p(U) \to H^p(U,\Real)$ is an isomorphism for $p \geq 0$.
+\end{lemma}
+
+\begin{proof}
+    We know the actual groups on both sides; 0 for $p >0$ and $\Real$ for $p =0$. Suffices to show $I_p\neq 0$ for $p=0$. $H^0(U)$ given by constant for $f:U\to\Real$. The only 0-simplices $\sigma : {0} \to U$ are constant. Therefore the map $I_0$ just evaluates $f$ at $\sigma(0)$ i.e. mapping a constant function to the value of the constant function. So $I_0$ is an isomorphism.
+\end{proof}
+
+\begin{theorem}{de Rham Theorem}
+    For $\man$ a (compact)\footnote{Can be done without this assumption, but the proof is a lot easier with it. This assumption just let's us have $\man$ being of finite type. See Lee Chapter 18.} orientable, $I_p$ as defined above is an isomorphism between $H^p(\man)$ and $H^p(\man,\Real) \,\forall p\geq 0.$
+\end{theorem}
+
+\begin{proof}
+    Very similar to Poincar\'e Duality; induction on the size of the good cover of $\man$. Use naturality, the above lemma (which is the base case of induction) and the five lemma applied to the two Meyer-Vietoris sequences in the same way as for Poincar\'e Duality.
+\end{proof}
+``This is quite a big theorem, its an important result, but once you set everything up correctly the proof is essentially a couple of sentences, because we've already seen essentially the same idea when we proved Poincar\'e Duality. Which I think just really shows you the power of homological algebra, which can reduce something which is... proving the isomorphism from first principles would be incredibly hard as you can tell; you can look up when this theorem was first proved, and... it was quite recently.''\\
+Next week we'll be covering a kind of geometric interpretation of Poincar\'e Duality, but this is the end of the examinable material.
 
 \end{section}
 
