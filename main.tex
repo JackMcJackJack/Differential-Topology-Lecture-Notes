@@ -278,8 +278,22 @@ sorting=ynt
 \newcommand{\Zint}{\mathbb{Z}}
 
 
+\newcommand{\mysection}[1]{
+    %\setcounter{section}{#1}
+    %\setcounter{section}{0}
+    \section*{#1}
+    \addcontentsline{toc}{section}{#1}
+    \addtocounter{section}{1}
+    \setcounter{subsection}{0}
+
+}
 
 
+\newcommand{\mysubsection}[1]{
+    %\setcounter{section}{#1}
+    \subsection{#1}
+    %\addcontentsline{toc}{subsection}{#1}
+}
 
 
 
@@ -303,7 +317,8 @@ Written by Jack Kennedy}
 \newpage
 $\textbf{DISCLAIMER}$: These notes are not yet finished. If you spot any typos or things I should include, please let me know at $\textit{jk3617@ic.ac.uk}$. All mathematical content and proofs are provided by Dr Jackson, and these notes try their best to capture exactly what he wrote during lectures. That said, any jokes, strange remarks or quips are, unfortunately, mine and made in a attempt to keep myself sane while crying over why my LaTeX won't compile.
 
-\begin{section}{Lecture 0: Welcome, Admin, Course Overview}
+\mysection{Lecture 0: Welcome, Admin, Course Overview}
+
 {Goals of different flavours of Topology:}
 \begin{enumerate}
     \item Classical Topology : Classify all topological space up to homeomorphism 
@@ -378,9 +393,9 @@ Other Ones:
         \item de Rham theorem (``secretly studying [algebraic topology] all along'')
     \end{itemize}
 \end{enumerate}
-\end{section}
+%end of chapter
 
-\begin{section}{Lecture 1: Prelude on Multi-Linear Algebra}
+\mysection{Lecture 1: Prelude on Multi-Linear Algebra}
 Let $V$ be a real vector space of dimension $n$. Let $p\geq0$. Write $V^p = V\times ...\times V$, $p$ times.
 \begin{defn}
 A multi-linear function $\omega : V^p \to \Real$ is called an \textbf{alternating $p$-form} iff $\forall \sigma\in S_p, \forall v_1,...v_p \in V,$ $$\omega(v_{\sigma(1)},...,v_{\sigma(p)}) = \epsilon(\sigma) (v_1,...,v_p)$$
@@ -454,8 +469,8 @@ The pullback of the linear function $\Phi:V\to W$ has the following properties:
     \item If $V = W$, then $\Phi^*\omega = \det\Phi\cdot\omega$ for all $\omega \in \setform{p}{V^*}$
 \end{enumerate}
 \end{prop}
-\end{section}
-\begin{section}{Lecture 2: Differential Forms on Manifolds, and the Exterior Derivative}
+%end of chapter
+\mysection{Lecture 2: Differential Forms on Manifolds, and the Exterior Derivative}
 Let $\man $ be a smooth manifold of dimension $n$. For $\xman$, recall $T_x\man$, the tangent space to $\man$ at $x$ is a vector space of dimension $n$.\\
 $\Recall$ The set $T\man = \bigsqcup\limits_{x\in\man}\tang$ can be given the structure of a smooth manifold. There exists a map (projection map) $\pi:T\man \to \man$ which is smooth (wrt natural smooth structure on $T\man$) and locally looks like $(x, \sum\limits_{i=1}^n \frac{\partial}{\partial x_i}) \mapsto x$\\
 $\Notation \setform{p}{\dualtang} = \setform{p}{(\tang)^*}$, the space of alternating $p$-forms on the tangent space to $\man$ at $x$.\\
@@ -472,7 +487,7 @@ is smooth, and that makes $\difftangbundle$ a vector bundle over $\man$, with th
 \end{enumerate}
 \end{exmp}
 \begin{defn}
-A differential $p$-form $\omega$ on $\man$ is a smooth section of $\pi : \difftangbundle \to \man$, i.e. a smooth map $\man \xrightarrow[]{\omega}\difftangbundle \st \pi \circ \omega =  \id_\man.$ For each $x\in\man, \text{ we get } \omega(x) \in \difftangbundle$.
+    A differential $p$-form $\omega$ on $\man$ is a smooth section of $\pi : \difftangbundle \to \man$, i.e. a smooth map $\man \xrightarrow[]{\omega}\difftangbundle \st \pi \circ \omega =  \id_\man.$ For each $x\in\man, \text{ we get } \omega(x) \in \difftangbundle$.
 \end{defn}
 ``This is maybe, one of the most important definitions of the course. ... Informally, what is is, its a family of alternating p-forms on the tangent space to $\man$, at points of $\man$, which vary smoothly as you vary the base point.''\\
 \noindent
@@ -486,27 +501,29 @@ $\Notation \pformman{p} \coloneqq \{\text{differential }p\text{-forms } \omega \
 \end{exmp}
 
 \begin{defn}
-Let $\omega_1\in \pformman{p},\omega_2 \in \pformman{q},$ then define $\wedgge\in \pformman{p+q}$ is defined by 
-$$\wedgge(x) \coloneqq \omega_1(x) \wedge \omega_2(x) \in \pdifftangbundle{p+q}\forall x\in\man$$
+    Let $\omega_1\in \pformman{p},\omega_2 \in \pformman{q},$ then define $\wedgge\in \pformman{p+q}$ is defined by 
+    $$\wedgge(x) \coloneqq \omega_1(x) \wedge \omega_2(x) \in \pdifftangbundle{p+q}\forall x\in\man$$
 \end{defn}
+
 Exact same properties from linear algebra version hold for version too, ``for free'': Associativity, distributivity and supercommutativity. We also inherit all pullback properties from linear maps also:\\
 Given $F:\man \to \nan$ smooth map of manifolds. Then $\forall x \in \man$,  the differential of $F$ at $x$ is 
 $DF_x : \tang \to T_{F(x)}{\nan} $. Thus given $p\geq 0$, we have the pullback of differential $p$-forms along $F$.\\\\
 \noindent
 First define $F^*_x : \setform{p}{T_{F(x)}\nan} \to \difftang : \omega \mapsto (DF_x)^*(\omega)$, ie. For $\allthevs{1}{p} \in \tang, \omega \in \setform{p}{T^*_{F(x)}\nan}, F^*_x(\omega)\left( \allthevs{1}{p} \right) = \omega(\allthe{DF_x v}{1}{p})$,.
 Thus we can define $F^* : \Omega^p(\nan) \to \pformman{p} : \omega \mapsto F^*(\omega)$ defined pointwise via $F^*\omega(x) = \omega(F(x)) \with x \in \man$. This pullback respects the wedge product, i.e. $F^*(\wedgge) = F^*\omega_1 \wedge F^*\omega_2$ and for $G:\nan \to \mathcal{P}$ smooth, $(G\circ F)^* \omega = F^* G^* \omega$
-\begin{subsection}{Local Description of differential $p-$forms}
+
+\mysubsection{Local Description of differential $p-$forms}
 Take $x\in\man, \chartU \subseteq\man$ open chart around $x$ with local coordinates $\allthe{x}{1}{n}$. A basis of $\tang$ is $\left\{\iparderiv{i} \right\}_i,$ and the corresponding dual basis $\{\dx_i\}_i, i =1,...,n $ gives a basis of $\dualtang$, i.e. $\dx_i(\iparderiv{j}) = \delta_{ij}$
 
 Recalling our proposition on bases for alternating $p$-forms, we see that to each $I \subseteq \{1,...,n\}, \abs{I} = p$ we can associate $\dx_I \coloneqq \dx_{i_1}\wedge...\wedge\dx_{i_p}$ where $I = \{ \allthe{i}{1}{p}\}$ and $i_1<...<i_p.$ And these form a basis of $\difftang$. \\
 Thus locally, $x_0 \in \man, \omega \in \pformman{p}$ is given by $\omega(x) = \sum\limits_{\abs{I} = p} f_I(x) \dx_{i_1}\wedge ... \wedge \dx_{i_p}$ where $f_I \in \mathcal{C}^{\infty}(\man), I = \{ \allthe{i}{1}{p}\} \with i_1<...<i_p.$ ``We can use this local description to calculate the pullback of top degree forms.''
-\end{subsection}
+% end of subchapter
 
-\begin{subsection}{Local Description of pullback of top degree forms}
+\mysubsection{Local Description of pullback of top degree forms}
 Let $\man,\nan$ be dim $n$. Let $\omega \in \pformnan{n}$. Let $F:\man \to \nan$ smooth map, and choose $\chartU \subseteq\man, \mathcal{V} \subseteq\nan$ charts with coords $(\allthe{x}{1}{n}) , \, (\allthe{y}{1}{n})$ respectively. Then locally on $\mathcal{V}$, we can write $\omega(y) = f(y) \allthewedge{y}{1}{n}$ for some $f\in \cts{\mathcal{V}}$. The pullback $F^*\omega$ is then given locally on $\chartU$ by $F^*\omega(x) = (f\circ F)(x) \cdot \det DF_x \cdot \allthewedge{x}{1}{n}.$ \\
 To see this, suffices to evalute both sides on the $n$-tuple ($\iparderiv{1},...,\iparderiv{n})\in(\tang)^n$.
-\end{subsection}
-\begin{subsection}{Exterior Derivative}
+% end of subchapter
+\mysubsection{Exterior Derivative}
 Consider differential of smooth functions in $\cts{\man} = \pformman{0}$:
 $$\deriv : \pformman{0} \to \pformman{1}$$
 $$ f \mapsto \df = \sumfromto{i=1}{n} \iparderivof{i}{f} \dx_i \text{   (locally)}$$
@@ -536,7 +553,7 @@ Moreover, these operators are actually the unique operators with these 4 propert
 \begin{exercise}
 Prove property 4. Hint: First show $\deriv^2f = 0$ for $f\in\cts{\man}$ and then use Leibniz Rue.
 \end{exercise}
-\end{subsection}
+
 \begin{prop}
 If $F : \man \to \nan$ smooth map of manifolds and $\omega\in\pformnan{p}$, then $\deriv F^*\omega = F^*\dw$ so that the following diagram commutes:
 \begin{center}\includegraphics[width=0.55\textwidth]{PullbackCommutesDifferential.png}\end{center}
@@ -551,11 +568,11 @@ We say $\omega\in\pformman{p}$ is
 $\Note $ Since $\deriv^2 = 0,$ exact implies closed.
 \\\\
 $\textbf{Important, Interesting and Subtle Question:}$ When does closed imply exact? \\This will motivate a large part of the rest of the course.
-\end{section}
+%end of chapter
 
 
-\begin{section}{Lecture 3: Towards Integration of Differential Forms on Manifolds}
-\begin{subsection}{Building Blocks}
+\mysection{Lecture 3: Towards Integration of Differential Forms on Manifolds}
+\mysubsection{Building Blocks}
 Let $\man$ be an $n$ dimensional manifold. Take $\omega\in\pformman{n}$. Locally, $\omega = f \allthewedge{\dx}{1}{n}$ where $x_i$ are local coords.\\
 $\textbf{Goal:}$ Define $\int_\man \omega$ in a coordinate independent way.
 \\
@@ -589,10 +606,10 @@ We say $\omega$ has compact support if the support of $\omega $ is compact.
 \end{defn}
 $\Note$ It is a fact that under this assumption of compact support,  we can define $\int_U \omega = \int_D \omega$ where $D$ is any domain of integration containing supp $\omega$. We will not prove this.\\
 Thus if $U,V \subseteq \Real^n$ and $\varphi:V \to U$ is a diffeomorphism, provided that $\det \varphi_x > 0 \forall x$, we have $\int_U \omega = \int_V \varphi^* \omega$. So this gives rise to a well-defined integral fro $\omega $ with support contained in a coordinate patch, provided all the transition maps $\trans $ have Jacobians with [XXX adding Jacobian may not be necessary, Dr Jackson didn't. Also I've written $\det D\varphi_x $ where he wrote $\det \varphi_x$. Similarly for the $h$s earlier] positive determinant.
-\end{subsection}
-\end{section}
-\begin{section}{Lecture 4: Orientations, partitions of unity, defining the integral}
-\begin{subsection}{Orientations}
+% end of subchapter
+%end of chapter
+\mysection{Lecture 4: Orientations, partitions of unity, defining the integral}
+\mysubsection{Orientations}
 \begin{defn}
 Let $V$ be a real vector space of dimension $n$, with an order basis $B = (\allthe{b}{1}{n}), B' = (\allthe{b'}{1}{n}).$ We say that $B \myand B'$ have the same $\textbf{orientation}$ if the linear map $T:V\to V : b_i \mapsto b'_i$ has $\det T > 0.$
 \end{defn}
@@ -634,8 +651,8 @@ $ = \int_{\chart(\chartU \cap\chartV)} \tau^*(\psi^{-1})^*\omega$ because of def
 $= \int_{\chart(\chartV\cap\chartU)} (\chart^{-1})^*\psi^*(\psi^{-1})^*\omega$ by composition property of pullbacks\\
 $= \int_{\chart(\chartV \cap\chartU)} (\chart^{-1})^*(\psi\circ\psi^{-1})^*\omega$\\
 $=\int_{\chart(\chartV \cap\chartU)} (\chart^{-1})^*\omega$. And since $(\chart^{-1})^*\omega =0 $ outside of $\chart(\chartV\cap\chartU)$. Hence the integral is equal to $\int_{\chart(\chartU)}(\chart^{-1})^*\omega.$ So the integral is indeed well-defined.
-\end{subsection}
- \begin{subsection}{Partitions of Unity}
+% end of subchapter
+ \mysubsection{Partitions of Unity}
  What if supp $\omega$ is not contained within a single coordinate chart? 
  \begin{defn}
  Given an open cover $U = \{U_\alpha\}$ of a manifold $\man$, a $\textbf{partition of unity}$ us a collection of smooth functions $\{f_\alpha\}$, $f_\alpha : \man \to [0,1]$ such that:
@@ -651,8 +668,8 @@ $=\int_{\chart(\chartV \cap\chartU)} (\chart^{-1})^*\omega$. And since $(\chart^
   \end{exmp}\noindent
   We don't usually engage with these in a hands on way, we're mostly just satisfied that they exist for our purposes.\\
   $\Note$ Given $\man$ manifold, $U = \{U_\alpha\}$ an open cover, there exists a partition of unity compatible with $U$. This a fact we will take as given.
- \end{subsection}
-\begin{subsection}{Defining the Integral}
+ % end of subchapter
+\mysubsection{Defining the Integral}
 \begin{prop}
 $\man$ an $n$ dimensional manifold is orientable iff $\exists \omega \in\pformman{n}$ which is non-vanishing i.e. $\omega(x) \neq 0 \forall \xman$. 
 \end{prop}\noindent
@@ -689,9 +706,9 @@ Let $\man$, $\nan$ be orientable manifolds of dimension $n$. Let $\omega, \eta \
 4. If $\alphaatlas$ positively oriented atlas on $\man$, we can define $\chartV_\alpha = F^{-1}\chartU_\alpha$ and $\varchart_\alpha = \chart_\alpha \circ F$ to get an atlas on $\nan.$ Then this atlas is positively oriented because $F$ is orientation preserving. Let $\{f_\alpha\}$ be a partition of unity with respect to $\{\chartU_\alpha\}$. Then $\{f_\alpha \circ F\}$ is a partition of unity with respect to $\{\chartV_\alpha\}$. So we can calculate 
 $$\int_\nan F^*\omega = \sumfromto{\alpha}{}\int_\nan (f_\alpha \circ F) F^*\omega = \sumfromto{\alpha}{} \int_\nan F^*(f_\alpha \omega) = \sumfromto{\alpha}{} \int_\man f_\alpha \omega \eqqcolon \int_\man \omega$$ With the equalities coming in order from: using the partition of unity $\{f_\alpha \circ F\}$, definition of pullback, by result for forms with support contained in a single coordinate chart, definition.
 \end{proof}
-\end{subsection}
-\end{section}
-\begin{section}{Lecture 5: Manifolds with Boundary}
+% end of subchapter
+%end of chapter
+\mysection{Lecture 5: Manifolds with Boundary}
 $\Notation \, \Real_+ ^n = \{(\allthe{x}{1}{n})\in \Real^n : x_n \geq 0\},\, \partial \plusReal \cong \Real ^{n-1} \times \{0\}$\\\\
 \begin{defn}
 Let $U \subseteq\plusReal$ be open and let $ F : U \to \plusReal$ be a function. We say that $F$ is $\textbf{smooth}$ if it can be extended to some smooth function, i.e. $F : \Tilde{U}\to \Real^m$ where $U \subseteq \Tilde{U}$ and $\Tilde{U}$ is open in $\Real^n,$ where $F : \Tilde{U} \to \Real^m$ is smooth in the usual sense.
@@ -713,8 +730,8 @@ $\Note$ $\man^\circ \coloneqq \man \backslash \partial \man$ is a manifold of di
 $\Note$ We can define tangent spaces, differential forms for manifolds with boundary in the same way as for the usual smooth manifolds without boundary. The definition of orientation/orientable is the same as usual. \\
 $\Note$ If a manifold with boundary $\man$ is orientable, so is $\partial \man$. As a convention, the positive orientation on $\partial\plusReal$ is given by $(-1)^n \allthewedge{\dx}{1}{n-1}.$ This induces positive orientation on $\partial \man$.\\
 $\Note$ Partitions of unity for any open cover $\{U_\alpha\}$ on $\man$, a manifold with boundary, are defined in the same way as usual. If $\man$ is orientable, then there is a partition of unity with respect to any open cover. So if $\omega \in \compactpformman{n}$ then we can define $\int_\man \omega$ in the same way as usual.
-\end{section}
-\begin{section}{Lecture 6: Stokes Theorem}
+%end of chapter
+\mysection{Lecture 6: Stokes Theorem}
 ``Grown up version of Fundamental Theorem of Calculus''\\
 \begin{thm}
 For $\man$ a manifold with boundary of dimension $n$, and $\omega \in \compactpformman{n-1}$, we have $$\int_{\partial \man} \omega = \int_\man \dw$$
@@ -747,8 +764,8 @@ Then $$\int_{\partial \man} \omega = \sumfromto{\alpha}{} \int_{\partial \man} f
  $$ = \sumfromto{\alpha}{} \left( \int_\man \df_\alpha \wedge \omega + \int_\man f_\alpha \dw\right) \text{ by Leibniz property}$$
 And this is $\int_\man (\sumfromto{\alpha}{}\df _\alpha)\wedge \omega + \sumfromto{\alpha}{}\int_\man f_\alpha \dw$. First term is $\int_\man \cancelto{0}{d(1)}\wedge \omega = 0$, and second term is $\int_\man (\sumfromto{\alpha}{}f_\alpha) \dw = \int_\man \dw$, proving Stokes' Theorem.
 \end{proof}
-\end{section}
-\begin{section}{Lecture 7: Application of Stokes' Theorem}
+%end of chapter
+\mysection{Lecture 7: Application of Stokes' Theorem}
 Stokes' Theorem implies many of the classical theorems of (multivariate) calculus:
 \begin{enumerate}
     \item Fundamental Theorem of Calculus : If $f : [a,b] \to \Real$ smooth, then $\int_a^b f'(x) \dx = f(b) - f(a). $ (Proof: Exercise) 
@@ -827,8 +844,8 @@ because $H$ is a homotopy from $f$ to $g$.
 Assume not, so $p: \mathbb{C} \to \mathbb{C}\backslash \{0\}.\, \exists R > > 0 \st$where $\abs{z} \geq R,$ we have $\abs{\frac{p(z)-z^n}{z^n}}\leq \frac{1}{2},$ since $\frac{p(z) - z^n}{z^n} \to 0$ as $z\to \infty.$ Identify $\Real^2 \cong \mathbb{C}$. Write $D_R = \{z\in \Real^2 : \abs{z} \leq R\},\, \partial D_R = \{z\in \Real^2 : \abs{z} = R\}\cong S^1$. Define a homotopy $H : [0,1] \times D_R \to \mathbb{C}\backslash\{0\}$ from $p(z)$ to $g(z) = z^n,$ by $H(t,z) = tg(z) + (1-t)p(z).$ Then $\abs{H(t,z)} = \abs{z^n +(1-t)(a_{n-1}z^{n-1} +...+a_0)}\geq \abs{z^n} -(1-t)\abs{a_{n-1}z^{n-1} + ... + a_0} \geq \abs{z^n}(1-\frac{1}{2}) = R^2 \cdot \frac{1}{2},$ so $H(t,z) \neq 0$ and so it is indeed a homotopy\\
 Now recall: $\omega = \frac{-y \dx +x dy}{x^2+y^2}$ is closed on $\Real^n\backslash \{0\} \cong \mathbb{C}\backslash \{0\}.$ Writing $g(z)$ as $(r\cos\theta,r\sin\theta) \mapsto r^n (\cos n\theta,\sin n \theta),$ we see $\int_{\partial D_R} g^* \omega = \int_{\partial D_R} p^* \omega = \int_{D_R} p^*(\dw) = 0$ [homotopic and $\omega$ closed, Stokes' and $\omega$ closed successively]. But we can directly calculate $\int_{\partial D_R} g^*\omega = 2\pi n \#$. A contradiction, and so $p(z)$ does indeed have a root.
 \end{proof}
-\end{section}
-\begin{section}{Lecture 8: De Rham Cohomology}
+%end of chapter
+\mysection{Lecture 8: De Rham Cohomology}
 \begin{defn}
 Let $\man$ be a smooth manifold of dimension $n$, and let $p\geq 0$. The $\textbf{de Rham complex}$ is the sequence of real vector spaces 
 $$0 \xrightarrow[]{\deriv} \cts{\man} \xrightarrow[]{\deriv} \pformman{1} \xrightarrow[]{\deriv} \pformman{2} \xrightarrow[]{\deriv} ...  \xrightarrow[]{\deriv} \pformman{n}  \xrightarrow[]{\deriv} 0$$
@@ -877,7 +894,7 @@ Let $\man$ be a compact and orientable manifold without boundary, of dimension $
 $\man$ orientable so $\exists $ volume form $\omega \in \pformman{n} = \compactpformman{n}$ ($\man$ compact). Then $\omega$ is closed, as $\dw \in \pformman{n+1} = 0$, so $\omega \in \coZman{n}$. We claim $[\omega] \neq 0$, i.e. $\omega$ not cohomologous to zero, i.e. not exact. \\Assume otherwise, $[\omega] = 0$. Then $\omega = \deriv \eta$ where $\eta \in \pformman{n-1},$ so
 $$0< \int_\man \omega = \int_\man \deriv \eta = \int_{\partial \man} \eta = 0\,\#$$
 \end{proof}
-\begin{subsection}{Functoriality of de Rham Cohomology}
+\mysubsection{Functoriality of de Rham Cohomology}
 \begin{prop}
 
 If $F: \man \to \nan $ is a smooth map of smooth manifolds, then $F^*: \pformnan{p} \to \pformman{p}$ gives rise to vector space maps, $F^*: \cohomnan{p} \to \cohomman{p}$ for $p\geq 0.$
@@ -899,9 +916,9 @@ If $\man$ and $\nan$ are diffeomorphic manifolds, then $\cohomman{p} \cong \coho
 \begin{proof}
 Let $F:\man \to \nan$ be a diffeomorphism. Then we claim that $F^*: \cohomnan{p} \to \cohomman{p}$ is an isomorphism of groups. Indeed the map $F^{-1} : \nan \to \man$ is smooth, and $F\circ F^{-1} = \id_\nan$. It follows that $(F^{-1})^*\circ F^* : \cohomnan{p} \to \cohomnan{p}$ is the identity, so $F^*: \cohomnan{p} \to \cohomman{p} $ has an inverse, so it is an isomorphism.
 \end{proof}
-\end{subsection}
-\end{section}
-\begin{section}{Lecture 9: Homotopy Invariance of de Rham Cohomology}
+% end of subchapter
+%end of chapter
+\mysection{Lecture 9: Homotopy Invariance of de Rham Cohomology}
 Goal is to prove the following theorem:
 \begin{theorem}[Homotopy Invariance of de Rham Cohomology]\label{theorem:homotopyinvariance}
  Let $\man$ and $\nan$ be manifolds, with $f,g: \man \to \nan$ that are smoothly homotopic. Then the maps 
@@ -952,8 +969,8 @@ The only difference between these two expressions in (-1) i.e. $h(\dw_J) = -\der
 $$h(\dw_J) + \deriv (h(\omega_J)) = 0 = i_0^*\omega_J = i_1^*\omega_J$$
 So $(*)$ hold for terms of the form $\omega _J$. Therefore $(*)$ holds for terms of the original $\omega$, and so we conclude that $h$ is a homotopy operator from $i_0^*$ to $i_1^*$, and hence $f^*=g^*$ by the first claim, concluding the proof.
 \end{proof}
-\end{section}
-\begin{section}{Lecture 10: Using Homotopy Invariance}
+%end of chapter
+\mysection{Lecture 10: Using Homotopy Invariance}
 $\Recall$ $f,g:\man\to\nan$ maps of manifolds are called smoothly homotopic if $\exists $ (smooth) $H:\inter \times \man \to \nan \st H\restrict{\{0\}\times \man} = f , \, H\restrict{\{1\}\times \man} = g$
 \begin{theorem}[Thm 9.28 of Intro to Smooth Manifolds]
 If $f$ and $g$ are homotopic then they are smoothly homotopic i.e. $\exists $ continuous homotopy then $\exists $ smooth homotopy.
@@ -1039,10 +1056,10 @@ We claim that a closed 1-form is exact iff $\int_\gamma \omega = 0$ for all loop
 \end{proof}\noindent
 $\Note$ In order for this to be a strictly topological statement, you'll have to take my word for it that any continuous path is homotopic to a smooth path, see Intro to Smooth Manifolds.\\
 $\Note$ (For those who know about $\pi_1)$ In fact more is true: there is a well-defined map $$\cohomman{1} \to \Hom{\pi_1(\man)}{\Real} : [\omega] \mapsto \left( [\gamma] \mapsto \int_{\gamma'} \omega\right)$$with $\gamma'$ being a smooth representative of $\gamma$'s homotopy class, which we assert exists. This map is an isomorphism. See Intro to Smooth Manifolds 17.17.
-\end{section}
+%end of chapter
 
 
-\begin{section}{Lecture 11: Interlude: Some Homological Algebra}
+\mysection{Lecture 11: Interlude: Some Homological Algebra}
 An introduction to the dark art of diagram chasing.\\
 Let $C^\bullet$ be a sequence of vector spaces, $C^k$ is a vector space for all $k\in\mathbb{N}$ (could also talk about objects in an Abelian category). We use the (*cough* horribly misguided and ahistorical) convention that $0 \in \mathbb{N}$.
 \begin{defn}
@@ -1139,8 +1156,8 @@ be a commutative diagram of vector spaces where both rows are exact, and all squ
 \end{prop}
 \begin{proof}\footnote{``If you have trouble sleeping, I recommend proving the Five Lemma in your head.''} Let $x\in C^3$ be such that $\alpha_3(x) = 0$. So if $y = f^3(x)$ then $\alpha_4(y) = 0$ by comm., but by assumption $\alpha_4$ is an isomorphism, therefore $y = f^3(x) = 0 \ie x \in \Ker f^3 = \Ima f^2$. So let $x = f^2(z)$. Let $w = \alpha_2(z)$. Then $g^2(w) = g^2(\alpha_2(z)) = \alpha_3f^2(z) = \alpha_3(x) = 0.$ hence $w \in \Ker g^2 = \Ima g^1.$ So $\exists t \in D^1 \st g^1(t) =  w.$ And $\alpha_1 $ is surjective, so $\exists s\in C^1 \st \alpha_1(s) = t.$ Then $x = f^2 f^2(s) = 0$ by exactness of these sequences. Hence $\Ker \alpha_3 = 0$. Remains to show $\Ima\alpha_3 = D^3$ (Exercise).
 \end{proof}
-\end{section}
-\begin{section}{Lecture 12: Mayer-Vietoris}
+%end of chapter
+\mysection{Lecture 12: Mayer-Vietoris}
 Let $\man$ be a manifold written as $\man = U\cup V$ with $U,V$ open $\st \UintV \neq \varnothing$, and suppose we understand $H^i(U), \, H^i(V)$ and $H^i(\UintV)$. Then Mayer-Vietoris helps us calculate $H^i(\man)$. Write $i_U : U \hookrightarrow \man$, $i_V : V\hookrightarrow \man, \, j_U : \UintV \hookrightarrow U, \, j_V: \UintV \hookrightarrow V$, and write $i_U^*,i_V^*,j_U^*,j_V^*$ for the pullbacks on differential forms.
 \begin{prop}
 $\forall p\geq 0$ there are short exact sequences:
@@ -1223,8 +1240,8 @@ $\Claim$Any manifold admits a good cover.
 \begin{theorem}
 If $\man$ is compact then $\cohomman{p}$ is finite dimensional for all $p\geq 0$.
 \end{theorem}
-\end{section}
-\begin{section}{Lecture 13: Product Structure and K\"unneth Formula}
+%end of chapter
+\mysection{Lecture 13: Product Structure and K\"unneth Formula}
 In which we introduce a ring structure onto the de Rham cohomology, and a way to calculate the de Rham cohomology for product manifolds.
 \begin{prop}\label{prop:productmapwelldefined}
 Let $\man $ be a manifold. Then there is a well-defined product map:
@@ -1278,8 +1295,8 @@ And since $([\alpha],[\beta]) $ is a non-zero element of the algebra, it must be
 \begin{center}\includegraphics[width=0.15\textwidth]{IntersectionFormS2xS2.png}\end{center}
 ``So this neat little matrix that you can think of is like an extra invariant of your manifold, which you could use to distinguish manifolds that maybe had the same cohomology groups.''
 \end{exmp}
-\end{section}
-\begin{section}{Lecture 14: Compactly Support Cohomology}
+%end of chapter
+\mysection{Lecture 14: Compactly Support Cohomology}
 In which we meet another form of cohomology. ``We need open balls in $\Real^n$ to carry cohomological information.''\\
 Let $\man$ be a manifold, and $\Recall$ $\compactpformman{p} \coloneqq \{ \omega \in \pformman{p} : $ supp $\omega$ is compact$\}$, where supp $\omega \coloneqq \overline{\{x\in \man : \omega(x) \neq 0\}}$.\\
 We have $\deriv : \compactpformman{p} \to \compactpformman{p+1}$, and $\deriv^2 = 0$.
@@ -1309,11 +1326,11 @@ If $\man_0,\man_1$ are properly smoothly homotopy equivalent, then $H^p_c(\man_0
 \begin{semiproof}
 Proof is very similar to proof of Proposition \ref{prop:homotopyequivalenceimpliescohomologyequivalence}.
 \end{semiproof}
-\begin{subsection}{Pushforwards}
+\mysubsection{Pushforwards}
 Let $U\subseteq \man$ be open and $i : U\hookrightarrow \man$. Then we have pushforwards\footnote{Mnemonic for where the star goes: You kick things forwards, you pull things back with your hands.}:
 $$i_* : \Omega_c^p(U) \to \compactpformman{p}, \quad p \geq 0$$
 Let $\omega \in \compactpformman{p}$. Then define $i_* \omega = \begin{cases}\omega, & \text{ on } U\\ 0, & \text{ on } \man \backslash U \end{cases}$ (extension by zero), which we can do because $\omega$ is compactly supported. If $V \xhookrightarrow{i} U \xhookrightarrow{i} \man$ then $(i \circ j )_* = i_* \circ j_*$, tautologically.
-\end{subsection}
+% end of subchapter
 \begin{lemma}
 Let $i : U \hookrightarrow \man $ be an immersion such that $U$ is open. Then for all $p \geq 0,$
 $$% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAB12B5AWxgHM6AAgD6AYyEA9NEIAUAVQCUQkAF9S6TLnyEUZAIxVajFm068BdcZOBoA1PtULFajSAzY8BIvvJH6zKyIHNx8gtZospw8dDgAFmKMwACyqi7qmp46PqSG1AGmweZhVmI29o5R7DHxiQwpaWpGMFD88ESgAGYAThA8SGQgOBBIAEz5JkEgWCIAVK5dvf2Ig8NIvsaBbFALID1969RriADME1vBM-MZe0tjRyOn54UgO6oUqkA
@@ -1354,8 +1371,8 @@ $\Real^n \cong S^n \backslash \{x\}$ so by Proposition, $H^p_c(\Real^n) \cong H^
 
 
 
-\end{section}
-\begin{section}{Lecture 15: Poincar\'e Duality}
+%end of chapter
+\mysection{Lecture 15: Poincar\'e Duality}
 Roughly speaking, when $\man$ is an orientable manifold, Poincar\'e duality says is that $\cohomman{p} \cong \compactcohomman{n-p}^*$, where $n = \dim \man$ and this isomorphism has some geometric meaning.\\
 $\Recall$ $\cohomman{p} \times \cohomman{q} \to \cohomman{p+q} : ([\omega],[\eta]) \mapsto ([\omega \wedge \eta] )$ is wel-defined and $[\omega] \wedge [\eta]  = (-1)^{pq}([\eta]\wedge [ \omega])$.
 \begin{lemma}
@@ -1380,10 +1397,10 @@ where $\varphi_v : V \to \Real: w \mapsto \varphi(v,w)$. Thus we get linear map 
 \begin{exmp}(Base case for Poincar\'e Duality)
 $U \subseteq \Real^n$ open subset diffeomorphic to $\Real ^n$. Then $\cohom{p}{U} = \begin{cases} \Real,& p= 0\\ 0,& p > 0\end{cases}$ and $ H^p_c(U) = \begin{cases} 0,& p<n\\ \Real,& p =n\end{cases}$, as we saw in last lecture. To check the given Poincar\'e duality map is an isomorphism, it's enough to check $p = 0$, and enough to check injectivity. That is, we must check $\exists \omega \st \Phi(\omega) \neq  0.$ Given $\omega \in H^0(U)$, $\Phi: H^n_c(U) \to \Real : \eta \mapsto \int_U \omega \wedge \eta$. But $[\omega] \in H^0(U)$ so $\omega$ is a constant function on $U$. Say $\omega = c \in \Real$, so $\Phi(\omega) : H^n_c(U) \to \Real : \eta \mapsto c\cdot \int_\man \eta$, and $\exists \eta \st \int_\man \eta \neq 0$, by the above lemma. So Poincar\'e Duality holds in the simplest possible case.
 \end{exmp}
-\end{section}
+%end of chapter
 
 
-\begin{section}{Lecture 16: Proving Poincar\'e Duality}
+\mysection{Lecture 16: Proving Poincar\'e Duality}
 \begin{theorem}[Poincar\'e Duality]\label{theorem:PoincareDuality}
 Let $\man$ be an oriented manifold of dimension $n$. Then the map $\Phi : \cohomman{p} \to \compactcohomman{n-p}^*$ is an isomorphism.
 \end{theorem}
@@ -1496,10 +1513,10 @@ Let $\man$ be compact, oriented and connected manifold of dimension $n$.
     \item If $\man$ is of finite type and non-compact, then $\cohomman{n} = 0.$
 \end{enumerate}
 \end{corollary}
-\end{section}
+%end of chapter
 
 
-\begin{section}{Lecture 17: Degrees of Proper Maps}
+\mysection{Lecture 17: Degrees of Proper Maps}
 
 Let $\man$ and $\nan$ be connected manifolds of the same dimension $n$. Poincar\'e duality tells us that $\compactcohomman{n},\compactcohomnan{n}$ have canonical isomorphisms to $\Real$ (choose a differential form and integrate it over the whole manifold to get a real number).
 \begin{defn}
@@ -1556,10 +1573,10 @@ If $f : \man \to \nan$ is proper between connected oriented manifolds, and $f$ i
 \begin{exmp}
 $\man = \nan = S^n$, $f:S^n \to S^n : x \mapsto -x$, the antipodal map. Claim: $\deg f = (-1)^{n+1}$. Let $i: S^n \hookrightarrow \Real^{n+1}$, and $\bar{\omega} = x_1 \allthewedge{\dx}{2}{n+1} \in \Omega^n(\Real^{n+1}).$ Then if $\omega = i^* \bar{\omega} \in \Omega^n(S^n). $ By Stokes': $\int_{S^n} \omega = \int_{S^n} i^* \bar{\omega} = \int_{D^{n+1}} \deriv\bar\omega = \int_{D^{n+1}} \allthewedge{\dx}{1}{n+1} \neq 0$. So $f$ can be extended to $\bar f : \Real^{n+1} \to \Real^{n+1} : x \mapsto -x$. Then $\bar f \circ i = i\circ f$ and $f^*\bar\omega = (-1)^{n+1} \bar \omega,$ so $$f^*\omega = f^* i^* \bar \omega = (i\circ f)^* \bar \omega (\bar f \circ i) ^* \bar \omega = i^* \bar f ^* \bar \omega = (-1)^{n+1} i^* \bar \omega = (-1)^{n+1} \omega$$ Thus $(-1)^{n+1} \int_{S^n} \omega = \int_{S^n} f^* \omega = \deg \int_{S^n} \omega$, so $\deg f = (-1)^{n+1}.$
 \end{exmp}
-\end{section}
+%end of chapter
 
 
-\begin{section}{Lecture 18: Cohomology of Complex Projective Space}
+\mysection{Lecture 18: Cohomology of Complex Projective Space}
 This will be the last bit of de Rham cohomology for a while, so let us finish with an extended example.\\
 Let $\CProj^n \coloneqq \{z\in\mathbb{C}^{n+1} \remzero\} / (z\sim \lambda z $ with $\lambda \in \mathbb{C} \remzero)$ (complex lines through the origin or all the $n$ dimensional vector subspaces of $\mathbb{C}^{n+1}$). We write $[z_0: z_1: \ldots : z_n] \in \CProj^n$ for the equivalence class of $(z_0,\ldots,z_n) \in \mathbb{C}^{n+1}$. Therefore if $z_n\neq 0,$ we can uniquely write this class as $[\frac{z_0}{z_n}: \ldots : \frac{z_{n-1}}{z_n} : 1 ].$ This gives a homeomorphism $U_{z_n\neq 0} \coloneqq \{ [ z_0 : \ldots : z_n] \in \CProj ^n \st z_n \neq 0\} \xrightarrow[]{\sim} \mathbb{C}^n: [z_0 : \ldots: z_n ] \mapsto (\frac{z_0}{z_n},\frac{z_1}{z_n},\ldots,\frac{z_{n-1}}{z_n}) \in \mathbb{C}^n$. These are called `affine charts' $U_{z_i\neq0} \xrightarrow[]{\sim} \mathbb{C}^n$. Transition maps on $U_{z\neq 0} \cap U_{z_n \neq 0} $ are given by the resultant transformation of 
 $$(\omega_0,\ldots,\omega_{n-1}) \mapsto [\omega_0:\ldots : \omega_{n-1} : 1 ] \mapsto \left(\frac{\omega_0}{\omega_{n-1}}, \frac{\omega_1}{\omega_{n-1}},\ldots,\frac{1}{\omega_{n-1}}\right) \in \mathbb{C}^n$$
@@ -1586,13 +1603,13 @@ What is the ring structure? Apart from the K\"unneth theorem, we've not really w
     Now assume that for $0\neq [\omega] \in H^2(\CProj^{n-1})$ that $0 \neq[ \omega^{n-1}]= [\omega \wedge \ldots \wedge \omega] \in H^{2(n-1)}(\CProj^{n-1})$ ($n-1$ times). But $i : \CProj^{n-1} \hookrightarrow \CProj^n$ is an isomorphism on cohomology for $p < 2n$, in particular for $p = 2n-2$. So $[\omega] \in H^2(\CProj^n)$ maps to $[i^*\omega] \in H^2(\CProj^{n-1})$, generator in degree 2, so $[(i^*\omega)^{n-1}]= [(i^*\omega) \wedge(i^*\omega) \wedge \ldots \wedge (i^*\omega)] \neq 0$ ($n-1$ times). Thus $i^*[\omega^{n-1}] \neq 0$, so $[\omega^{n-1}] \neq 0$. Therefore $\alpha^{n-1} \neq 0$.  \\
     What about $\alpha^n$? PD says: $H^2(\CProj^n) \to (H^{2n-2}(\CProj^n))^* : [\omega] \mapsto ([\eta] \mapsto \int_{\CProj^n} \omega \wedge \eta)$ so $\exists$ class in $H^2$ (which up to scaling must be $[\omega]$) s.t. $\int_{\CProj^n} \omega \wedge ... \wedge \omega \neq 0$ ($n$ times).
  \end{proof}
-\end{section}
+%end of chapter
 
 This proof shows how powerful PD really is, and this is where we'll leave cohomology for now. Next week we start Morse theory, a different way of getting at the topology of smooth manifolds.
 
 
 
-\begin{section}{Lecture 19: Morse functions, Cell decompositions, CW Complexes}
+\mysection{Lecture 19: Morse functions, Cell decompositions, CW Complexes}
 This lecture will introduce lot of the definitions critical to Morse theory.
 
 \begin{defn}\label{defn:MorseFunction}
@@ -1676,7 +1693,7 @@ This corollary is ``hugely important for Morse functions, and part of the reason
     \end{center}
 \end{exmp}
 
-\begin{subsection}{CW Complexes}
+\mysubsection{CW Complexes}
 For a more detailed view on this topic see Hatcher, Algebraic Topology, Chapter 0.
 
 \begin{defn}
@@ -1719,11 +1736,12 @@ So these are both structures you can put on topological spaces, as well as a kin
     The result follows from the above proposition since the union of finite subcomplexes is a finite subcomplex.
 \end{proof}
 That's everything on CW complexes. Next time we will be defining gradient flows and making a move towards defining Morse homology.
-\end{subsection}
-\end{section}
+% end of subchapter
+%end of chapter
 
-\begin{section}{Lecture 20: Gradient Flows}
-``If you have a compact manifold with a Morse function then all of the gradient flow lines for the Morse function begin and end at critical points.'' This lecture will set up the foundations for this concept and also for Morse homology. This will be Mastery material for this course (may be included at the end or in series), but this lecture will make sense of some of the critical theorems in Morse theory which will be important outside of the Mastery questions. %tk%
+
+\mysection{Lecture 20: Gradient Flows}
+``If you have a compact manifold with a Morse function then all of the gradient flow lines for the Morse function begin and end at critical points.'' This lecture will set up the foundations for this concept and also for Morse homology, which is the Mastery material for this course (see next chapter), but this lecture will make sense of some of the critical theorems in Morse theory which will be important outside of the Mastery questions. %tk%
 \begin{defn}
     Let $\man$ be a manifold. A \textbf{flow} or a group of diffeomorphisms of $\man$ is a collection of diffeomorphisms $\varphi_t : \man \to \man$ for $t\in \Real \st $there exists $\varphi:\Real \times \man \to \man $ with $\varphi_t = \varphi(t , . )$, $\varphi_0 = \id_\man$ and $\varphi_s \circ \varphi_t = \varphi_{s+t}$.\\
     The flow line or \textbf{integral curve} for the flow $\varphi$ (given $\xman$) is $\gamma_x : \Real \to \man : t \mapsto \varphi(t,x)$ where $\gamma_x(0) = x$. Since $\frac{\deriv}{\dt} \gamma_x \restrict{t=0} \in \tang$, the flow defines a vector field on $\man$ i.e. a smooth section of $T\man$.
@@ -1777,9 +1795,9 @@ Imagine these flow lines as the paths of particles of water if you poured some o
 \end{proof}
 The rest of the Morse theory material is Mastery material. Outside of that, next time we will be switching gears and talking about singular homology and singular cohomology. At the end of the course we will be proving the de Rham theorem, showing how singular cohomology and de Rham cohomology are the same.
 
-\end{section}
+%end of chapter
 
-\begin{section}{Lecture 21: The Definition of Singular Homology}
+\mysection{Lecture 21: The Definition of Singular Homology}
 Let $X$ be a topological space. We want to associate some invariants to $X$ to help us understand its topology. Singular (co)homology is one such set of invariants which detect `$i$-dimensional holes' in $X$. 
 
 \begin{defn}
@@ -1839,9 +1857,9 @@ Cons:
     Hence $H_p(X) =\mycasesthing{ \mathbb{Z},& p= 0}{0,&\text{else}} $
 \end{exmp}
 NB: These homology groups could also have torsion, unlike de Rham cohomology, but will usually be finitely generated abelian groups.
-\end{section}
+%end of chapter
 
-\begin{section}{Lecture 22: More on Singular Homology}
+\mysection{Lecture 22: More on Singular Homology}
 
 \begin{theorem}[Homotopy Invariance of Singular Homology]\label{thm:HomotopyInvarianceOfSingularHomology}
     If $f,g : X\to Y$ and $f\sim g$ then $f_*, g_* : H_p(X) \to H_p(Y)$ are the same, for all $p\geq 0.$
@@ -1880,7 +1898,7 @@ See Hatcher for more pictures.
     If $X$ is contractible then $H_p(X) =\mycasesthing{ \mathbb{Z},& p= 0}{0,&\text{else}} $.
 \end{corollary}
 
-\begin{subsection}{Mayer-Vietoris for Singular Homology}
+\mysubsection{Mayer-Vietoris for Singular Homology}
 We would like to have a MVT for singular homology. Obvious idea: write down a SES of chain complexes and use snake lemma. $$% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRGJAF9T1Nd9CKAIzkqtRizYBhAPpoAFAFUAOsoDGdNAAIAagEouPEBmx4CRAEyjq9Zq0QhZCxXtUQ0zOFqfz9h3qYCRADM1uJ20nJKqmpM2n7cAfzmKAAsYbaSDhycYjBQAObwRKAAZgBOEAC2SGQgOBBIQokgFdVN1A1IFi1tNYhW9Y2Iwb2V-aFDSKm5nEA
 \begin{tikzcd}
 0 \arrow[r] & C_p(U\cap V) \arrow[r] & C_p(U)\oplus C_p(V) \arrow[r] & C_p(U\cup V) \arrow[r] & 0
@@ -1923,10 +1941,10 @@ And this gives rise to a SES of chain complexes.
 \begin{exercise}
     Compute $H_p(S^n)$.
 \end{exercise}
-\end{subsection}
-\end{section}
+% end of subchapter
+%end of chapter
 
-\begin{section}{Lecture 23: Singular Cohomology}
+\mysection{Lecture 23: Singular Cohomology}
 
 \begin{defn}
 Let $G$ be an abelian group e.g. $G = \Real, \mathbb{Z}$. We define $C^p(X,G) \coloneqq \Hom{C_p(X)}{G}$. \\
@@ -1979,9 +1997,9 @@ $$H^i(X,G) \times H^j(X,G) \to H^{i+j}(X,G) $$
 $$([\psi] ,[\varphi]) \mapsto ([\psi \smile \varphi])$$
 For $G = \Real$ or $\Zint$, we get a graded commutative multiplication on $H^*(X,G) \coloneqq \bigoplus\limits_{p\geq 0} H^p(X,G)$ making it a graded commutative ring (this is not a commutative ring: swapping $\psi$ and $\varphi$ as above will differ by some sign possibly).\\
 Next time: Singular cohomology and de Rham cohomology are isomorphic.
-\end{section}
+%end of chapter
 
-\begin{section}{Lecture 24: The de Rham Theorem}
+\mysection{Lecture 24: The de Rham Theorem}
 This is the last examinable lecture for the course. Let $\man$ be a manifold. In this lecture we will be shpwing that the de Rham cohomology is isomorphic to singular cohomology with coefficients in $\Real$ for compact orientable manifolds (we do not need the compact or orientable assumptions, but it will make things a bit easier). Moreover, this isomorphism is constructed and will have something to do with integration, much like Poincar\'e Duality. First we need some version of singular cohomology that is smooth, so that it plays well with differential form pullbacks.\\
 $\Recall$ $H^p(\man;\Real) \cong \Hom{H_p(\man)}{\Real}$ (this doesn't work for $\Zint$)
 
@@ -2061,7 +2079,7 @@ We also need a Stokes' Theorem for these integrals:
 ``This is quite a big theorem, its an important result, but once you set everything up correctly the proof is essentially a couple of sentences, because we've already seen essentially the same idea when we proved Poincar\'e Duality. Which I think just really shows you the power of homological algebra, which can reduce something which is... proving the isomorphism from first principles would be incredibly hard as you can tell; you can look up when this theorem was first proved, and... it was quite recently.''\\
 Next week we'll be covering a kind of geometric interpretation of Poincar\'e Duality, but this is the end of the examinable material.
 
-\end{section}
+%end of chapter
 
 
 
