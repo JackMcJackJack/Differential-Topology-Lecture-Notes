@@ -66,8 +66,8 @@
 \usepackage{amsthm}
 
 \theoremstyle{plain}
-\newtheorem{thm}{Theorem}[section] % reset theorem numbering for each chapter
-\newtheorem{theorem}{Theorem}[section]
+\newtheorem{thm}{Theorem}[section] % reset theorem numbering for each chapter (after adding \mysection, this resetting is done elsewhere)
+%\newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}[thm]{Corollary}
 \newtheorem{lemma}[thm]{Lemma}
 \newtheorem{prop}[thm]{Proposition}
@@ -161,6 +161,9 @@ sorting=ynt
 \newcommand{\man}{\mathcal{M}}
 \newcommand{\nan}{\mathcal{N}}
 \newcommand{\pan}{\mathcal{P}}
+\newcommand{\kan}{\mathcal{K}}
+\newcommand{\lan}{\mathcal{L}}
+
 
 \newcommand{\chartU}{\mathcal{U}}
 \newcommand{\chartV}{\mathcal{V}}
@@ -240,6 +243,8 @@ sorting=ynt
 \newcommand{\inter}{\left[0,1\right]}
 
 \newcommand{\parderiv}[1]{\frac{\partial}{\partial {#1}}}
+\newcommand{\parderivof}[2]{\frac{\partial {#1}}{\partial {#2}}}
+
 
 \newcommand{\impliesdirection}{\underline{\Rightarrow:}}
 \newcommand{\impliedbydirection}{\underline{\Leftarrow:}}
@@ -270,6 +275,8 @@ sorting=ynt
 \DeclareMathOperator{\Eig}{Eig}
 
 \newcommand{\tdiffof}[1]{\frac{\deriv #1}{\dt}}
+\newcommand{\sdiffof}[1]{\frac{\deriv #1}{\dt}}
+
 
 \newcommand{\homX}[1]{H_{#1}(X)}
 \newcommand{\ZX}[1]{Z_{#1}(X)}
@@ -280,7 +287,7 @@ sorting=ynt
 
 \newcommand{\mysection}[1]{
     %\setcounter{section}{#1}
-    %\setcounter{section}{0}
+    \setcounter{thm}{0}
     \section*{#1}
     \addcontentsline{toc}{section}{#1}
     \addtocounter{section}{1}
@@ -296,9 +303,10 @@ sorting=ynt
 }
 
 
+\newcommand{\finv}{f^{-1}}
+\newcommand{\ginv}{g^{-1}}
 
-
-
+\newcommand{\xcoords}{x_1,\ldots,x_n}
 
 
 
@@ -556,7 +564,7 @@ Prove property 4. Hint: First show $\deriv^2f = 0$ for $f\in\cts{\man}$ and then
 
 \begin{prop}
 If $F : \man \to \nan$ smooth map of manifolds and $\omega\in\pformnan{p}$, then $\deriv F^*\omega = F^*\dw$ so that the following diagram commutes:
-\begin{center}\includegraphics[width=0.55\textwidth]{PullbackCommutesDifferential.png}\end{center}
+\begin{center}\includegraphics[width=0.55\textwidth]{Images/PullbackCommutesDifferential.png}\end{center}
 \end{prop}
 \begin{defn}
 We say $\omega\in\pformman{p}$ is 
@@ -644,7 +652,7 @@ Let $\omega \in \pformman{n}$, where $\dim \man = n$. Assume supp $\omega \subse
 $\int_\man \omega \coloneqq \int_{\chart(\chartU)} (\chart^{-1})^*\omega$
 \end{defn}
 Does this depend on $(\chartU,\chart)$? Let $(\chartV,\psi)$ also be a positively oriented chart such that supp$\omega \subseteq \chartV$. We need to show $ \int_{\chart(\chartU)} (\chart^{-1})^*\omega =  \int_{\psi(\chartV)} (\psi^{-1})^*\omega$. Let $\tau \coloneqq \psi \circ \varphi ^{-1} : \chart(\chartU\cap \chartV) \to \psi(\chartU\cap\chartV) \subseteq \Real^n$ be the transition map.
-\begin{center}\includegraphics[width=0.55\textwidth]{integrationofcharts.png}\end{center}
+\begin{center}\includegraphics[width=0.55\textwidth]{Images/integrationofcharts.png}\end{center}
 $\KeyPoint$ Since both are positively oriented, $\det D\tau > 0$.\\
 Hence $\int_{\psi(\chartV)} (\psi^{-1})^*\omega = \int_{\psi(\chartU \cap\chartV)} (\psi^{-1})^*\omega$ because supp $\omega \subseteq\chartU\cap\chartV$\\
 $ = \int_{\chart(\chartU \cap\chartV)} \tau^*(\psi^{-1})^*\omega$ because of definition\\
@@ -803,10 +811,10 @@ Let $\man$ be an orientable manifold of dimension $n$, with submanifold $S\subse
 \begin{proof}
 Easy exercise.
 \end{proof}
-\begin{theorem}
+\begin{thm}
 (Brouwer's Fixed Point Theorem) \\
 Let $D = \{x\in\Real^n : \abs{x} \leq 1\},\partial D = S^{n-1}.$ Let $f : D \to D $ smooth map. Then $f$ has a fixed point,  i.e. $\exists x \in D \st f(x) = x.$
-\end{theorem}
+\end{thm}
 \begin{proof}
 Assume not. Then we can define a map $g : D \to \partial D$ as follows: For each $x\in D$, draw a line from $f(x)$ to $x$, and let $g(x)$ be where this line intersects $\partial D$. Since, $f(x) \neq x$ this is well-defined, and it is smooth. Since $S^{n-1} = \partial D$ is orientable, there exists $\omega \in \Omega^{n-1}({\partial D})$ nowhere vanishing (i.e. $\omega$ is a volume form). So $\dw \in \Omega^n (\partial D)$ which is an $n-1$-dimensional manifold, so $\dw = 0.$ Thus:
 $$0 < \int_{\partial D} \omega = \int_{\partial D} g^* \omega = \int _D \deriv g^* \omega = \int_D g^*(\cancelto{0}{\dw}) = 0 \,\#$$
@@ -822,9 +830,11 @@ Let $\gamma : [0,2\pi] \to S^1, \theta \mapsto (\cos\theta,\sin\theta).$ Then $\
 But $\int_{S^1} = \int_{\partial S^1} f = 0 \#$ (using Stokes' and $\partial S^1 = \varnothing$)
 \end{exmp}
 So the fact that $\omega$ does not extend smoothly to the origin is significant, its not closed-but-not-exact-ness is telling us that there is a hole in our manifold, hinting at the beginnings of de Rham cohomology.
+
 \begin{defn}
 Let $f : \man \to \nan,$ $g:\man \to \nan$ be smooth maps of manifolds. We say that $f$ and $g$ are $\textbf{smoothly homotopic}$ is there exists a smooth homotopy between then, i.e. a smooth function 
 $$H: [0,1] \times \man \to \nan \st H\restrict{\{0\} \times \man} = f \myand H\restrict{\{1\} \times\man} = g$$
+
 \end{defn}
 $\Note$ This is an equivalence relations on smooth maps $\man \to \nan$; we write $f \sim g$ iff $f$ and $g$ are smoothly homotopic.
 \begin{prop}\label{prop:HomotopyInvarianceOfIntegral}
@@ -837,9 +847,9 @@ using Stokes' and the fact $\omega$ is closed, successively. On the other hand,
 $$\int_{\partial ([0,1]\times \man)} H^* \omega = \int_{\{1\}\times \man} H^*\omega - \int_{\{0\}\times \man} H^*\omega = \int_\man g^*\omega - \int_\man f^* \omega$$
 because $H$ is a homotopy from $f$ to $g$.
 \end{proof}
-\begin{theorem}
+\begin{thm}
 (Fundamental Theorem of Algebra) Every polynomial $p(z) = z^n + a_{n-1}z^{n-1} + ... + a_1 z + a_0$ has a root in $\mathbb{C}$ for $n \geq 1.$
-\end{theorem}
+\end{thm}
 \begin{proof}
 Assume not, so $p: \mathbb{C} \to \mathbb{C}\backslash \{0\}.\, \exists R > > 0 \st$where $\abs{z} \geq R,$ we have $\abs{\frac{p(z)-z^n}{z^n}}\leq \frac{1}{2},$ since $\frac{p(z) - z^n}{z^n} \to 0$ as $z\to \infty.$ Identify $\Real^2 \cong \mathbb{C}$. Write $D_R = \{z\in \Real^2 : \abs{z} \leq R\},\, \partial D_R = \{z\in \Real^2 : \abs{z} = R\}\cong S^1$. Define a homotopy $H : [0,1] \times D_R \to \mathbb{C}\backslash\{0\}$ from $p(z)$ to $g(z) = z^n,$ by $H(t,z) = tg(z) + (1-t)p(z).$ Then $\abs{H(t,z)} = \abs{z^n +(1-t)(a_{n-1}z^{n-1} +...+a_0)}\geq \abs{z^n} -(1-t)\abs{a_{n-1}z^{n-1} + ... + a_0} \geq \abs{z^n}(1-\frac{1}{2}) = R^2 \cdot \frac{1}{2},$ so $H(t,z) \neq 0$ and so it is indeed a homotopy\\
 Now recall: $\omega = \frac{-y \dx +x dy}{x^2+y^2}$ is closed on $\Real^n\backslash \{0\} \cong \mathbb{C}\backslash \{0\}.$ Writing $g(z)$ as $(r\cos\theta,r\sin\theta) \mapsto r^n (\cos n\theta,\sin n \theta),$ we see $\int_{\partial D_R} g^* \omega = \int_{\partial D_R} p^* \omega = \int_{D_R} p^*(\dw) = 0$ [homotopic and $\omega$ closed, Stokes' and $\omega$ closed successively]. But we can directly calculate $\int_{\partial D_R} g^*\omega = 2\pi n \#$. A contradiction, and so $p(z)$ does indeed have a root.
@@ -920,11 +930,11 @@ Let $F:\man \to \nan$ be a diffeomorphism. Then we claim that $F^*: \cohomnan{p}
 %end of chapter
 \mysection{Lecture 9: Homotopy Invariance of de Rham Cohomology}
 Goal is to prove the following theorem:
-\begin{theorem}[Homotopy Invariance of de Rham Cohomology]\label{theorem:homotopyinvariance}
+\begin{thm}[Homotopy Invariance of de Rham Cohomology]\label{theorem:homotopyinvariance}
  Let $\man$ and $\nan$ be manifolds, with $f,g: \man \to \nan$ that are smoothly homotopic. Then the maps 
 $$f^*:\cohomnan{p} \to \cohomman{p}, \,g^*:\cohomnan{p} \to \cohomman{p}$$
 are equal.
-\end{theorem}
+\end{thm}
 This will be enormously helpful in computing de Rham cohomology groups.\\
 If we have $f,g:\man \to \nan$, how can we show that $f^* = g^*$ on cohomology? Well $f^* =g^*$ means that $\forall \omega \in \coZnan{p}$ that $[f^*\omega] = [g^*\omega]$ i.e. $f^*\omega$ is homologous to $g^*\omega$ i.e. $\exists \eta \in \pformman{p-1}$ such that $f^*\omega - g^* \omega = \deriv \eta$.
 \begin{defn}
@@ -972,9 +982,9 @@ So $(*)$ hold for terms of the form $\omega _J$. Therefore $(*)$ holds for terms
 %end of chapter
 \mysection{Lecture 10: Using Homotopy Invariance}
 $\Recall$ $f,g:\man\to\nan$ maps of manifolds are called smoothly homotopic if $\exists $ (smooth) $H:\inter \times \man \to \nan \st H\restrict{\{0\}\times \man} = f , \, H\restrict{\{1\}\times \man} = g$
-\begin{theorem}[Thm 9.28 of Intro to Smooth Manifolds]
+\begin{thm}[Thm 9.28 of Intro to Smooth Manifolds]
 If $f$ and $g$ are homotopic then they are smoothly homotopic i.e. $\exists $ continuous homotopy then $\exists $ smooth homotopy.
-\end{theorem}\noindent
+\end{thm}\noindent
 Last time we saw Thm \ref{theorem:homotopyinvariance}: $f\sim g \implies f^* = g^*$ on de Rham cohomology\footnote{Surprising: All these differential forms that we defined from the smooth structure on our space end up giving (as we'll see) topological invariants, independent of the smooth structure. We can define many smooth structures on the same manifold that makes them non-diffeomorphic as smooth manifolds, despite being homeomorphic as topological manifolds but the de Rham cohomology will look the same anyway.}. Today we see applications of this.
 \begin{defn}
 We say $\man$ and $\nan$ are $\textbf{homotopy equivalent}$ if $\exists f:\man \to \nan, \, g: \nan\to\man \st f\circ g \sim \id_\nan , \, g\circ f \sim \id_\man$.
@@ -999,9 +1009,9 @@ Let $f: \man \to \nan, \, g:\nan\to \man $ be s.t. $f\circ g \sim \id _{\nan}, \
 We say that $\man$ is $\textbf{contractible}$ if $\man$ is homotopy equivalent to a point.
 \end{defn}\noindent
 In particular, any star-shaped $U \subseteq \Real^n$ is contractible.
-\begin{theorem}[Poincaré Lemma]
+\begin{thm}[Poincaré Lemma]
 If $\man$ is contractible, then $\cohomman{p} = 0 $ for $p\geq 1$.
-\end{theorem}
+\end{thm}
 \begin{proof}
 By proposition \ref{prop:homotopyequivalenceimpliescohomologyequivalence}, $\cohomman{p} \cong H^p(\{{pt}\})$, and since $\{pt\}$ is zero-dimensional manifold, we know $H^p(\{pt\}) = 0$ for $p\geq 1$ as de Rham cohomology groups vanish for degree higher than dimension of the manifold.
 \end{proof}
@@ -1117,14 +1127,14 @@ $$\begin{tikzcd}
 \end{tikzcd} $$
 where each row is a short exact sequence and each column is a cochain complex. We write $\;\;\;\;\;\; \qquad\ABCSES$.
 \end{defn}
-\begin{theorem}[Snake Lemma]\label{theorem:snakelemma}
+\begin{thm}[Snake Lemma]\label{theorem:snakelemma}
 Let $\funcABCSES$ be a short exact sequence of cochain complexes. Then $\exists\delta : H^k(C) \to H^{k+1}(A) \st$the below sequence is exact:$$
 \begin{tikzcd}
 0 \arrow[r] & H^0(A) \arrow[r, "f"] & H^0(B) \arrow[r, "g"] & H^0(C) \arrow[lld, "\delta"] \\
             & H^1(A) \arrow[r, "f"] & H^1(B) \arrow[r, "g"] & H^1(C) \arrow[lld, "\delta"] \\
             & H^2(A) \arrow[r]      & \dots                 &                             
 \end{tikzcd}$$
-\end{theorem}
+\end{thm}
 \begin{proof}
 This kind of proof is called a ``diagram chase'', and is best understood by doing it yourself\footnote{``Nobody should try to prove the Snake Lemma in public, it is the sort of thing one should do behind close doors''}. Define $\delta$ as follows. If $[c] \in H^k(C^\bullet)$ lift to $c\in Z^k(C^\bullet)$. Then consider 
 $$\begin{tikzcd}
@@ -1173,13 +1183,13 @@ $\underline{\Ima f = \Ker g}$: Let $f(\omega) \in \Ima f$. So $f(\omega) = (i_U^
 Then let $\eta_1\in \Omega^p(U)$ be defined by  $\begin{cases} f_U\cdot \eta &\text{, on } U \\ 0  &\text{, outside } U \end{cases}$.\\
 Similarly let $\eta_1\in \Omega^p(V)$ be defined by  $\begin{cases} f_V\cdot \eta &\text{, on } V \\ 0  &\text{, outside } V \end{cases}$. Then $g(\eta_1 ,- \eta_2) = \eta_1 \restrict{\UintV} + \eta_2\restrict{\UintV} = f_U \cdot\eta + f_V \cdot \eta = \eta$.
 \end{proof}
-\begin{theorem}[Mayer-Vietoris]\label{thm:mayervietoris}
+\begin{thm}[Mayer-Vietoris]\label{thm:mayervietoris}
 Let $\man$ be a manifold, and let $U,V\subseteq \man$ be open sets such that $\man = U \cup V$ and $\UintV = \varnothing$. Then there exists $\delta : H^p(\UintV) \to H^{p+1}(\man) \st$ the following sequence is exact:
 $$\begin{tikzcd}
 ... \arrow[r] & H^p(\mathcal{M}) \arrow[r, "f"]     & H^p(U)\oplus H^p(V) \arrow[r, "g"]         & H^p(\UintV) \arrow[lld, "\delta",bend right = 5] &     \\
               & H^{p+1}(\mathcal{M}) \arrow[r, "f"] & H^{p+1}(U)\oplus H^{p+1}(V) \arrow[r, "g"] & H^{p+1}(\UintV) \arrow[r, "\delta"]                          & ...
 \end{tikzcd}$$
-\end{theorem}
+\end{thm}
 \begin{proof}
 Immediate from Snake Lemma. What a payoff.
 \end{proof}
@@ -1237,9 +1247,9 @@ and $\dim \cohomman{p} = \dim \Ima f + \dim \Ker f = \dim \Ima f + \dim \Ima \de
 Find a manifold with some cohomology group infinite dimensional.
 \end{exercise}\noindent
 $\Claim$Any manifold admits a good cover.
-\begin{theorem}
+\begin{thm}
 If $\man$ is compact then $\cohomman{p}$ is finite dimensional for all $p\geq 0$.
-\end{theorem}
+\end{thm}
 %end of chapter
 \mysection{Lecture 13: Product Structure and K\"unneth Formula}
 In which we introduce a ring structure onto the de Rham cohomology, and a way to calculate the de Rham cohomology for product manifolds.
@@ -1266,12 +1276,12 @@ $\textbf{Natural question:}$ What is the cohomology of $\man \times \nan $ in te
             & \mathcal{M}\times\mathcal{N} \arrow[ld, "\pi_1"'] \arrow[rd, "\pi_2"] &             \\
 \mathcal{M} &                                                                       & \mathcal{N}
 \end{tikzcd}Given $[\alpha] \in \cohomman{p}, \, [\beta] \in \cohomnan{q},$ a form $\pi_1^*[\alpha]\wedge \pi_2^*[\beta] \in \cohom{p+q}{\man \times \nan}$. ``Turns out that all classes are of this form, subject to some reasonable assumptions.''
-\begin{theorem}[K\"unneth]
+\begin{thm}[K\"unneth]
 If $\cohomnan{q}$ is finite dimensional (e.g. $\nan$ compact) for all $q \geq 0$, then the map
 $$\Psi : \bigoplus\limits_{p+q = k} \cohomman{p} \otimes \cohomnan{q} \to \cohom{p+q}{\man \times \nan}$$
 $$[\alpha] \otimes [\beta] \mapsto \pi_1^*[\alpha] \wedge \pi_2^* [\beta]$$ %%XXX tk align this
 is an isomorphism $\forall k \geq 0$.
-\end{theorem}
+\end{thm}
 \begin{semiproof}
 Use Mayer-Vietoris \& the Five Lemma. ``Not fantastically difficult''.
 \end{semiproof}\\
@@ -1292,7 +1302,7 @@ $[\alpha] \in \cohom{2}{S^2} , \pi_1^*\in \cohom{2}{S^2\times S^2} \cong (H^0\ot
 Also have (1,$[\beta]) = \pi_2^*[\beta]$ for [$\beta ] \in \cohom{2}{S^2}$. So K\"unneth (algebra version) says:
 $$\pi_1^*[\alpha] \wedge \pi_2^* [\beta] = ([\alpha],[\beta])\in \bigoplus\limits_{4=p+q} \cohom{p}{S^2} \otimes \cohom{q}{S^2}$$
 And since $([\alpha],[\beta]) $ is a non-zero element of the algebra, it must be a scalar multiple of the generator, as the dimension of $H^2$ is 1. Hence $\pi_1^*[\alpha] \wedge \pi_2^* [\beta]$ is a generator for the $4^{th}$ cohomology group of the product. Also $\pi_1^*[\alpha] \wedge \pi_1^* [\alpha] = ([\alpha \wedge \alpha] ,1) = 0$, as $[\alpha \wedge \alpha]$ is a degree 4 class on $S^2$ and so is equal to zero. So we can now record the full behaviour of this group in ``intersection form'':
-\begin{center}\includegraphics[width=0.15\textwidth]{IntersectionFormS2xS2.png}\end{center}
+\begin{center}\includegraphics[width=0.15\textwidth]{Images/IntersectionFormS2xS2.png}\end{center}
 ``So this neat little matrix that you can think of is like an extra invariant of your manifold, which you could use to distinguish manifolds that maybe had the same cohomology groups.''
 \end{exmp}
 %end of chapter
@@ -1353,7 +1363,7 @@ Let $\man $ have dimension $n$. Write $\puncman \coloneqq \man \backslash \{x\}$
 ``The cohomology of compact manifolds have various nice properties... working with cohomology with compact supports is a way of forcing... manifolds to behave as if they were compact with respect to their cohomology... even if its not [compact].'' The second point will make Poincar\`e Duality (which we will prove later) incredibly powerful, essentially showing cohomology groups are symmetric.
 \begin{proof}
 \underline{Injectivity:} Let $p\geq 2$. Let $\omega \in \Omega_c^p(\puncman)$ closed $\st i_*[\omega] = 0.$ So $[i_* \omega] = 0$ on $\compactcohomman{p}$, i.e. $\exists \eta \in \compactpformman{p} \st \deta = i_* \omega.$ By Poincar\'e Lemma, $\exists U \subseteq \man$ open s.t. $x\in U$ and $H^p(U) = 0.$ Now supp $i_*\omega \not\ni x$ and supp$i_* \omega$ is closed so $\exists$ nbd of $x$ on which $i_*\omega = 0$, therefore $\eta$ is closed on this nbd. Thus making $U$ smaller, $\eta$ closed, hence exact since $H^{p-1}_c(U) = 0$. So $\exists \sigma  \in \Omega^{p-2}(U) \st \eta = \deriv \sigma$. Let $\{f_U, f_{\puncman}\}$ be a partition of unity wrt open cover of $\man$, $\{U,\puncman\}$. Then let $\eta' = \eta - \deriv(i_*f_U \sigma)$.
-\begin{center}\includegraphics[width=0.45\textwidth]{PuncturedManifoldProposition.png}\end{center}
+\begin{center}\includegraphics[width=0.45\textwidth]{Images/PuncturedManifoldProposition.png}\end{center}
 Now supp$f_{\puncman}\subseteq \puncman$, so $\exists$ nbd of $x$ on which $f_{\puncman} = 0$ and therefore on this nbd, $f_U = 1.$ So on this nbd of $x$, $i_*f_U \sigma = \sigma$. Therefore, on $U$, $\eta' = 0.$ So $\exists \eta' \in \Omega_c ^{p-1} (\puncman) \st \deta ' = \deta = \omega,$ so $[\omega] = 0$ (i.e. $\Ker i_* = 0$ therefore $i_*$ is injective).\\
 Now let $p = 1.$ Let $\omega \in \Omega_c^1(\puncman) $ closed s.t. $i_* [ \omega ] = 0.$ Then $\exists f \in \Omega_c^0(\man)$ s.t. $i_*\omega = \df$. By taking $U \subseteq \man $ open s.t. $x\in U$, may assume $\df = 0$ on $U$, as above. So $f = c$ on $U$ i.e. $f\restrict{U}$ is constant. Let $\eta' = \eta -c$. Then $\eta' = 0$ on $U$ and so if $\man$ is compact then $\eta' \in \Omega_c^0(\puncman)$; thus $\omega = \deta' $ and $[\omega] = 0$.\\
 \underline{Surjectivity:} ($p\geq 1)$ Let $\omega \in \compactpformman{p}$ closed. By Poincar\'e Lemma, $\exists U \ni x \st \omega \restrict{U} $ is exact. So $\exists \sigma \in \Omega^{p-1}(U) \st \deriv \sigma = \omega \restrict{U}.$ Let $\{f_U, f_{\puncman}\}$ be as above, and let $\omega' = \omega - \deriv(i_* f_U \sigma)$. Then $\omega ' = 0 $ on a nbd of $x$ and $[\omega ] = [\omega ' ].$ And $\omega ' \restrict{\puncman} \in \Omega_c^p(\puncman).$ Thus $[i_*\omega' \restrict{\puncman}] = [\omega'] = [\omega].$
@@ -1401,9 +1411,9 @@ $U \subseteq \Real^n$ open subset diffeomorphic to $\Real ^n$. Then $\cohom{p}{U
 
 
 \mysection{Lecture 16: Proving Poincar\'e Duality}
-\begin{theorem}[Poincar\'e Duality]\label{theorem:PoincareDuality}
+\begin{thm}[Poincar\'e Duality]\label{theorem:PoincareDuality}
 Let $\man$ be an oriented manifold of dimension $n$. Then the map $\Phi : \cohomman{p} \to \compactcohomman{n-p}^*$ is an isomorphism.
-\end{theorem}
+\end{thm}
 We will prove this only for a smaller class of `nice' manifolds which includes compact ones.
 \begin{defn}
 We say $\man$ is of finite type is $\exists$ finite open cover of $\man$ by sets $\{U_i\}$ s.t. for all $k \geq 1,$ $U_{i_1} \cap ... \cap U_{i_k}$ is either empty of diffeomorphic to $\Real^n$.
@@ -1433,7 +1443,7 @@ and $i = i_{U*} + i_{V*}, \, j= (-j_{U*},j_{V*})$
 \end{prop}
 \begin{proof}
 $j$ injective: If $\omega \in \Omega^p_c(U\cap V) \st j(\omega) = 0 $ then $ j_{U*} \omega = j_{V*} \omega= 0 $. So $\omega = 0$.\\
-$\Ker i = \Ima j:$ Let $\omega \in \Omega^p_c(U\cap V)$. Then $i \circ j (\omega) = - i_{U*} j_{U*} + i_{V*} j_{V*} \omega = 0$. So $\ima j \subseteq \Ker i$. Now let $(\omega_1,\omega_2) \in \Ker i$. Then $i_{U*} \omega_1 = -i_{V*} \omega_2$ so supp $\omega_1,\omega_2 \subset U\cap V$. So $\exists \eta \in \Omega_c^p(U\cap V) \st j_{U*}\eta = -\omega_1, j_{V*} \eta = \omega_2$. So $j(\eta) = (\omega_1,\omega_2).$ So $\Ker i \subseteq \Ima j$. \\
+$\Ker i = \Ima j:$ Let $\omega \in \Omega^p_c(U\cap V)$. Then $i \circ j (\omega) = - i_{U*} j_{U*} + i_{V*} j_{V*} \omega = 0$. So $\Ima j \subseteq \Ker i$. Now let $(\omega_1,\omega_2) \in \Ker i$. Then $i_{U*} \omega_1 = -i_{V*} \omega_2$ so supp $\omega_1,\omega_2 \subset U\cap V$. So $\exists \eta \in \Omega_c^p(U\cap V) \st j_{U*}\eta = -\omega_1, j_{V*} \eta = \omega_2$. So $j(\eta) = (\omega_1,\omega_2).$ So $\Ker i \subseteq \Ima j$. \\
 $i$ surjective: Let $\omega \in \Omega_c^p(\man)$ and let $\{f_U,f_V\}$ be a partition of unity wrt $\{U,V\}$. Define $\omega_U \coloneqq f_U \cdot \omega\restrict{U} \in \Omega_c^p(U)$ and $\omega_V \coloneqq f_V \cdot \omega\restrict{V} \in \Omega_c^p(V)$. Then $i(\omega_U,\omega_V) = \omega$.\\
 Therefore this is a short exact sequence on each row.
 \end{proof}
@@ -1464,7 +1474,7 @@ Now let $\varphi \in \Ima f_2^*.$ Then $\exists \psi \in C_3^* \st f_2^*(\psi) =
 
 \begin{proof}[Proof of Thm $\ref{theorem:PoincareDuality}$]
 Let $\man$ be finite type oriented manifold with cover $\{U_i\}$. Let $N = \#\{U_i\}$, $n = \dim \man$. We'll prove this by induction on $N$. For $N = 1$, we're ok; an open set of $\Real^n$ diffeomorphic to $\Real^n$ satisfies PD by the example from last lecture. Now suppose $N > 1$, and let $U = \bigcup\limits_{i=1}^{N-1} U_i, V = U_N$. So $\man = U \cup V$. Furthermore, if $\man$ is connected then $U\cap V \neq \varnothing$. If $\man$ is not connected, work with each connected component separately (there are only finitely many because $\man$ is finite type). So let's just assume $\man$ is connected. By induction, can assume $U, V \myand U\cap V$ all satisfy PD. Combine this with MV and the dual of compactly supported MV:
-$$\includegraphics[page=1,width = \textwidth]{PoincareDualityProofDiagram.pdf}$$
+$$\includegraphics[page=1,width = \textwidth]{Images/PoincareDualityProofDiagram.pdf}$$
 
 with $j^*,i^*$ representing the duals of the inclusion maps (on the cochain complexes) on cohomology. The vertical arrows will be the PD isomorphism maps\footnote{``But, it turns out, for reasons that are, to be honest, somewhat mysterious, if you want these diagrams to commute, you have to introduce a correct sign, a correct factor of minus 1.''}, we hope. For this, let $n_0 = 1$ and $n_p = (-1)^{p-1}n_{p-1}$. The vertical arrows are then given as in the diagram. The effect of this is to correct that without them, the center square only commutes up to sign (the other two squares do commute anyway though).\\
 By the Five Lemma, if all vertical maps except from $n_{p-1}\Phi_\man$ are isomorphisms, then so is $n_{p-1}\Phi_\man$ (and hence so is $\Phi_\man)$. Induction tells us that this is the case, except we must also check that all the squares commute\footnote{``This proof ... for some reason, it actually takes a little bit of effort to unwind everything and show that the diagram actually does commute [unlike others we've seen in this course].''}. We'll have to do each square one at a time. NB we ignore the $n_{p-1}$ and $n_p$ terms in 1. and 3. because it would cancel out anyway, being on both sides of the square.\\
@@ -1554,7 +1564,7 @@ Let $y\in \nan$ be a regular value of $f : \man \to \nan$. Then the fibre $f^{-1
 \end{thm}
 NB for the last theorem, we don't assume that $\man$ and $\nan$ have the same dimension, so $Df_x$ may not be an isomorphism.
 \begin{center}
-    \includegraphics[width =0.5\textwidth]{RegularValues.png}
+    \includegraphics[width =0.5\textwidth]{Images/RegularValues.png}
 \end{center}
 
 \begin{proof}[Proof of Thm \ref{thm:DegreeInteger}]
@@ -1563,7 +1573,7 @@ Let $f^{-1}(y) = \{\allthe{x}{1}{m} \}$ (fibre is smooth 0-manifold, and $f$ is 
 Let $\omega \in \compactcohomman{n}$ be $\st \int_U \omega = 1$ and supp $\omega \subset U$ ($\underline{Exercise:}$ Why does this exist?). Since $f\restrict{U_i}$ is a diffeomorphism, get $\int_{U_i} f^* \restrict{U_i} \omega = \sign \det(Df_{x_i}) \int_U \omega.$ And $f^*\restrict{U_i} \omega$ has support in $U_i$. Since $\supp f^*\omega \subset \bigcup\limits_{i} U_i,$ and all of these $U_i$s are by construction disjoint, $\int_\man f^*\omega = \sumfromto{i=1}{k} \int_{U_i} f^*\restrict{U_i} \omega = \sumfromto{i=1}{k} \sign(\det Df_{x_i}) \int_U \omega = \sumfromto{i=1}{k} \sign (\det Df_{x_i}) \in \mathbb{Z}.$
 \end{proof}
 \begin{center}
-    \includegraphics[width = 0.5\textwidth]{DegreeCovering.png}
+    \includegraphics[width = 0.5\textwidth]{Images/DegreeCovering.png}
 \end{center}
 
 \begin{exercise}
@@ -1630,7 +1640,7 @@ This lecture will introduce lot of the definitions critical to Morse theory.
 
 \Notation Let $\man$ be a topological space and $f_\partial : S^{n-1} \to \man$ continuous. We can construct a new topological space $\man \cup_{f_\partial} D_n = (\man \sqcup D_n)/\sim$ where $\man \ni x \sim y\in S^{n-1} \iff f(y) = x$. This is the space obtained from $\man$ by attaching an $n$-cell via $f_\partial.$
 \begin{center}
-    \includegraphics[width = 0.5\textwidth]{AttachingMap.png}
+    \includegraphics[width = 0.5\textwidth]{Images/AttachingMap.png}
 \end{center} 
 
 \begin{exmp}
@@ -1644,23 +1654,23 @@ This lecture will introduce lot of the definitions critical to Morse theory.
 \begin{exmp}
     $T = S^1 \times S^1 \subseteq \Real^3$. Let $f:T\to \Real:(x,y,z)\mapsto z$ be the height function. $\{c,b,a,0\}$ are critical points of $f$.
     \begin{center}
-        \includegraphics[width=0.5\textwidth]{TorusCellDecomposition.png}
+        \includegraphics[width=1\textwidth]{Images/TorusCellDecomposition.png}
     \end{center}
     Define $S_h \coloneqq \{p\in\man : f(p) \leq h\} = f^{-1}([0,h]), $ for $h\geq 0$. If $0<h<a$, then $S_h$ is homotopy equivalent to a 0-cell.
     \begin{center}
-        \includegraphics[width=0.25\textwidth]{MorseTorusTrivialHomotopy.png}
+        \includegraphics[width=0.25\textwidth]{Images/MorseTorusTrivialHomotopy.png}
     \end{center}
     If $a<h<b$, then $S_h$ is homotopy equivalent to:    
     \begin{center}
-        \includegraphics[width=0.5\textwidth]{MorseTorusHomotopyOneCell.png}
+        \includegraphics[width=0.5\textwidth]{Images/MorseTorusHomotopyOneCell.png}
     \end{center}
     If $b<h<c$ then $S_h$ homotopy equivalent to:
     \begin{center}
-        \includegraphics[width = 0.5\textwidth]{MorseTorusHomotopyOneCellWithZeroCell.png}
+        \includegraphics[width = 0.5\textwidth]{Images/MorseTorusHomotopyOneCellWithZeroCell.png}
     \end{center}
     If $h>c$ then $S_h$ is homotopy equivalent to:
     \begin{center}
-        \includegraphics[width=0.5\textwidth]{MorseTorusHomotopyFullTorus.png}
+        \includegraphics[width=0.5\textwidth]{Images/MorseTorusHomotopyFullTorus.png}
     \end{center}
     Thus $\man$ = (0-cell)$\cup$(two 1-cells)$\cup$(2-cell).
 \end{exmp}
@@ -1671,11 +1681,12 @@ Given a Morse function $f : \man \to \Real$ on a manifold $\man$, the idea is to
 \end{defn}
 
 \begin{lemma}[Morse Lemma]\label{lem:MorseLemma}
-    Let $\man$ be a manifold of dimension $n$, $f:\man \to \Real$ a Morse function, $x_0 \in \man$ a critical point. Then there exists local coordinates ($x_1,\ldots,x_n)$ around $x_0$ s.t. $x_0 = (0,\ldots,0)$ and 
+    Let $\man$ be a manifold of dimension $n$, $f:\man \to \Real$ a Morse function, $x_0 \in \man$ a critical point. Then there exists local coordinates $(x_1,\ldots,x_n)$ around $x_0$ s.t. $x_0 = (0,\ldots,0)$ and 
     $$f(x) = f(x_0) - \sumfromto{i=1}{\lambda} x_i^2 + \sumfromto{i=\lambda+1}{n} x_i^2$$
     where $\lambda$ is the index of $f$ at $x.$
 \end{lemma}
-``It can be proved in an elementary way I think, but the proof is quite long and not particularly enlightening'' (it's quite linear algebra-y but essentially relies on diagonalising the Hessian). See Copenhagen Lecture Notes (Cohen, Iga, Norbury 2009), Theorem 5.3 for a full proof.
+``It can be proved in an elementary way I think, but the proof is quite long and not particularly enlightening'' (it's quite linear algebra-y but essentially relies on diagonalising the Hessian). See Copenhagen Lecture Notes (Cohen, Iga, Norbury 2009), Theorem 5.3 for a full proof.\\
+\Note In particular, the Morse Lemma implies that non-degenerate critical points of a smooth function $f : \man \to \Real$ are isolated.
 
 \begin{corollary}
     The set of critical points of a Morse function is discrete.
@@ -1689,7 +1700,7 @@ This corollary is ``hugely important for Morse functions, and part of the reason
 \begin{exmp}
     $f:\man \to \Real$ as before, $\man = S^1 \times S^1$. Blue is a negative eigenspace and red is a positive eigenspace in this drawing.
     \begin{center}
-        \includegraphics[width=\textwidth]{MorseTorusEigenvalues.png}
+        \includegraphics[width=\textwidth]{Images/MorseTorusEigenvalues.png}
     \end{center}
 \end{exmp}
 
@@ -1748,8 +1759,8 @@ That's everything on CW complexes. Next time we will be defining gradient flows 
 \end{defn}
 On the other hand, given a vector field, can we produce an integral curve that corresponds to it? This corresponds to solving some system of differential equations, which we can do at least in some neighbourhood of $t=0$\footnote{See: Lee, Intro to Smooth Manifolds, Chapter 9}. 
 
-\begin{lemma}
-    Let $X$ be compactly supported on $\man$. Then $X$ generates a group of diffeomorphisms $\varphi_t : \man \to \man$ such that we have $$(X\circ \gamma_x)(t) = \frac{\deriv}{\dt}\gamma_x(t),\; \xman$$
+\begin{lemma}\label{lem:VectorFieldGeneratesFlow}
+    Let $X$ be a compactly supported vector field on $\man$. Then $X$ generates a group of diffeomorphisms $\varphi_t : \man \to \man$ such that we have $$(X\circ \gamma_x)(t) = \frac{\deriv}{\dt}\gamma_x(t),\; \xman$$
     We can show that flow lines are disjoint, so this decomposes/partitions $\man$ into a disjoint union of flow lines.
 \end{lemma}
 
@@ -1770,11 +1781,11 @@ The isomorphism $\tangbundle \cong \Omega^1(\man)$ is what allows us to prove th
 \Note $\nabla f$ is orthogonal to any vector tangent to $f^{-1}(c)$ for all regular values $c\in\Real.$\\
 This really is just a generalisation of the usual $\nabla f$ from real multivariate calculus and works in the way that you would expect: it points in the direction of greatest change of $f$, orthogonal to lines where the value of $f$ is constant. In particular, we can take the flow associated to $-\nabla f$ for a smooth function $f:\man \to \Real $ i.e.: 
 \begin{defn}
-    If $\gamma_x(t) = \varphi(t,x)$ the $\frac{\deriv}{\dt} \gamma_x(0)\restrict{t=0} = -\nabla f(\gamma_x(0)), \, \gamma_x(0) = x$. This is called the \textbf{gradient flow} of $f$. The integral curves are called gradient flow lines.
+    If $\gamma_x(t) = \varphi(t,x)$ then $\frac{\deriv}{\dt} \gamma_x(0)\restrict{t=0} = -\nabla f(\gamma_x(0)), \, \gamma_x(0) = x$. This is called the \textbf{gradient flow} of $f$. The integral curves are called gradient flow lines.
 \end{defn}
 Imagine these flow lines as the paths of particles of water if you poured some on the manifold (if $f$ is the height function anyway). Most will flow onto the very bottom critical point, but there are some special points where it will flow onto a critical point where it will remain in equilibrium.
 \begin{center}
-    \includegraphics[width = 0.20\textwidth]{WaterGradientFlowLines.png}
+    \includegraphics[width = 0.20\textwidth]{Images/WaterGradientFlowLines.png}
 \end{center}
 ``So we get some sort of decomposition of our manifold by asking: Which critical point do you flow down to? And that's the decomposition that Morse homology is concerned with.''
 
@@ -1785,24 +1796,331 @@ Imagine these flow lines as the paths of particles of water if you poured some o
     $\tdiffof{} f(\gamma_x(t)) = Df_{\gamma_x(t)} (\tdiffof{} \gamma_x(t)) = Df_{\gamma_x(t)}(- \nabla f(\gamma_x(t))) = - \norm{\nabla f(\gamma_x(t))}^2 \leq 0$
 \end{proof}
 
-\begin{prop}
+\begin{prop}\label{prop:GradientFlowLimitsCriticalPoints}
    Let $\man$ be compact with $f:\man\to\Real$ Morse function. Then every gradient flow line begins and ends at a critical point i.e. $\lim \limits_{t \to \pm \infty} \gamma_x(t) $ exist and are critical points of $f$.
 \end{prop}
 
 \begin{proof}
     First assume the limits exist. For all $x$, $f(\gamma_x(t)) : \Real \to \Real$ is bounded because $\man$ is compact. Then $\lim \limits_{t \to \pm \infty} \tdiffof{} f(\gamma_x(t)) = \lim \limits_{t \to \pm \infty} - \norm{\nabla f(\gamma_x(t))}^2$. And $\lim \limits_{t \to \pm \infty} \tdiffof{}f(\gamma_x(t)) = 0$ because $f$ is bounded and decreasing along flow lines. So the limit is a critical point if it exists.\\
-    Now we show it exists. Fix $\epsilon> 0$ and let $U $ be the union of open balls of radius $\epsilon$ around each critical point of $f.$ Since $\man$ is compact and $f$ is Morse, there are only finitely many critical points. Then $U$ is open, so $\man \backslash U$ is closed, so $\man \backslash U$ is compact, so $\norm{\nabla f(.)}^2$ admits a minimum in $\man \backslash U$. But this minimum cannot be zero because we removed all the critical points. But $\lim \limits_{t \to \pm \infty}\norm{\nabla f(\gamma_x(t))}^2 = 0$ because $f(\gamma_x(t))$ is bounded and decreasing. So if $\pm t$ is large enough, then $\gamma_x(t) \not\in \man \backslash U$, so if $\epsilon $ sufficiently small, $\gamma_x(t)$ is contained in a ball around a single critical point for $t \to \pm$. Thus the limit is the critical point. 
+    Now we show it exists. Fix $\epsilon> 0$ and let $U $ be the union of open balls of radius $\epsilon$ around each critical point of $f.$ Since $\man$ is compact and $f$ is Morse, there are only finitely many critical points. Then $U$ is open, so $\man \backslash U$ is closed, so $\man \backslash U$ is compact, so $\norm{\nabla f(.)}^2$ admits a minimum in $\man \backslash U$. But this minimum cannot be zero because we removed all the critical points. But $\lim \limits_{t \to \pm \infty}\norm{\nabla f(\gamma_x(t))}^2 = 0$ because $f(\gamma_x(t))$ is bounded and decreasing. So if $\pm t$ is large enough, then $\gamma_x(t) \not\in \man \backslash U$, so if $\epsilon $ sufficiently small, $\gamma_x(t)$ is contained in a ball around a single critical point for $t \to \pm \infty$. Thus the limit is the critical point. 
 \end{proof}
 The rest of the Morse theory material is Mastery material. Outside of that, next time we will be switching gears and talking about singular homology and singular cohomology. At the end of the course we will be proving the de Rham theorem, showing how singular cohomology and de Rham cohomology are the same.
 
 %end of chapter
+
+
+
+
+
+%custom section numbering
+\let\oldsection = \thesection
+\renewcommand{\thesection}{M}
+
+\mysection{Mastery Material: Morse Theory}
+The Mastery Material for this course is part of the attached pdf, from Definition 3.19 to Example 3.42 inclusive. This is not a direct copy; I have used slightly different notation for the sublevel sets, as well as correcting some things I viewed as typos, notably the definition of (un)stable manifolds.
+
+\mysubsection{Fundamental Theorems of Morse Theory}
+
+\begin{defn}
+    Let $X$ be a topological space and let $S\subset X$ be a subspace. A \textbf{deformation retraction of $X$ onto $S$} is a continuous map  $F : X\times \inter \to X$ such that for every $x\in X$ and $s \in S$, we have 
+        $$F(x,0) = x , \qquad F(x,1) \in S, \qquad \myand \, F(s,1) = s$$
+    In particular, $S$ is homotopy equivalent to $X$.
+\end{defn}
+This is a homotopy of the whole space onto a subspace which keeps the subspace fixed.
+
+\begin{thm}[First Fundamental Theorem of Morse Theory]\label{thm:FirstFundamentalTheoremOfMorseTheory}
+    Let $\man$ be a manifold and let $f: \man \to \Real$ be a Morse function. Let $a < b$ and suppose that $f^{-1}([a,b])$ is compact and contains no critical points. Let 
+        $$S_h \coloneqq f^{-1}((-\infty,h)) = \{\xman : f(x) \leq h\}\footnote{NB: I stick with this notation, whereas the source material sometimes denotes $S_h$ by $S^h$.}$$
+    Then $S_a$ is diffeomorphic to $S_b$ and $S_b$ deformation retracts onto $S_a$.
+\end{thm}
+
+\begin{proof}
+    The idea is to let the level set $f^{-1}(b)$ flow down to the level set $f^{-1}(a) $ along the gradient flow lines orthogonal to the level sets of $f$. By Lemma \ref{lem:MorseLemma}, the critical points f a Morse function. Thus, since $f^{-1}([a,b])$ does not contain any critical points, it follows that for every $\epsilon >0$ small enough, $f^{-1}([a-\epsilon,b+\epsilon])$ does not contain any critical points either. Define a smooth function $\rho$ such that 
+        $$\rho = \mycasesthing{\frac{1}{\norm{\nabla f}^2}, &\quad \text{on } f^{-1}([a,b])}{0,& \quad \text{on } \man \backslash f^{-1}([a-\epsilon,b+\epsilon])}$$
+    Then the support of $\rho$ is compact and contained in $f^{-1}([a-\epsilon,b+\epsilon])$. Fix a Riemannian metric $g$ on $\man$ and define the vector field 
+        $$X(x) = - \rho(x) \nabla f(x)$$
+    for all $x \in \man$. Thus by $f^{-1}([a,b])$ being compact and Lemma \ref{lem:VectorFieldGeneratesFlow}, it generates a flow $\phi_t$ on $f^{-1}([a-\epsilon,b+\epsilon]) $. Let $\gamma_x(t) \coloneqq \phi_t(x)$. Then 
+        $$ \tdiffof{}f(\gamma_x(t)) = Df_{\gamma_x(t)} \left(\tdiffof{}\gamma_x(t)\right)$$
+        $$= g(\nabla f(\gamma_x(t)), \tdiffof{}\gamma_x(t))$$
+        $$= g(\nabla f(\gamma_x(t)),\rho \nabla f(\gamma_x(t)))$$
+        $$= \rho(\gamma_x(t)) \norm{\nabla f (\gamma_x(t))}^2$$
+    Thus, it follows from the definition of $\rho$ that $\tdiffof{} f(\gamma_x(t) ) = -1$ for all $t $ such that $\gamma_x(t) \in f^{-1}([a,b])$. Moreover, since $\rho \geq 0$, we have that $\tdiffof{} f(\gamma_x(t) ) \leq 0$ for all $t\in \Real$. Thus $f(\gamma_x(t))$ is decreasing.\\
+    By the fundamental theorem of calculus, we have that if $f(\gamma_x(s)) \in [a,b]$ for all $s\in [0,t]$ then $f(\gamma_x(t)) - f(\gamma_x(0)) = \int_0 ^t \sdiffof{} f(\gamma_x(s)) \deriv s = -t$. Since $\gamma_x(0) = x$, we have     $$f(\gamma_x(t)) = f(x) - t$$
+    Thus, by taking $t = b - a$, we obtain:
+    \begin{enumerate}
+        \item If $f(x) \leq b$ then $f(\phi_{b-a}(x))\leq a$
+        \item If $f(x) > b$ then $f(\phi_{b-a}(x)) > a$.
+    \end{enumerate}
+    1. implies that $\phi_{b-a}$ maps $S_b$ to $S_a$ and similarly, 2. implies that $\phi_{a-b}$ maps $S_a$ to $S_b$. Thus, it follows that $\phi_{b-a}$ is a diffeomorphism between $S_b$ and $S_a$. For any $t\in\inter$, define $F_t:S_b\to S_a$ by
+        $$F_t(x) = \mycasesthing{x,& \quad \myif f(x) \leq a}{\phi_{t(f(x)-a)}(x),&\quad \myif a\leq f(x) \leq b}$$
+    Then, it is easy to check that $F(x)$ is a deformation retract and the theorem follows.
+\end{proof}
+
+\begin{corollary}[Reeb's Theorem]\label{cor:Reeb'sTheorem}
+    Let $\man$ be a compact manifold of dimension $n$ without boundary and let $f:\man \to \Real$ be a Morse function admitting only two critical points. Then $\man$ is homeomorphic to the sphere $S^n$.
+\end{corollary}
+
+\begin{proof}
+    Since $\man$ is compact, $f$ admits a maximum at $x_{\max}$ and a minimum at $x_{\min}$ and these are the two critical points. Let $h_{\max}\coloneqq f(x_{\max} ) $ and $h_{\min} \coloneqq f(x_{\min})$. Then $\lambda (x_{\max}) = n$ and $\lambda(x_{\min}) = 0$. Morse Lemma (Lemma \ref{lem:MorseLemma}) implies that there exist local coordinates $x_1, \ldots , x_n$ in an open neighbourhood $U_{\min}$ of $x_{\min}$ such that $f = h_{\min} + \sumfromto{i=1}{n} x_i^2$. For some $a > h_{\min}$ sufficiently close to $h_{\min},$ we have $\finv([h_{\min},a]) = \{(x_1,\ldots,x_n):x_1^2 + \dots +x_n^2 \leq a- h_{\min}\}.$ Hence $\finv ([h_{\min},a]) = \finv((-\infty,a])=S_a$ is a closed $n$-cell $D_n^-$. Similarly for $b < h_{\max}$, we have that $\finv([b,h_{\max})$ is a closed $n$-cell $D_n^+$. By Theorem $\ref{thm:FirstFundamentalTheoremOfMorseTheory}$, $S_a$ is diffeomorphic to $S_b$, since there are no critical points between $a$ and $b$. Hence $\man = \finv([h_{\min},h_{\max}])$ is the union of two $n$-cells attached at their common boundary $S^{n-1} = \partial D_n^+ = \partial D_n^-$.\\
+    Now we need to construct a homeomorphism between $\man$ and $S^n$. The (closed) northern hemisphere $H^+$ is diffeomorphic to $D_n^+$ and the (closed southern hemisphere $H^-$ to $D_n^-$. The only problem is that the two $n$-cells are not necessarily glued by the identity map, but by a homeomorphism $f: \partial H^- \to \partial H^+$. Let $\phi_{\pm} : H^{\pm} \to D_n^{\pm}$ be the two homeomorphisms and $ E = H^+ \cap H^-$ the equator so that $\phi_- \restrict{E} = \phi_+\restrict{E} \circ f$. We claim that $f : E \to E$ extends to a homeomorphism $F:H^- \to H^+$ such that $F\restrict{E} = f$. Assuming the claim, we can define a homeomorphism $\tilde{\phi} : S^n \to \man$ as follows: we have     $$\tilde{\phi}\restrict{H^+} = \phi _+ \circ F \quad \myand     \quad \tilde{\phi}\restrict{H^-} = \phi_-$$
+    This is well defined since $(\phi_+ \circ F) \restrict{E} = \phi_+ \restrict{E} \circ f = \phi_-\restrict{E}.$ It is continuous and bijective since it is restricted to each of $D_n^{\pm}.$ Thus, it is a homeomorphism.\\
+    It remains to prove the claim i.e. that $f:E\to E$ does indeed extend to a homeomorphism $F:H^- \to H^+$. Since $H^-$ is homeomorphic to the unit $n$-ball $D_n$, it is enough to show that every homeomorphism $g:\partial D_n \to \partial D_n$ extends to a homeomorphism $G:D_n \to D_n$. This is done via the \textit{Alexander trick}, using concentric spheres: for $v \in \partial D$, the unit $(n-1)$-sphere, considered as a vector in $\Real^n$, we define $G(tv)  = tg(v)$ for all $0\leq t \leq 1$. This is continuous and the same argument shows that $g^{-1}$ extends to $G^{-1}$. Thus, it is a homeomorphism, as claimed.
+\end{proof}
+
+\begin{thm}[Second Fundamental Theorem of Morse Theory]\label{thm:SecondFundamentalTheoremOfMorseTheory}
+    Let $\man$ be a manifold of dimension $n$ and let $f:\man \to \Real$ be a smooth function with a non-degenerate critical point $x_0 \in \man$ of index $\lambda$. Let $c = f(x_0)$ and assume that $\finv ([c-\epsilon,c+\epsilon])$ is compact and does not contain any critical point of $f$ other than $x_0$, for some $\epsilon > 0$. Then, if $\epsilon$ is sufficiently small, $S_{c+\epsilon}$ is homotopy equivalent to $S_{c-\epsilon}$ with a $\lambda$-cell attached.
+\end{thm}
+
+\begin{proof}
+    The difficult part of the theorem is to prove it for critical points of index $\lambda \in \{1,\ldots,n-1\}$. Otherwise $x_0$ is either a minimum of a maximum of the function $f$. If it is a minimum ($\lambda = 0$), then the theorem follows from the fact that an $n$-disc is homotopy equivalent to a point. If it is a maximum ($\lambda = n$), then we can use the same method as in the proof of Reeb's Theorem (Cor. \ref{cor:Reeb'sTheorem}). \\
+    Thus, we will assume that $\lambda \in \{1,\ldots,n\}$. By Morse Lemma (Lemma \ref{lem:MorseLemma}) there exists a neighbourhood $U$ of $x_0$ and coordinates $x_1, \ldots,x_n$ on $U$ such that $x_0 = (0,\ldots,0)$ and \begin{equation}\label{eqn:MorseLemmaExpansion}
+        f(x) = f(x_0) - \sumfromto{i=1}{\lambda} x_i^2 + \sumfromto{i= \lambda + 1}{n} x_i^2
+    \end{equation}
+    Let $\epsilon >0 $ small enough so that $U$ contains the closed ball $B_{\sqrt{2\epsilon}} = \{(x_1,\ldots,x_n): \sum x_i^2 \leq 2\epsilon\}$. Define the $\lambda$-cell by 
+        $$e_\lambda \coloneqq \{(\xcoords) : x_1^2 + \dots + x_\lambda^2 \leq \epsilon , x_{\lambda +1} = \dots = x_n = 0\}$$
+    We want to show that $S_{c-\epsilon} \cup e_\lambda$ is a deformation retraction of $S_{c+\epsilon}$.\\
+    In order to illustrate the method, we first consider the case $n=2$ and $\lambda  =1$. We have:
+        \begin{itemize}
+            \item The preimage of $c$ in $U$
+                        $$\finv(c) \cap U = \{x\in U:f = c\} = \{(x_1,x_2):x_1^2 = x_2^2\}$$
+                is the union of two lines.
+            \item The level set 
+                        $$ S_{c-\epsilon} = \{(x_1,x_2): x_1^2 - x_2^2 \geq \epsilon\}$$
+                is represented by the area in red.
+            \item If
+                        $$S_{c+\epsilon} = \{(x_1,x_2):x_1^2 - x_2^2 \geq -\epsilon\}$$
+                then $S_{c+\epsilon} \backslash S_{c-\epsilon}$ is represented by the area in green.
+        \end{itemize}
+        $$\includegraphics[width = 0.75\textwidth]{Images/SecondFundamentalMorse.png}$$
+    We define the 1-cell in $U$ by $e_1 = \{(x_1,x_2):x_1^2\leq\epsilon, x_2 = 0\}$. Then $e_1$ is attached to the boundary of $S_{c-\epsilon}$ in $(\sqrt{\epsilon},0)$ and $(-\sqrt{\epsilon},0)$.\\
+    The same construction works for higher dimensional manifold and index $\lambda \in \{1,\ldots,n-1\}$. Let $\xi = \sumfromto{i=1}{\lambda} x_i^2$ and $\eta = \sumfromto{i=\lambda +1}{n} x_i^2$. We have that $\finv(c)\cap U = \{\xcoords : \xi = \eta\}$ is a double cone with vertex $x_0$. We also have $S_{c+\epsilon} = \{(\xcoords):\xi - \eta \geq -\epsilon\}$ and $S_{c+\epsilon} = \{(\xcoords) : \xi - \eta \geq \epsilon\}$ and we define
+    \begin{equation}\label{eqn:LambdaCell}
+        e_\lambda = \{(\xcoords) : \xi \leq \epsilon , x_{\lambda +1} = \ldots = x_n = 0\}
+    \end{equation}
+    As in the previous case, $e_\lambda$ is attached to the boundary $S_{c-\epsilon}$.\\
+    We now define a function $g$ which coincides with the function $f$ outside $U$, it is slightly smaller than $f$ on $U$, and it has the same critical point of $f$. To this end, let $\mu : \Real_{\geq 0} \to \Real_{\geq 0}$ be a smooth function such that 
+        $$\mu(t) = \mycasesthing{> \epsilon,& \quad \myif t = 0}{=0,& \quad \myif t \geq 2 \epsilon}$$
+    and $-1<\mu'(t) \leq 0$ for all $t\geq 0$. We define 
+        $$g \coloneqq \mycasesthing{f,&\quad \text{outside } U}{f - \mu(\xi + 2\eta), &\quad \text{inside } U}$$
+    Note that $g \leq f$ and by (\ref{eqn:MorseLemmaExpansion}), we have that if $x\in U$, then
+    \begin{equation}\label{eqn:gExpansion}
+        g(x) = c - \xi + \eta - \mu(\xi + 2 \eta)
+    \end{equation}
+    Finally, since $\mu = 0$ if $r \geq 2\epsilon$, we have that $g =f$ outside the ellipsoid 
+        $$E = \{(\xcoords): \xi + 2 \eta \leq 2\epsilon\} \subset B_{\sqrt{2\epsilon}} \subset U$$
+    If $y\in E$ then 
+        $$\eta(y) - \xi (y) \leq \epsilon - \frac{3}{2} \xi(y) \leq \epsilon$$
+    Thus $E \subset S_{c+\epsilon}$. We are going to prove the following properties:
+    \begin{enumerate}[(i)]
+        \item $g^{-1}((-\infty,c+\epsilon]) = \finv((-\infty,c+\epsilon]) = S_{c+\epsilon}$.
+        \item $f$ and $g$ have the same critical points.
+        \item $g^{-1}((-\infty,c-\epsilon])$ is a deformation retract of $S_{c+\epsilon}$.
+        \item $S_{c-\epsilon} \cup e_\lambda$ is a deformation retract of $g^{-1}((-\infty,c-\epsilon])$.
+    \end{enumerate}
+    We first show (i). Since $g \leq f$, it is clear that $\finv((-\infty,c+\epsilon]) \subset g^{-1}((-\infty,c+\epsilon])$. Assume that $f(x) > c+\epsilon$. Then, since $E\subset S_{c+\epsilon}$, we have that $g(x) = f(x)$. Thus, $g(x) > c+ \epsilon$ and (i) follows.\\
+    We now prove (ii). Outside $U$, we have that $f=g$ and there is nothing to prove. By (\ref{eqn:gExpansion}), inside of $U$, we have
+        $$\parderivof{g}{\xi} = -1 - \mu'(\xi + 2\eta) < 0$$
+        $$\parderivof{g}{\eta} = 1 -2\mu'(\xi + 2\eta) > 1$$
+    where the two inequalities come from the fact that, by construction, $1<\mu'\leq 0$. Thus, 
+        $$\deriv g = \parderivof{g}{\xi} \deriv \xi + \parderivof{g}{\eta} \deta = 0 \iff \deriv \xi = \deta = 0$$
+    which is satisfied if and only if $x_1 = \dots = x_n =0$, i.e. $x = x_0$. Thus (ii) follows.\\
+    We now prove (iii). By (ii), $x_0$ is the only critical point of $g$ and by (\ref{eqn:gExpansion}) we have $g(x_0) = c - \mu(0) < c- \epsilon$. Thus $x_0 \not\in g^{-1}([c-\epsilon,c+\epsilon])$ and $g^{-1}([c-\epsilon,c+\epsilon])$ does not contain any critical point. Thus (iii) follows by the First Fundamental Theorem of Morse Theory and by (i).\\
+    We finally show (iv). Let $H$ denote the closure of $g^{-1}((-\infty,c+\epsilon]) \backslash S_{c-\epsilon}$, then $g^{-1}((-\infty,c-\epsilon]) = S_{c-\epsilon}\cup H$. We first show $e_\lambda \subset H$. Indeed, since $\parderivof{g}{\xi}< 0 $ for all $x\in e_\lambda$, we have $g(x) \leq g(x_0)$. Moreover, $\xi (x_0) - 0 \leq \xi(x)$, hence $g(x) < c- \epsilon$ and $x\in g^{-1} ((-\infty,c-\epsilon]).$ On the other hand, by (\ref{eqn:MorseLemmaExpansion}) and (\ref{eqn:LambdaCell}), we have $f(x) = c- \xi + \eta > c -\epsilon$ for all $x$ in the interior of $e_\lambda$. Thus $x\not\in S_{c-\epsilon}$ and the claim follows.\\
+    In order to construct the deformation retraction, we consider three cases.\\
+    \underline{Case I: Assume $\xi < \epsilon:$} Define the deformation retraction by 
+        $$r_t : (\xcoords) \mapsto (x_1,\ldots, x_{\lambda}, tx_{\lambda+1},\ldots,tx_n)$$
+    Thus $r_1 = \id$ and $r_0$ maps everything to $e_\lambda$. Moreover, since $\parderivof{g}{\eta} < 0$, each $r_t$ maps $g^{-1}((-\infty,c-\epsilon])$ into itself.\\
+    \underline{Case II: Assume $\epsilon\leq \xi \leq \eta + \epsilon:$} Define the deformation retraction by 
+        $$r_t : (\xcoords) \mapsto (x_1,\ldots, x_{\lambda}, l_t x_{\lambda+1},\ldots,l_t x_n)$$
+    where 
+        $$l_t \coloneqq t + (1-t) \sqrt{\frac{\xi - \epsilon}{\eta}}.$$
+    Then it follows easily that $r_t$ is continuous. As in the previous case, we have $r_1 = \id$ and $r_0$ maps everything to $S_{c-\epsilon}$, since $(x_1,\ldots,x_\lambda, l_0x_{\lambda+1},\ldots,l_0 x_n)$ is the level $\finv(c-\epsilon)$. Moreover, as in Case I, $r_t$ maps $g^{-1}((-\infty,c-\epsilon])$ to itself.
+        $$\includegraphics[width = 0.5\textwidth]{Images/SecondFundamentalMorseCases.png}$$\\
+    \underline{Case III: Assume $\eta + \epsilon \leq \xi$:} This is exactly the set $S_{c-\epsilon}.$ Thus we choose $r_t = \id.$\\
+    Note that Case I coincides with Case II when $\xi = \epsilon$ and Case II coincides with Case III when $\xi = \eta + \epsilon$. Thus, we have shown (iv). By (iii) and (iv), it follows that $S_{c-\epsilon} \cup e_\lambda$ is a deformation retraction of $S_{c+\epsilon}$. Thus, the theorem follows.
+\end{proof}
+
+\Note We can generalise the proof of the previous theorem to the case of $k$ critical points $x_1,\ldots,x_k$ such that $f(x_1) = \dots = f(x_k) = c$, with indices $\lambda_1,\ldots,\lambda_k$ respectively. In this case, the sublevel set $S_{c+\epsilon}$ is homotopically equivalent to $S_{c-\epsilon} \cup _{f_1} D_{\lambda_1} \cup \ldots \cup_{f_k} D_k$ for some attaching maps $f_1, \ldots,f_k$.\\
+We can finally state the main theorem of this section.
+
+\begin{thm}\label{thm:MorseCompactSubleveSetsHomotopyEquivalentToCWComplex}
+    Let $\man$ be a manifold and let $f:\man \to \Real$ be a Morse function such that the sublevel sets $S_t$ are compact for all $t \in \Real$. Then $\man$ is homotopy equivalent to a CW complex with one $\lambda$-cell for each critical point of index $\lambda$. 
+\end{thm}
+Before we proceed with the proof of the theorem, we need to recall a few facts from topology.
+\begin{defn}
+    A continuous map $f:X \to Y$ between CW complexes with \textbf{cellular} if it maps skeletons to skeletons i.e. $f(X^{(n)}) \subset Y^{(n)}$ for all $n\geq 0.$
+\end{defn}
+
+\begin{thm}
+    Let $X$ and $Y$ be CW-complexes and $S\subset X$ be a subcomplex. Assume that $f: X \to Y$ is a continuous morphism such that $f\restrict{S}$ is cellular. Then $f$ is homotopic to a cellular map $\tilde{f} : X \to Y$ such that $\tilde{f}\restrict{S} = f\restrict{S}.$
+\end{thm}
+
+The idea of the proof is to prove the claim on the skeleton $X^{(n)}$ and proceeding by induction on $n$.
+
+\begin{thm}[Whitehead]
+    Let $X$ be a topological space and let $\phi_0,\,\phi_1:\partial D_k \to X$ be attaching maps. Then the identity maps of $X$ extends to a homotopy equivalence $H: X\cup_{f_0} D_k \to X \cup_{f_1} D_k$. 
+\end{thm}
+In particular, the above theorem implies that the homotopy of a space $X\cup_f D_k$ does not depend on the way the cell $D_k$ is attached if the attaching maps are homotopically equivalent. Similarly, the following theorem implies that the homotopy of a space $X\cup_f D_k$ does not depend on the homotopy class of $X$.
+\begin{thm}[Hilton]
+    Let $X$ be a topological space and let $f : \partial D_k \to X$ be an attaching map. Then the homotopy equivalence $h: X\to Y$ extends to a homotopy equivalence $H:X \cup_f D_k \to Y \cup_{h\circ f} D_k$.
+\end{thm}
+We can now proceed with the proof of Theorem \ref{thm:MorseCompactSubleveSetsHomotopyEquivalentToCWComplex}.
+\begin{proof}[Proof of Theorem \ref{thm:MorseCompactSubleveSetsHomotopyEquivalentToCWComplex}]
+    Let $c_0,c_1,\ldots$ be the critical values of $f$. Since the sublevel set $S_t$ is compact for all $t \in \Real$, there are no accumulation points at the critical values. Moreover, $S_t$ is empty if $t < c_0$. We now prove by induction that for each $i$ there exists $\epsilon>0$ such that $S_{c_i+\epsilon_i}$ is homotopy equivalent to a CW complex with one $\lambda$-cell for each critical point $x$ of index $\lambda$ and such that $f(x) \leq c_i$. If $\epsilon>0$ is sufficiently small, then $S_{c_0+\epsilon_0}$ is just the disjoint union of contractible subsets containing all the points $\xman$ such that $f(x) = c_0$ and such that for each point, the index is $0$. Thus the claim follows.\\
+    We now assume that $i>0$. By induction, there exists $\epsilon_{i-1}$ such that there is a homotopy equivalence $S_{c_{i-1} + \epsilon_{i-1}} \to X _{i-1}$, where $X_{i-1}$ is a CW complex. Let $x_1,\ldots,x_k\in\man$ be the critical points such that $f(x_1)=\dots=f(x_k)=c_i$ and with indices $\lambda_1,\ldots,\lambda_k$ respectively. By the second fundamental theorem of Morse theory and its following note, there exists $\epsilon_i > 0$ such that $S_{c_i + \epsilon_i}$ has the homotopy type of 
+        $$S_{c_i - \epsilon_i} \cup_{f_1} D_{\lambda_1} \cup \ldots \cup_{f_k} D_k$$
+    for some attaching maps $f_1,\ldots,f_k$. Thus, for each $k,$ we have a morphism 
+        $$\partial D_{\lambda_k} \xrightarrow[]{f_k} S_{c_i-\epsilon_i} \xrightarrow[]{g_{i-1}} S_{c_{i-1} +\epsilon_{i-1}} \xrightarrow[]{h_{i-1}} X_{i-1}, $$
+    where the existence of the second morphism follows from the first fundamental theorem of Morse theory.\\
+    By the Cellular Approximation theorem, the induced morphism $f_k \circ g_{i-1} \circ h_{i-1}$ is homotopic equivalent to a cellular map $\phi_k : \partial D_k \to X_{i-1}^{(\lambda_k)}$. By the Whitehead Theorem and Hilton Theorem, it follows that the CW complex 
+        $$X_i \coloneqq X_{i-1} \cup_{\psi_1} D^{\lambda_1} \cup_{\psi_2} \ldots \cup_{\psi_k} D^{\lambda_k}$$
+    is homotopy equivalent to $S_{c_i+\epsilon_i}$ i.e. to
+        $$S_{c_i-\epsilon_i} \cup_{f_1} D_{\lambda_1} \cup \ldots \cup_{f_k} D_{\lambda_k}$$
+    Thus the theorem follows.
+\end{proof}
+
+\mysubsection{Morse Homology}
+\begin{defn}
+    Let $(\man,g)$ be a Riemannian manifold and let $f:\man \to \Real$ be a Morse function. For every $\xman$, $\gamma_x(t)$ be the gradient flow line with respect to $f$ starting at $x$. For every critical point $c\in\man$, we may define the subsets
+        $$W^s(c) \coloneqq \{ \xman : \lim\limits_{t\to +\infty}\gamma_x(t) = c\}$$
+        $$W^u(c) \coloneqq \{ \xman : \lim\limits_{t\to -\infty}\gamma_x(t) = c\}$$
+    called the \textbf{stable} and \textbf{unstable} manifold of $c$ respectively. In addition, the sets $W^s(c)$ (resp. $W^u(c)$) are pairwise disjoint. 
+\end{defn}
+
+Thus, by Proposition \ref{prop:GradientFlowLimitsCriticalPoints}, it follows that they define two partitions of $\man$ i.e.:
+        $$\man = \bigsqcup\limits_c W^s(c) = \bigsqcup\limits_c W^u(c)$$
+It can be shown moreover that if $\lambda$ is the index of the critical point $c$ the $W^s(c)$ and $W^u(c)$ are diffeomorphic to open discs of dimension $n -\lambda$ and $\lambda$ respectively. More precisely, we have:
+\begin{thm}[Stable Manifold Theorem]\label{thm:StableManifoldTheorem}
+    Let $(\man,g)$ be a Riemannian manifold, let $f:\man \to\Real$ be a Morse function and $c\in \man$ be a critical point of $f$. Then the tangent space of $\man$ at $c$ can be decomposed as follows:
+        $$T_c \man = T_c W^u(c) \oplus T_cW^s(c)$$
+    Moreover, $W^s(c)$ and $W^u(c)$ are smooth submanifold diffeomorphic to open discs with $\dim W^s(c) = \lambda$ and $\dim W^u(c) = n -\lambda$.
+    
+\end{thm}
+
+\begin{exmp}
+    Let $\man= S^n$ and consider the height function $f : \man \to \Real$. The only critical points of $f$ are the points $S$ and $N$ corresponding to the minimum and maximum of $f$ respectively. Then $W^u(N) = S^n \backslash \{S\}$ and $W^s(N) = \{N\}$. Similarly, $W^u(S) = \{S\}$ and $W^s(S) = S^n \backslash\{S\}$.
+\end{exmp}
+
+\begin{defn}
+    Let $\man$ be a manifold and let $\mathcal{K}$ and $\mathcal{L}$ be submanifolds $\man$. Then $\mathcal{K}$ and $\mathcal{L}$ are said toe be \textbf{transverse} if for every point $x\in\mathcal{K}\cap\mathcal{L}$, we have $T_x\mathcal{K} + T_x \mathcal{L} = T_x\man$ i.e. every vector in $T_x\man$ can be written as a sum of a vector in $T_x\mathcal{K}$ and a vector $T_x\mathcal{L}$.
+\end{defn}
+
+\begin{prop}\label{prop:TranserveEmbeddedDimensionInclusionExclusion}
+    If $\kan,\lan \subset \man$ are transverse embedded submanifolds then $\kan \cap \lan$ is also an embedded submanifold of dimension $\dim \kan + \dim \lan - \dim \man$.
+\end{prop}
+
+\begin{proof}
+    Let $k = \dim \man - \dim \kan$ be the codimension of $\kan$ and let $x\in\kan\cap\lan$. Then there exists a neighbourhood $U$ of $x$ in $\man$ such that $K\cap U = \finv(0)$ where $f:U\to\Real^k$ is a smooth function and $0 \in \Real^k$ is a regular value for $f$. Similarly if $l = \dim \man - \dim \lan$ is the codimension of $L$, then there exists a smooth function $g : U \to \Real^l$ such that $\lan \cap U = \ginv(0)$ and $0\in\Real^l$ is a regular value for $g.$ Then $\kan \cap \lan \cap U = F^{-1}(0)$, where $F = (f,g) : U \to \Real^{k+l}$. Moreover, $0 \in \Real^{k+l}$ is a regular value for $F$ since $\Ker DF_x = \Ker Df_x \cap \Ker Dg_x = T_x\kan\cap T_x\cap\lan$ has codimension $k + l $ by the transversality condition. 
+\end{proof}
+
+\begin{defn}
+    Let $(\man,g)$ be a Riemannian manifold and let $f:\man\to\Real$ be a Morse function. Then $f$ is said to be \textbf{Morse-Smale} if for all critical points $x,y\in\man$ for $f$, the manifolds $W^u(x)$ and $W^s(y)$ are transverse.
+\end{defn}
+\Note This definition depends on the metric $g$.
+\begin{prop}\label{prop:IntersectionOfStableUnstableManifoldsDimension}
+    Let $(\man,g)$ be a compact Riemannian manifold of dimension $n$ and let $f:\man \to\Real$ be a Morse-Smale function. Let $x,y\in\man$ be critical points for $f$ of index $\lambda_x,\lambda_y$ respectively such that 
+        $$\nan \coloneqq W^u(y)\cap W^s(x) \neq \varnothing$$
+    Then $\nan$ is an embedded submanifold of dimension $\lambda_x - \lambda_y$.
+\end{prop}
+\begin{proof}
+    By Proposition \ref{prop:TranserveEmbeddedDimensionInclusionExclusion} and Theorem \ref{thm:StableManifoldTheorem}, we have that $\nan$ is an embedded submanifold of dimension $\dim \nan = \dim W^u(y) + \dim W^s(x) - n = \lambda_y + n -\lambda_x - n = \lambda_y - \lambda_x.$ Thus the claim follows.
+\end{proof}
+\noindent
+\Notation In the same set-up as in \ref{prop:IntersectionOfStableUnstableManifoldsDimension}, we denote $W(x,y) \coloneqq W^u(y)\cap W^s(x)$.
+
+\begin{corollary}
+    Let $(\man,g)$ be a compact Riemannian manifold of dimension $n$ and let $f:\man\to\Real$ be a Morse-Smale function. Let $x,y\in\man$ be critical points for $f$ of index $\lambda_x,\lambda_y$ respectively such that $W(x,y) \neq 0$. Then $\lambda_y > \lambda_x$.
+\end{corollary}
+\begin{proof}
+    If $W(x,y) \neq \varnothing$ then it contains at least one flow from $y$ to $x$. Hence by Proposition \ref{prop:IntersectionOfStableUnstableManifoldsDimension}, we have $\lambda_y - \lambda_x = \dim W(x,y) \geq 1$ and the claim follows.
+\end{proof}
+\begin{exmp}
+    Let $\man = S^n$ and $f:\man\to\Real$ the usual height function. If $x=S$ and $y = N$, then $W^s(x) = S^n \backslash\{N\} \cong D_n$ and $W^u(y) = S^n \backslash\{S\} \cong D_n$, so $T_zW^s(x) \cong T_zW^u(y) \cong \Real^n$. Since $T_zS^n \cong \Real^n$, $T_zW^s(x) + T_zW^s(y) \cong \Real^n \cong T_x\man$, so they are indeed transverse (I'm fairly sure this isn't a sufficient enough condition, but might be true in this case) and $f$ is Morse-Smale, and $W(x,y) = S^n \backslash\{S,N\} \neq \varnothing$. $\lambda_y = 2$ (has negative curvature) and $\lambda_x = 0 $ (positive curvature) so $\lambda_y > \lambda _x$. 
+\end{exmp}
+
+\begin{exmp}
+    Let $\man = T^2$ be the torus embedded in $\Real^3$ and resting upright on the horizontal $xy$-plane and $f:\man\to\Real$ be the height function i.e. $f(x,y,z) =z$. Let $p_2,p_3$ be the critical points on the inside hole (see diagram). Then $W^u(p_2) = $ inside ring minus $p_3\cong \inter$, and similarly for $W^s(p_3)$. Since, for $z\in W^u(p_2) \cap W^s(p_3) \cong \inter \sqcup \inter$, $T_z\man \cong \Real^2$, we can't have $T_zW^u(p_2) + T_zW^s(p_3) = T_z\man$, so this function is not Morse-Smale. Indeed $\lambda_{p_2} = \lambda_{p_3} = 1$ which would violate the previous corollary, which follows for the fact that there is a flow line connecting these two critical points with the same index.\\
+    On the other hand, this can be fixed by bending the torus a bit and leaving the height function unchanged so that we don't have flow lines beginning and ending at critical points of the same index.
+        $$\includegraphics[width = 0.75\textwidth]{Images/MorseSmaleCounterExampleExample.png}$$
+\end{exmp}
+
+\begin{corollary}\label{cor:GradientFlowLinesSpaceFinite}
+    Let $(\man,g)$ be a compact Riemannian manifold of dimension $n$ and let $f:\man \to \Real$ be a Morse-Smale function. Let $x,y\in\man$ be critical points for $f$ of index $\lambda_x,\lambda_y$ respectively, such that $\lambda_y - \lambda_x = 1$. Then $\overline{W(x,y)} = W(x,y) \cup\{x,y\}$ has finitely map components i.e. the number of gradient flow lines from $y$ to $x$ is finite.
+\end{corollary}
+\begin{proof}
+    Since $\lambda_y - \lambda_x = 1$, it follows that $W(x,y) \cup \{x,y\}$ is closed because there are no other critical points between $y$ and $x$ as the index is strictly decreasing along flow lines. Since $\man$ is compact, it follows that $W(x,y) \cup \{x,y\}$ is also compact. \\
+    The gradient flow lines form an open cover of $W(x,y)$ which can be extended to an open cover of $\overline{W(x,y)}$ by taking the union of each gradient flow line with small open subsets in $\overline{W(x,y)}$ around $x$ and $y$. Thus, by compactness, it follows that the number of flow lines from $y$ to $x$ is finite.
+\end{proof}
+
+\begin{defn}
+    Let $(\man,g)$ be a compact Riemannian Manifold of dimension $n$ and let $f:\man\to\Real$ be a Morse-Smale function. Let $x,y\in\man$ be critical points for $f$ of index $\lambda_x,\lambda_y$. Then $\Real$ acts on $W(x,y)$ by flowing along the flow lines for $t\in\Real$. The quotient
+        $$\man(x,y) = W(x,y) / \Real$$
+    is called the \textbf{moduli space of flow lines} from $y$ to $x$. By the previous corollary, if $\lambda_y -\lambda_x = 1$, then $\man(x,y)$ is a finite set with each point corresponding to a flow line from $y$ to $x$.
+\end{defn}
+ We are now going to assign a sign $\pm 1$ to each of these points depending on their orientation.
+\begin{lemma}
+     Let $(\man,g)$ be a compact Riemannian Manifold of dimension $n$ and let $f:\man\to\Real$ be a Morse-Smale function. Let $x,y\in\man$ be critical points for $f$ of index $\lambda_x,\lambda_y$. Let $z\in W(x,y)$ and let $\gamma$ be the orbit of $z$ under the $\Real-$action. Then there are canonical isomorphisms:
+    \begin{enumerate}
+        \item $T_zW^u(y) \cong T_zW(x,y) \oplus T_z\man / T_z W^s(x)$
+        \item $T_zW(x,y) \cong T_z\man(x,y) \oplus T_z\gamma$
+        \item $T_zW^u(y) \cong T_z\man(x,y) \oplus T_z\gamma \oplus T_z\man / T_zW^s(x)$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+        We first prove 1. By Proposition \ref{prop:IntersectionOfStableUnstableManifoldsDimension}, the Riemannian metric induces the decomposition       
+            $$T_zW^u(y) \cong T_zW(x,y)\oplus T_zW^u(y) / T_zW(x,y)$$
+        Consider the map $\phi:T_zW^u(x) \to T_z\man / T_zW^s(x)$ obtained as the composition of the inclusion with the quotient map. Then $\Ker \phi = T_zW(x,y)$. By the definition of Morse-Smale functions, $W^u(x)$ and $W^s(y)$ are transverse. Thus, $T_zW^u(y) + T_zW^s(x) = T_z\man$. It follows that $\phi$ is sujective and $T_zW^u(y) / T_zW(x,y) \cong T_z\man / T_zW^s(x)$. Thus 1. holds.\\
+        We now prove 2. Let $\pi:W(x,y) \to W(x,y)/\Real$ be the quotient map. Then $D\pi_z : T_zW(x,y) \to T_{\pi(z)} W(x,y) /\Real$ is a surjective linear map and the kernel of $D\pi_z$ is exactly $T_z\gamma$. Thus, by the nullity theorem, we get a canonical isomorphism $T_zW(x,y) / T_z\gamma \cong T_{\pi(z)} W(x,y)/ \Real$.
+        Using the metric, we obtain 2.\\
+        3. follows immediately from 1. and 2.
+\end{proof}
+
+Assume now that $(\man,g)$ is a compact oriented Riemannian manifold. In the set-up of the lemma above, we now want to choose an orientation which is compatible with the flow. To this end, we first choose an orientation on $\man$ and an orientation on $T_xW^u(x)$ for any critical point x. By the Stable Manifold Theorem (Theorem \ref{thm:StableManifoldTheorem}), $W^u(x)$ is an oriented manifold, Thus, the orientation on $T_xW^u(x)$ induces an orientation on $W^u(x)$ for all $z\in W^u(x)$. Since by transversality, we have $T_x\man = T_x W^u(x) \oplus T_x W^s(x)$, the orientation on $T_\man$ and $T_zW^u(x)$ induces an orientation on $T_xW^s(x)$. By the Stable Manifold Theorem, $W^s(x)$ is also oriented and so this induces an orientation on $W^s(x)$ for all $z\in W^s(x)$.\\
+Assume now that $x,y\in\man$ are critical points for $f$ of index $\lambda_x,\lambda_y$ respectively, such that $\lambda_x-\lambda_y = 1$. By Corollary \ref{cor:GradientFlowLinesSpaceFinite}, it follows that $M(x,y)$ is a finite set. Let $z\in W(x,y)$. Then the gradient flow with respect of $f$ induces an orientation on $T_z\gamma$, given by $-\nabla f(z).$ The above orientation on $W^u(y)$ provides an ordered basis $(-\nabla f(z), B^u(z))$ of $T_zW^u(y)$. Similarly, the orientation on $W^u(x)$ induces an orientation on $T_xW^s(x)$ and thus an ordered basis $B^s(z)$ of $T_zW^s(x)$. Since $-\nabla f(z)$ spans $T_zW^u(y) \cap T_zW^s(x)$, it follows that $(B^u(x),B^s(x))$ is an ordered basis of $T_z\man$. If this coincides with the orientation on $T_z\man$ then we assign $+1$ as the orientation of the corresponding element in $\man(x,y)$, otherwise we assign $-1$. Note that the choice of these orientations is not unique, as it depends on the choice of the orientation on the manifold $W^u(x)$.\\
+Thus, given a smooth compact Riemannian manifold $(\man,g)$ with a Morse-Smale function $f:\man \to\Real$, after we assign the orientation of the unstable manifolds of $f$, we may define the number $n(x,y) \in \mathbb{Z}$ as the algebraic sum of signed flow lines from $y\in Cr_k(f)$ to $x\in Cr_{k-1}(f)$, where for any $k\geq 0$, $Cr_k \coloneqq \{$critical point for $f$ of index $k\}$.
+
+\begin{exmp}
+    Let $\man = S^1 \subset \Real^2$ be the circle, let $f:S^1\to\Real:(x,y)\mapsto y$ be the height function and let $g$ be the metric on $\man$ induced by the Euclidean metric on $\Real^2$. As in a previous example, $f$ admits two critical points $S$ and $N$ and we have $W^u(N) = S^n\backslash\{S\}, \, W^s(N) = \{N\}, \, W^u(S) = \{S\}, \,W^u(N) = S^n\backslash\{N\}$. Thus the function is Morse-Smale. \\
+    We now want to compute $n(N,S)$. We pick the `clockwise' orientation on $S^1$. We now have to pick an orientation for the unstable manifolds at the two critical points. We pick the basis on $T_N W^u(N)$ to be the tangent vector `from left to right'. This determines the orientation on $T_x W^u(N)$ for all $x\in W(S,N)$. Since $W^u(S)$ is just a point, we assign the orientation +1. This yields an orientation on all stable manifolds such that at the critical points, the orientations of the unstable and stable manifolds are compatible with the one of $S^1$ i.e. for example the basis of $T_SW^s(S)$ has to be the tangent vector from `right to left'. Consider now the negative gradient $-\nabla f(x)$. It agrees with the orientation of $T_xW^u(N)$ on the right side and has the opposite orientation on the left side. Since $T_xW^u(N)$ is one dimensional, $B^u(x)$ is just a sign which turns the basis $-\nabla f(x)$ into a positive basis on $T_xW^u(N)$. Hence $B^u(x) = +1$ on the right side and $B^u(x) = -1$ on the left side. Since $B^s(x)$ is a positive basis of $T_xW^s(S)$ by our choice, and $W^u(S)$ and $W^s(S)$ are oriented compatibly with $\man$ at $S$, we see that the orientation +1 of $T_SW^u(S)$ together with a positive basis of $T_SW^s(S)$ gives a positive basis of $T_S\man$. There also at $x,$ +1 together with a positive basis of $T_xW^s(S)$ yields a positive basis of $T_x\man$. We conclude finally that $(B^u(x),B^s(x))$ is positive on the right flow and negative on the left. Thus $n(S,N) = 1 - 1 =0.$
+        $$\includegraphics[width = 0.5\textwidth]{Images/MorseCircleOrientationAndFlowsLines.png}$$
+\end{exmp}
+
+Let $C_k(f) \coloneqq \mathbb{Z} [ Cr_k(f)]$ be the free abelian group generated by all the critical points of index $k$ and define the linear map
+    $$\partial_k : C_k(f) \to C_{k-1}(f) : y\mapsto \partial_k(y) \coloneqq \sumfromto{x\in Cr_{k-1}(f)}{} n(x,y)x $$.
+    
+\begin{thm}
+    Under the set-up above, the pain $(C_{\bullet}(f) , \partial_{ \bullet})$ is a chain complex. If we denote
+        $$Z_k(C_\bullet(f),\partial_\bullet) \coloneqq \Ker(\partial_k : C_k \to C_{k-1})$$
+    and 
+        $$B_k(C_\bullet(f),\partial_\bullet) \coloneqq \Ima(\partial_{k+1} : C_{k+1} \to C_{k})$$
+    then the quotient   
+        $$H_k(\man,f) \coloneqq Z_k(C_\bullet(f),\partial_\bullet) / B_k(C_\bullet(f),\partial_\bullet)$$
+    does not depend on $f$ and it coincides with the singular homology group $H_k(\man)$. The pair $(C_\bullet(f),\partial_\bullet)$ is called the \textbf{Morse-Smale-Witten} chain complex. The group $H_k(\man,f)$ is called the $k$th \textbf{Morse Homology group} of $\man$ with respect to $f$.
+\end{thm}
+
+\begin{exmp}
+    Consider again the example $\man = S^1$ with $f$ and $g$ as in the previous example. Since $n(S,N) = 0,$ we have $\partial_1 = 0$ and the Morse-Smale-Witten chain complex is 
+        $$C_1(f) \xrightarrow[]{\partial_1} C_0(f) \xrightarrow[]{} 0,$$
+    where $C_1(f) = C_0(f) = \mathbb{Z}$, since there is only one critical point of index $0$ and one critical point of index 1. Thus,
+        $$H_p(\man,f) = \mycasesthing{\Zint,&\quad \myif p = 0,1}{0,& \quad \text{otherwise.}}$$
+\end{exmp}
+
+
+
+
+
+%end of chapter
+
+\renewcommand{\thesection}{\oldsection} %puts section numbering back to normal
+\addtocounter{section}{-1} % makes section numbering work
 
 \mysection{Lecture 21: The Definition of Singular Homology}
 Let $X$ be a topological space. We want to associate some invariants to $X$ to help us understand its topology. Singular (co)homology is one such set of invariants which detect `$i$-dimensional holes' in $X$. 
 
 \begin{defn}
     A standard $n$-simplex is 
-    $$\Delta_n \coloneqq \{ (t_0,\ldots,t_n)\in \Real^{n+1} : t_i \geq 0, \sumfromto{i=1}{n} = 1\}$$
+    $$\Delta_n \coloneqq \{ (t_0,\ldots,t_n)\in \Real^{n+1} : t_i \geq 0, \sumfromto{i=1}{n} t_i = 1\}$$
 \end{defn}
 \begin{defn}
     A $k$-face of $\Delta_n$ is $[e_{i_0},\ldots,e_{i_k}]$ with $0\leq i_0 < \ldots < i_k  \leq n$ where $e_0,\ldots,e_n$ denotes standard basis of $\Real^{n+1}$.\\
@@ -1861,9 +2179,9 @@ NB: These homology groups could also have torsion, unlike de Rham cohomology, bu
 
 \mysection{Lecture 22: More on Singular Homology}
 
-\begin{theorem}[Homotopy Invariance of Singular Homology]\label{thm:HomotopyInvarianceOfSingularHomology}
+\begin{thm}[Homotopy Invariance of Singular Homology]\label{thm:HomotopyInvarianceOfSingularHomology}
     If $f,g : X\to Y$ and $f\sim g$ then $f_*, g_* : H_p(X) \to H_p(Y)$ are the same, for all $p\geq 0.$
-\end{theorem}
+\end{thm}
 
 \begin{corollary}
     If $X,Y$ are homotopy equivalent, then $H_p(X) \cong H_p(Y) $ for all $p\geq 0.$
@@ -1884,7 +2202,7 @@ NB: These homology groups could also have torsion, unlike de Rham cohomology, bu
 
 \underline{Idea:} Divide $\inter \times \Delta_p$ into $(p+1)$-simplices. Define, for $\sigma_p:\Delta_p\to X,$ $$H(\sigma) = \sumfromto{i}{} h_\sigma ([x_0,\ldots,x_i,y_i,\ldots,y_p])$$
 where $h_\sigma(v,t) = h(\sigma(v),t).$ i.e. $h_\sigma : \Delta_p\times I \to Y$
-\begin{center}\includegraphics[width = 0.5\textwidth]{ChainHomotopySimplices.png}\end{center}
+\begin{center}\includegraphics[width = 0.5\textwidth]{Images/ChainHomotopySimplices.png}\end{center}
 See Hatcher for more pictures.
 
 \begin{prop}
@@ -1906,13 +2224,13 @@ We would like to have a MVT for singular homology. Obvious idea: write down a SE
 
 Note all the arrows are going in the opposite direction from cohomology. However, this diagram above is not exact!
 \begin{center}
-    \includegraphics[width = 0.5\textwidth]{MayerVietorisNotExactSingularHomology.png}
+    \includegraphics[width = 0.5\textwidth]{Images/MayerVietorisNotExactSingularHomology.png}
 \end{center}
 So the blue triangle in $C_p(U\cup V)$, but it is not in the image of $C_p(U)\oplus C_p(V)$. We do have a clever fix to this problem: refinement. If $\chartU = \{ U_\alpha\}$ open cover of $X$, define $C_p^\chartU(X)$ to be the free abelian group on $\{\sigma : \Delta_p\to X : \Ima \sigma \subset U_\alpha $ for some $\alpha\}$. Can define $H^\chartU_p(X) $ for all $p$ since can use the same boundary map.
 
-\begin{theorem}
+\begin{thm}
     $H^\chartU_p(X) \cong H_p(X)$
-\end{theorem}
+\end{thm}
 \begin{proof}
     See Hatcher. Basic idea is to barycentrically subdivide simplices.
 \end{proof}
@@ -1926,14 +2244,14 @@ So the blue triangle in $C_p(U\cup V)$, but it is not in the image of $C_p(U)\op
 And this gives rise to a SES of chain complexes.
 \end{prop}
 
-\begin{theorem}[Mayer-Vietoris]
+\begin{thm}[Mayer-Vietoris]
     Let $U,V \subseteq X$ be open. Supposed $U\cup V = X$ and $U\cap V \neq \varnothing$. Then there is a long exact sequence of homology groups:
     $$% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQAJAfTQAoBVADqCAxvTQACAGoBKEAF9S6TLnyEUAJgrU6TVu259+MicIhoWcCYd6yFSkBmx4CRAMzaaDFm0SceAsIizJJ2isrOakRkxDre+n7cwGgAtMTygaLi0nLhjiou6shasV56viDCjFAQOAh5TqquKB6luj4GXMDkGUKiITn2EU1FACykbfEV5EP5kc3I5J7tCZWC1bX1OjBQAObwRKAAZgBOEAC2SFogOBBIbnmnF0hLN3eI6Q5Plx80t1ePM4-DxvJCjQHPRDjUGIACsEJ+sL+7wAbAikAB2ZEveSUeRAA
 \begin{tikzcd}
 \ldots \arrow[r] & H_p(U\cap V) \arrow[r]     & H_p(U) \oplus H_p(V) \arrow[r] & H_p(U\cup V) \arrow[lld] &   \\
                  & H_{p-1}(U\cap V) \arrow[r] & \ldots \arrow[r]               & H_{0}(U\cup V) \arrow[r] & 0
 \end{tikzcd}$$
-\end{theorem}
+\end{thm}
 \begin{proof}
     Use above SES and snake lemma, along with $H^\chartU_p(X) \cong H_p(X)$.
 \end{proof}
@@ -2007,9 +2325,9 @@ $\Recall$ $H^p(\man;\Real) \cong \Hom{H_p(\man)}{\Real}$ (this doesn't work for 
     A smooth $p$-simplex is a smooth map $\sigma : \Delta_p \to \man$. Let $C^\infty_p(\man) $ be the free abelian group on these.
 \end{defn}
 
-\begin{theorem}
+\begin{thm}
     There is the natural inclusion $i:C^\infty_p(\man)\hookrightarrow C_p(\man)$. This map induces an isomorphism $H^\infty _p (\man) \to H_p(\man)$ where $H^\infty_p(\man)$ is the homology groups of the chain complex $\ldots \to C_p^\infty(\man) \to C_{p-1}^\infty(\man)\to \ldots$.
-\end{theorem}
+\end{thm}
 ``We're not gonna prove this, its actually quite technical to prove this, its quite annoying.''\\
 \begin{semiproof}
     Construct (i) a smooth operator $s: C_p(\man) \to C_p^\infty(\man)$ (ii) a chain homotopy showing that $s\circ i$ induces the identity on homology. Key ingredient: Whitney approximation theorem (Lee p. 141), which says that any cts $F:\man \to \nan$ is homotopic to a smooth map. See Lee Chapter 18 for a full proof.
@@ -2021,9 +2339,9 @@ and if $c = \sum_i a_i \sigma_i \in C_p^\infty(\man)$ ($a_i\in\Zint)$ we define 
 \end{defn}
 
 We also need a Stokes' Theorem for these integrals:
-\begin{theorem}
+\begin{thm}
     If $c = \sum_i a_i \sigma_i \in C_p^\infty(\man) $ then $\int_{\partial c} \omega = \int_c \dw$ for $\omega \in \pformman{p-1}$.
-\end{theorem}
+\end{thm}
 \begin{proof}
     Reduce to $c = \sigma$ by linearity. Then we need `Stokes' Theorem for manifolds with corners'\footnote{We actually needed this for Prop \ref{prop:HomotopyInvarianceOfIntegral} way back in lecture 7.}.
 \end{proof}
@@ -2069,9 +2387,9 @@ We also need a Stokes' Theorem for these integrals:
     We know the actual groups on both sides; 0 for $p >0$ and $\Real$ for $p =0$. Suffices to show $I_p\neq 0$ for $p=0$. $H^0(U)$ given by constant for $f:U\to\Real$. The only 0-simplices $\sigma : {0} \to U$ are constant. Therefore the map $I_0$ just evaluates $f$ at $\sigma(0)$ i.e. mapping a constant function to the value of the constant function. So $I_0$ is an isomorphism.
 \end{proof}
 
-\begin{theorem}{de Rham Theorem}
+\begin{thm}{de Rham Theorem}
     For $\man$ a (compact)\footnote{Can be done without this assumption, but the proof is a lot easier with it. This assumption just let's us have $\man$ being of finite type. See Lee Chapter 18.} orientable, $I_p$ as defined above is an isomorphism between $H^p(\man)$ and $H^p(\man,\Real) \,\forall p\geq 0.$
-\end{theorem}
+\end{thm}
 
 \begin{proof}
     Very similar to Poincar\'e Duality; induction on the size of the good cover of $\man$. Use naturality, the above lemma (which is the base case of induction) and the five lemma applied to the two Meyer-Vietoris sequences in the same way as for Poincar\'e Duality.
