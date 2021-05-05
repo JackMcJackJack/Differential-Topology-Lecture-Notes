@@ -2399,7 +2399,51 @@ Next week we'll be covering a kind of geometric interpretation of Poincar\'e Dua
 
 %end of chapter
 
+\mysection{Bonus Lecture: A Geometric Interpretation of the Cup Product (Non-Examinable)}
+\underline{Slogan:} The cup product is a transverse intersection of cycles.\\
+\noindent
+\textbf{Facts:}
+\begin{enumerate}
+    \item If $\man$ is compact and orientable, then $H_n(\man) \cong \Zint$, $n = \dim \man$
+    \item There's a ``cap" product $C^i(X,\Zint) \times C_{i+j}(\man) \to C_j(\man) : (\varphi , c) \mapsto \varphi \frown c$ characterised by $\psi ( \varphi \frown c ) = (\psi \cup \varphi) (c) \in \Real $, $\forall \psi \in C^j(\man,\Zint)$. This descends to a well-defined map $H^i(\man,\Zint) \times H_{i+j}(\man) \to H_j(\man).$ This works for any topological space in general.
+    \item Poincar\'e Duality: If $\man$ is a compact orientable manifold and $[\man] \in H_n(\man)$ is a fundamental class (i.e. a class corresponding to the $\pm 1$ under the isomorphism $H_n(\man) \cong \Zint)$ then $H^{n-k}(\man,\Zint) \to H_k(\man) : [\varphi] \mapsto [\varphi] \frown [\man]$ is an isomorphism\footnote{``There is a correspondence... between fundamental classes and orientations. A generator of this top homology group is more or less the same thing as an orientation.''}. 
+\end{enumerate}
+\noindent 
+From now on, $\man$ is compact and orientable. Let $Z \subseteq \man$ be a closed orientable submanifold of dimension $n-k$. We have a fundamental class $[Z] \in H_{n-k}(Z)$ which comes from the choice of orientation of $Z$. The inclusion $j : Z \to \man$ gives $j_*[Z] \in H_{n-k}(\man)$; let $\Phi_\man(Z) \in H^k(\man,\Zint)$ be the Poincar\'e dual of $j_*[Z]$\footnote{It is not in general true that every cohomology class is the cohomology class of a closed orientable submanifold.}.
+\\
+Let $Z_1,Z_2 \subseteq\man$ be compact oriented submanifolds, with $\dim Z_i = k_i$, and suppose they are transverse i.e. $T_{z}Z_1 + T_z Z_2 = T_z \man \,\forall z \in Z_1\cap Z_2$. Then $Z_1 \cap Z_2$ is a smooth manifold of dimension $n - k_1 - k_2$. Let $f_i : Z_i \hookrightarrow \man$ be the respective inclusion maps.
 
+\begin{prop}
+    $f^*_2\Phi_\man(Z_1) = \Phi_{Z_2}(Z_1\cap Z_2) \in H^{k_1}(Z_2)$
+\end{prop}
+``This process of associating cohomology classes to submanifolds somehow respects pullbacks along inclusions, it turns pullbacks along inclusions into intersections. This is reasonably difficult to prove.''\\
+\noindent
+\begin{semiproof}
+    $\Phi_\man(Z_1)$ supported in a tubular neighbourhood $T = N_{Z_1}$ (the normal bundle to $Z_1$ in $\man$) equals the pushforward of $\Phi_{N_{Z_1}} (Z_1) \in H^{n-k}_c(N_{Z_1})$ (This requires an idea of compactly supported cohomology in general). This can be identified with the ``Thom class'' of the vector bundle $N_{Z_1} \to Z_1$ (See ``characteristic classes of vector bundles''). \\
+    The normal bundle of $Z_1\cap Z_2$ in $Z_2$ is $g^*N_{Z_1}$ where $g : Z_1\cap Z_2 \hookrightarrow Z_1$.\\
+    And Thom classes behave well under pulling back vector bundles.
+\end{semiproof}\\
+\noindent
+From here, we can use `compatibility of P.D. with cup product' to show: 
+\begin{corollary}
+    $\Phi_\man(Z_1) \smile \Phi_\man(Z_2) = \Phi_\man(Z_1 \cap Z_2) \in H^{n-k_1-k_2}(\man,\Zint)$
+\end{corollary}
+This is a lot more concrete and geometrically meaningful in a special case: Let $k_1 + k_2 = n$. Then $\Phi_\man(Z_1\cap Z_2) \in H^0(\man,\Zint) \cong \Zint.$ And $Z_1\cap Z_2$ is a 0 dimensional manifold (coming from transversality I think) i.e. a union of finitely many points. The class $\Phi_\man(Z_1\cap Z_2)$ counts intersection points with signs.
 
+\begin{exmp}
+    \begin{enumerate}
+        \item $\man = S^1 \times S^1$
+            $$\includegraphics[width = 0.5\textwidth]{Images/CapProduct1Bonus.png}$$
+        \item $\man = \Sigma_2$
+            $$\includegraphics[width = 0.5\textwidth]{Images/CapProduct2Bonus.png}$$
+    \end{enumerate}
+    
+\end{exmp}
+This is really a product structure on homology. The reason why we tend to talk about the cup product in cohomology rather than this product is that the cup product has much nicer properties like functoriality.
+
+%% end of chapter
+
+\bigskip\noindent
+That's that, thanks for reading. Credit to Dr Jackson for teaching such a great course and thanks to Imperial for offering it.
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
