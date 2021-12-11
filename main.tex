@@ -308,7 +308,13 @@ sorting=ynt
 
 \newcommand{\xcoords}{x_1,\ldots,x_n}
 
-
+%% Use this to hide all proofs
+\usepackage{environ}
+\NewEnviron{killcontents}{}
+%\let\proof\killcontents
+%\let\endproof\endkillcontents
+%\let\semiproof\killcontents
+%\let\endproof\endkillcontents
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -323,7 +329,7 @@ Written by Jack Kennedy}
 \maketitle
 \tableofcontents
 \newpage
-$\textbf{DISCLAIMER}$: These notes are not yet finished. If you spot any typos or things I should include, please let me know at $\textit{jk3617@ic.ac.uk}$. All mathematical content and proofs are provided by Dr Jackson, and these notes try their best to capture exactly what he wrote during lectures. That said, any jokes, strange remarks or quips are, unfortunately, mine and made in a attempt to keep myself sane while crying over why my LaTeX won't compile.
+$\textbf{DISCLAIMER}$: These notes are not yet finished. If you spot any typos or things I should include, please let me know at $\textit{jk3617@ic.ac.uk}$. All mathematical content and proofs are provided by Dr Jackson, and these notes try their best to capture exactly what he wrote during lectures. That said, any strange jokes and all errors are mine.
 
 \mysection{Lecture 0: Welcome, Admin, Course Overview}
 
@@ -2428,6 +2434,7 @@ From here, we can use `compatibility of P.D. with cup product' to show:
 \begin{corollary}
     $\Phi_\man(Z_1) \smile \Phi_\man(Z_2) = \Phi_\man(Z_1 \cap Z_2) \in H^{n-k_1-k_2}(\man,\Zint)$
 \end{corollary}
+\noindent
 This is a lot more concrete and geometrically meaningful in a special case: Let $k_1 + k_2 = n$. Then $\Phi_\man(Z_1\cap Z_2) \in H^0(\man,\Zint) \cong \Zint.$ And $Z_1\cap Z_2$ is a 0 dimensional manifold (coming from transversality I think) i.e. a union of finitely many points. The class $\Phi_\man(Z_1\cap Z_2)$ counts intersection points with signs.
 
 \begin{exmp}
